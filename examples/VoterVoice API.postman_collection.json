@@ -1,0 +1,391 @@
+{
+	"info": {
+		"_postman_id": "9d1a0198-a229-4b2f-a3fa-f044c1b957b0",
+		"name": "VoterVoice API",
+		"description": "Welcome to the VoterVoice REST API! In order to use the API, you need to have purchased an advocacy package from VoterVoice and have access to the authentication key for the API. \n\nIf you do not have your authentication key, please get in touch with your Account Manager. Do not share this authentication key as it identifies API usage by your organization.\n\nThe documentation provided as part of this Postman collection is for convenience and does not include complete, up-to-date information about the VoterVoice API. \n\nFor the complete documentation, see https://votervoice.docs.apiary.io.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Addresses",
+			"item": [
+				{
+					"name": "Validate an Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://www.votervoice.net/Api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"addresses"
+							],
+							"query": [
+								{
+									"key": "address1",
+									"value": "1600 Pennsylvania Ave",
+									"description": "*required*"
+								},
+								{
+									"key": "address2",
+									"value": null,
+									"description": "(optional)",
+									"disabled": true
+								},
+								{
+									"key": "city",
+									"value": "Washington",
+									"description": "*required*"
+								},
+								{
+									"key": "state",
+									"value": "DC",
+									"description": "*required* Two letter state or province abbreviation."
+								},
+								{
+									"key": "zipcode",
+									"value": "20500",
+									"description": "*required* 5 digit US zip code, or 6-7 character Canadian postal code."
+								},
+								{
+									"key": "country",
+									"value": null,
+									"description": "(optional) The two character country code (per ISO 3166 Alpha 2). This is a case sensitive field and needs to be submitted in upper case. Default: ",
+									"disabled": true
+								},
+								{
+									"key": "simpleLookup",
+									"value": null,
+									"description": "(optional) Passing true allows a lesser address validation standard. ONLY for use in adding contacts through /contacts.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "The method validates, corrects, and returns an array of addresses. This method will be used in a wide array of contexts: adding contacts, sending messages to officials, looking up districts for a user, etc.\n\nIf the call was not successful, the API returns a message string describing the problem with the input, or an alternate zipcode if the one provided didn't get a match but a different one did.\n\nThe result returned from validation is commonly used in the VoterVoice system as a query parameter."
+					},
+					"response": [
+						{
+							"name": "The White House",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/Api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"addresses"
+									],
+									"query": [
+										{
+											"key": "address1",
+											"value": "1600 Pennsylvania Ave",
+											"description": "*required*"
+										},
+										{
+											"key": "city",
+											"value": "Washington",
+											"description": "*required*"
+										},
+										{
+											"key": "state",
+											"value": "DC",
+											"description": "*required* Two letter state or province abbreviation."
+										},
+										{
+											"key": "zipcode",
+											"value": "20500",
+											"description": "*required* 5 digit US zip code, or 6-7 character Canadian postal code."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"addresses\": [\n        {\n            \"checksum\": \"2043293862\",\n            \"city\": \"Washington\",\n            \"coordinates\": {\n                \"latitude\": 38.897199,\n                \"longitude\": -77.036548\n            },\n            \"country\": \"US\",\n            \"county\": \"District of Columbia\",\n            \"state\": \"DC\",\n            \"streetAddress\": \"1600 Pennsylvania Ave NW\",\n            \"zipCode\": \"20500\",\n            \"zipCodeExtension\": \"0005\"\n        }\n    ],\n    \"message\": null,\n    \"suggestedZipCode\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Simple Lookup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://www.votervoice.net/Api/addresses?zipcode=20500&country=US&simpleLookup=true",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"addresses"
+							],
+							"query": [
+								{
+									"key": "address1",
+									"value": "1600 Pennsylvania Ave",
+									"description": "*required*",
+									"disabled": true
+								},
+								{
+									"key": "address2",
+									"value": null,
+									"description": "(optional)",
+									"disabled": true
+								},
+								{
+									"key": "city",
+									"value": "Washington",
+									"description": "*required*",
+									"disabled": true
+								},
+								{
+									"key": "state",
+									"value": "DC",
+									"description": "*required* Two letter state or province abbreviation.",
+									"disabled": true
+								},
+								{
+									"key": "zipcode",
+									"value": "20500",
+									"description": "*required* 5 digit US zip code, or 6-7 character Canadian postal code."
+								},
+								{
+									"key": "country",
+									"value": "US",
+									"description": "(optional) The two character country code (per ISO 3166 Alpha 2). This is a case sensitive field and needs to be submitted in upper case. Default: "
+								},
+								{
+									"key": "simpleLookup",
+									"value": "true",
+									"description": "(optional) Passing true allows a lesser address validation standard. ONLY for use in adding contacts through /contacts."
+								}
+							]
+						},
+						"description": "*ONLY* for use in adding contacts through `/contacts`\n\nThe result returned from validation is commonly used in the VoterVoice system as a query parameter."
+					},
+					"response": []
+				}
+			],
+			"description": "# Addresses"
+		},
+		{
+			"name": "Districts",
+			"item": [
+				{
+					"name": "Get Districts By Address",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "This resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association.\n\nThe address query should be the JSON representation of the result returned from validating an address through the address resource."
+					},
+					"response": [
+						{
+							"name": "White House Districts",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://www.votervoice.net/api/districts?association={{IDNAME}}&address=%7B%0A%20%20%22checksum%22%3A%20%22169599838%22%2C%0A%20%20%22city%22%3A%20%22Washington%22%2C%0A%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%22county%22%3A%20%22District%20of%20Columbia%22%2C%0A%20%20%22state%22%3A%20%22DC%22%2C%0A%20%20%22streetAddress%22%3A%20null%2C%0A%20%20%22zipCode%22%3A%20%2220500%22%2C%0A%20%20%22zipCodeExtension%22%3A%20null%0A%7D",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"api",
+										"districts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{IDNAME}}"
+										},
+										{
+											"key": "address",
+											"value": "%7B%0A%20%20%22checksum%22%3A%20%22169599838%22%2C%0A%20%20%22city%22%3A%20%22Washington%22%2C%0A%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%22county%22%3A%20%22District%20of%20Columbia%22%2C%0A%20%20%22state%22%3A%20%22DC%22%2C%0A%20%20%22streetAddress%22%3A%20null%2C%0A%20%20%22zipCode%22%3A%20%2220500%22%2C%0A%20%20%22zipCodeExtension%22%3A%20null%0A%7D",
+											"description": "*required* Url encoded home address (in JSON format) returned by our addresses resource (MUST have the checksum)"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"delegateGovernment\": {\n            \"name\": \"District of Columbia\",\n            \"uri\": \"./USA/DC\"\n        },\n        \"districtId\": \"001\",\n        \"electedBody\": \"US House\",\n        \"government\": {\n            \"name\": \"Federal\",\n            \"uri\": \"./USA\"\n        }\n    },\n    {\n        \"districtId\": \"002\",\n        \"electedBody\": \"District Of Columbia Council, DC\",\n        \"government\": {\n            \"name\": \"Washington,DC\",\n            \"uri\": \"./USA/DC/Washington(City)\"\n        }\n    },\n    {\n        \"districtId\": null,\n        \"electedBody\": \"District Of Columbia Mayor, DC\",\n        \"government\": {\n            \"name\": \"Washington,DC\",\n            \"uri\": \"./USA/DC/Washington(City)\"\n        }\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Districts By 5 Digit ZIP Code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "This resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association.\n\nThe address query should be the JSON representation of the result returned from validating an address through the address resource."
+					},
+					"response": [
+						{
+							"name": "New York - 10001",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://www.votervoice.net/api/districts?association={{IDNAME}}&zip=10001",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"api",
+										"districts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{IDNAME}}"
+										},
+										{
+											"key": "zip",
+											"value": "10001"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"districtId\": \"010\",\n        \"electedBody\": \"US House\",\n        \"government\": {\n            \"name\": \"Federal\",\n            \"uri\": \"./USA\"\n        }\n    },\n    {\n        \"districtId\": \"012\",\n        \"electedBody\": \"US House\",\n        \"government\": {\n            \"name\": \"Federal\",\n            \"uri\": \"./USA\"\n        }\n    }\n]"
+						}
+					]
+				}
+			],
+			"description": "# Districts\n\nThis resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association."
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{API_KEY}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "IDNAME",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "API_KEY",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
