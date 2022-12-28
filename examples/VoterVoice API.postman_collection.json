@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "9d1a0198-a229-4b2f-a3fa-f044c1b957b0",
+		"_postman_id": "1f53cc23-9daf-4b25-89a4-d7f994d08b3a",
 		"name": "VoterVoice API",
 		"description": "Welcome to the VoterVoice REST API! In order to use the API, you need to have purchased an advocacy package from VoterVoice and have access to the authentication key for the API. \n\nIf you do not have your authentication key, please get in touch with your Account Manager. Do not share this authentication key as it identifies API usage by your organization.\n\nThe documentation provided as part of this Postman collection is for convenience and does not include complete, up-to-date information about the VoterVoice API. \n\nFor the complete documentation, see https://votervoice.docs.apiary.io.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13111790"
 	},
 	"item": [
 		{
@@ -51,7 +52,7 @@
 								},
 								{
 									"key": "address2",
-									"value": null,
+									"value": "",
 									"description": "(optional)",
 									"disabled": true
 								},
@@ -72,13 +73,13 @@
 								},
 								{
 									"key": "country",
-									"value": null,
+									"value": "",
 									"description": "(optional) The two character country code (per ISO 3166 Alpha 2). This is a case sensitive field and needs to be submitted in upper case. Default: ",
 									"disabled": true
 								},
 								{
 									"key": "simpleLookup",
-									"value": null,
+									"value": "",
 									"description": "(optional) Passing true allows a lesser address validation standard. ONLY for use in adding contacts through /contacts.",
 									"disabled": true
 								}
@@ -191,7 +192,7 @@
 								},
 								{
 									"key": "address2",
-									"value": null,
+									"value": "",
 									"description": "(optional)",
 									"disabled": true
 								},
@@ -239,6 +240,31 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"url": {
+							"raw": "https://www.votervoice.net/api/districts?association={{ASSOCIATION_IDNAME}}&address",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"api",
+								"districts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "address",
+									"value": null,
+									"description": "*required* Url encoded home address (in JSON format) returned by our addresses resource (MUST have the checksum)"
+								}
+							]
+						},
 						"description": "This resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association.\n\nThe address query should be the JSON representation of the result returned from validating an address through the address resource."
 					},
 					"response": [
@@ -248,7 +274,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://www.votervoice.net/api/districts?association={{IDNAME}}&address=%7B%0A%20%20%22checksum%22%3A%20%22169599838%22%2C%0A%20%20%22city%22%3A%20%22Washington%22%2C%0A%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%22county%22%3A%20%22District%20of%20Columbia%22%2C%0A%20%20%22state%22%3A%20%22DC%22%2C%0A%20%20%22streetAddress%22%3A%20null%2C%0A%20%20%22zipCode%22%3A%20%2220500%22%2C%0A%20%20%22zipCodeExtension%22%3A%20null%0A%7D",
+									"raw": "https://www.votervoice.net/api/districts?association={{ASSOCIATION_IDNAME}}&address=%7B%0A%20%20%22checksum%22%3A%20%22169599838%22%2C%0A%20%20%22city%22%3A%20%22Washington%22%2C%0A%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%22county%22%3A%20%22District%20of%20Columbia%22%2C%0A%20%20%22state%22%3A%20%22DC%22%2C%0A%20%20%22streetAddress%22%3A%20null%2C%0A%20%20%22zipCode%22%3A%20%2220500%22%2C%0A%20%20%22zipCodeExtension%22%3A%20null%0A%7D",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -262,7 +288,7 @@
 									"query": [
 										{
 											"key": "association",
-											"value": "{{IDNAME}}"
+											"value": "{{ASSOCIATION_IDNAME}}"
 										},
 										{
 											"key": "address",
@@ -291,6 +317,30 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"url": {
+							"raw": "https://www.votervoice.net/api/districts?association={{ASSOCIATION_IDNAME}}&zip=10001",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"api",
+								"districts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "zip",
+									"value": "10001"
+								}
+							]
+						},
 						"description": "This resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association.\n\nThe address query should be the JSON representation of the result returned from validating an address through the address resource."
 					},
 					"response": [
@@ -300,7 +350,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://www.votervoice.net/api/districts?association={{IDNAME}}&zip=10001",
+									"raw": "https://www.votervoice.net/api/districts?association={{ASSOCIATION_IDNAME}}&zip=10001",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -314,7 +364,7 @@
 									"query": [
 										{
 											"key": "association",
-											"value": "{{IDNAME}}"
+											"value": "{{ASSOCIATION_IDNAME}}"
 										},
 										{
 											"key": "zip",
@@ -339,6 +389,980 @@
 				}
 			],
 			"description": "# Districts\n\nThis resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association."
+		},
+		{
+			"name": "Contacts",
+			"item": [
+				{
+					"name": "Contacts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&dateUpdated=>2022-12-04T19:32:47.0000000Z",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "dateUpdated",
+									"value": ">2022-12-04T19:32:47.0000000Z",
+									"description": "(optional ISO 8601 formatted date string.  > and < also allowed) The dateUpdated, email, and contactId are all optional but at least one must be specified.  (ex: >2022-12-04)"
+								},
+								{
+									"key": "email",
+									"value": "CONTACT@SOMEDOMAIN.com",
+									"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified.",
+									"disabled": true
+								},
+								{
+									"key": "contactId",
+									"value": "YOUR_LOCAL_CONTACTID",
+									"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified.",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "dateUpdated",
+									"description": "(optional string) The field name to sort by.",
+									"disabled": true
+								},
+								{
+									"key": "orderDesc",
+									"value": "true",
+									"description": "(optional bool) This will change the sorting of results to descending order if true.",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "(optional integer) The maximum number of records to retrieve",
+									"disabled": true
+								},
+								{
+									"key": "pageNumber",
+									"value": "1",
+									"description": "(optional integer) For use with the limit parameter.  Multiply the pageNumber times the limit to determine the starting index for record retrieval.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Contacts after specified datetime",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&dateUpdated=>2022-12-28T19:32:47.0000000Z",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "dateUpdated",
+											"value": ">2022-12-28T19:32:47.0000000Z",
+											"description": "(optional ISO 8601 formatted date string.  > and < also allowed) The dateUpdated, email, and contactId are all optional but at least one must be specified.  (ex: >2022-12-04)"
+										},
+										{
+											"key": "email",
+											"value": "CONTACT@SOMEDOMAIN.com",
+											"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified.",
+											"disabled": true
+										},
+										{
+											"key": "contactId",
+											"value": "YOUR_LOCAL_CONTACTID",
+											"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified.",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "dateUpdated",
+											"description": "(optional string) The field name to sort by.",
+											"disabled": true
+										},
+										{
+											"key": "orderDesc",
+											"value": "true",
+											"description": "(optional bool) This will change the sorting of results to descending order if true.",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "100",
+											"description": "(optional integer) The maximum number of records to retrieve",
+											"disabled": true
+										},
+										{
+											"key": "pageNumber",
+											"value": "1",
+											"description": "(optional integer) For use with the limit parameter.  Multiply the pageNumber times the limit to determine the starting index for record retrieval.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:20:16 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=8tEZODw7qZ2EjLhuBU5E6QnQtzNHNp6eMp8xjQQjum5fLfFg4ghjqjryoMeHtWMQxMUBtNMURdEY9YO939is6LbfSoh3ANfcgCbeYMUrw7oWBzLUZzu+IQryADsP; Expires=Wed, 04 Jan 2023 20:20:16 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=8tEZODw7qZ2EjLhuBU5E6QnQtzNHNp6eMp8xjQQjum5fLfFg4ghjqjryoMeHtWMQxMUBtNMURdEY9YO939is6LbfSoh3ANfcgCbeYMUrw7oWBzLUZzu+IQryADsP; Expires=Wed, 04 Jan 2023 20:20:16 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cfee15c042ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"membership\": {\n            \"groupList\": null,\n            \"contactId\": \"TEST-CONTACT-12345\",\n            \"dateRegistered\": null\n        },\n        \"honorific\": \"Mr.\",\n        \"givenNames\": \"CONTACT_FIRSTNAME\",\n        \"surname\": \"CONTACT_LASTNAME\",\n        \"suffix\": null,\n        \"emailAddress\": \"CONTACT@SOMEDOMAINs.com\",\n        \"phoneNumber\": \"2222222222\",\n        \"faxNumber\": null,\n        \"businessCompanyName\": \"CONTACT COMPANY\",\n        \"businessPositionName\": \"CEO\",\n        \"homeAddress\": {\n            \"streetAddress\": \"6100 Corporate Blvd\",\n            \"city\": \"Baton Rouge\",\n            \"state\": \"LA\",\n            \"county\": \"East Baton Rouge\",\n            \"zipCode\": \"70808\",\n            \"zipCodeExtension\": \"2717\",\n            \"country\": \"US\"\n        },\n        \"businessAddress\": null,\n        \"isNonDeliverableEmail\": false,\n        \"dateUpdated\": \"2022-12-28T20:19:16.0000000Z\"\n    },\n    {\n        \"membership\": {\n            \"groupList\": null,\n            \"contactId\": \"YOUR_LOCAL_CONTACTID\",\n            \"dateRegistered\": null\n        },\n        \"honorific\": \"Mr.\",\n        \"givenNames\": \"CONTACT_FIRSTNAME\",\n        \"surname\": \"CONTACT_LASTNAME\",\n        \"suffix\": null,\n        \"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n        \"phoneNumber\": \"2222222222\",\n        \"faxNumber\": null,\n        \"businessCompanyName\": \"CONTACT COMPANY\",\n        \"businessPositionName\": \"CEO\",\n        \"homeAddress\": {\n            \"streetAddress\": \"6100 Corporate Blvd\",\n            \"city\": \"Baton Rouge\",\n            \"state\": \"LA\",\n            \"county\": \"East Baton Rouge\",\n            \"zipCode\": \"70808\",\n            \"zipCodeExtension\": \"2717\",\n            \"country\": \"US\"\n        },\n        \"businessAddress\": null,\n        \"isNonDeliverableEmail\": false,\n        \"dateUpdated\": \"2022-12-28T20:19:37.0000000Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Contacts By Contact Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "contactId",
+									"value": "YOUR_LOCAL_CONTACTID",
+									"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified."
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Contact by ContactId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "contactId",
+											"value": "YOUR_LOCAL_CONTACTID",
+											"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:10:39 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=Kny4XesG8ljNoLTKhzourz42WRigCogYwm3Y5NVNSAuf1vCZp0360vxpZUb2NDNfd5Era3/pVJXLoBRAZF1WaOoeaPJmpfUq7QAa9v1Iptmv+msafbUPHnOizEwI; Expires=Wed, 04 Jan 2023 20:10:39 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=Kny4XesG8ljNoLTKhzourz42WRigCogYwm3Y5NVNSAuf1vCZp0360vxpZUb2NDNfd5Era3/pVJXLoBRAZF1WaOoeaPJmpfUq7QAa9v1Iptmv+msafbUPHnOizEwI; Expires=Wed, 04 Jan 2023 20:10:39 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf0ccb87d2ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"membership\": {\n            \"groupList\": null,\n            \"contactId\": \"YOUR_LOCAL_CONTACTID\",\n            \"dateRegistered\": null\n        },\n        \"honorific\": \"Mr.\",\n        \"givenNames\": \"CONTACT_FIRSTNAME\",\n        \"surname\": \"CONTACT_LASTNAME\",\n        \"suffix\": null,\n        \"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n        \"phoneNumber\": \"2222222222\",\n        \"faxNumber\": null,\n        \"businessCompanyName\": \"CONTACT COMPANY\",\n        \"businessPositionName\": \"CEO\",\n        \"homeAddress\": {\n            \"streetAddress\": \"6100 Corporate Blvd\",\n            \"city\": \"Baton Rouge\",\n            \"state\": \"LA\",\n            \"county\": \"East Baton Rouge\",\n            \"zipCode\": \"70808\",\n            \"zipCodeExtension\": \"2717\",\n            \"country\": \"US\"\n        },\n        \"businessAddress\": null,\n        \"isNonDeliverableEmail\": false,\n        \"dateUpdated\": \"2022-12-27T21:35:44.0000000Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Contacts By Email",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&email=CONTACT@SOMEDOMAIN.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "email",
+									"value": "CONTACT@SOMEDOMAIN.com",
+									"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified."
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Contact By Email",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&email=CONTACT@SOMEDOMAIN.com",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "email",
+											"value": "CONTACT@SOMEDOMAIN.com",
+											"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:10:58 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=FBKsBjwf5jNSG2RMSRFHuD2DBwmxPZAUWJYcxnhMCgMlMrGJH6g24crKtJ0HcPvDjkWMYVSMbEhe8fNRA8/A5mLq8+OrXC7bu/4SiNHeDkKXEozgDy5dD+baXYrI; Expires=Wed, 04 Jan 2023 20:10:58 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=FBKsBjwf5jNSG2RMSRFHuD2DBwmxPZAUWJYcxnhMCgMlMrGJH6g24crKtJ0HcPvDjkWMYVSMbEhe8fNRA8/A5mLq8+OrXC7bu/4SiNHeDkKXEozgDy5dD+baXYrI; Expires=Wed, 04 Jan 2023 20:10:58 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf1418d612ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"membership\": {\n            \"groupList\": null,\n            \"contactId\": \"YOUR_LOCAL_CONTACTID\",\n            \"dateRegistered\": null\n        },\n        \"honorific\": \"Mr.\",\n        \"givenNames\": \"CONTACT_FIRSTNAME\",\n        \"surname\": \"CONTACT_LASTNAME\",\n        \"suffix\": null,\n        \"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n        \"phoneNumber\": \"2222222222\",\n        \"faxNumber\": null,\n        \"businessCompanyName\": \"CONTACT COMPANY\",\n        \"businessPositionName\": \"CEO\",\n        \"homeAddress\": {\n            \"streetAddress\": \"6100 Corporate Blvd\",\n            \"city\": \"Baton Rouge\",\n            \"state\": \"LA\",\n            \"county\": \"East Baton Rouge\",\n            \"zipCode\": \"70808\",\n            \"zipCodeExtension\": \"2717\",\n            \"country\": \"US\"\n        },\n        \"businessAddress\": null,\n        \"isNonDeliverableEmail\": false,\n        \"dateUpdated\": \"2022-12-27T21:35:44.0000000Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create a Contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create a Contact",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
+								},
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:12:56 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=xiZkuDXMK4m/08Qgij9dKfBf+ri5PRfaTSb1Q1FIrG3Sgj46s/gH9WQOYOUuLNdpvtCzDWx4lZSQORthXFs0T94NfAlSp4elCDKk1nOU0CEQjuL+orGb0mLAaIjZ; Expires=Wed, 04 Jan 2023 20:12:56 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=xiZkuDXMK4m/08Qgij9dKfBf+ri5PRfaTSb1Q1FIrG3Sgj46s/gH9WQOYOUuLNdpvtCzDWx4lZSQORthXFs0T94NfAlSp4elCDKk1nOU0CEQjuL+orGb0mLAaIjZ; Expires=Wed, 04 Jan 2023 20:12:56 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf4262ac12ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update a Contact",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "contactId",
+									"value": "YOUR_LOCAL_CONTACTID",
+									"description": "*required string*"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update a Contact",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
+								},
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "contactId",
+											"value": "YOUR_LOCAL_CONTACTID",
+											"description": "*required string*"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:13:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=hxZqUPwwqjPFjoj/TDESTAkZnCHk/VqmjYUQyLJ0r4kCLDhS4U+UrzfSiCS27NwWWEsEcOGlCI/EqykYuEdFsBdoL3VYbH3wqyj8KhFrQwvOGeAHCfrPC71O+akd; Expires=Wed, 04 Jan 2023 20:13:16 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=hxZqUPwwqjPFjoj/TDESTAkZnCHk/VqmjYUQyLJ0r4kCLDhS4U+UrzfSiCS27NwWWEsEcOGlCI/EqykYuEdFsBdoL3VYbH3wqyj8KhFrQwvOGeAHCfrPC71O+akd; Expires=Wed, 04 Jan 2023 20:13:16 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf4a44da42ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Patch a Contact Id",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"membership\": {\r\n        \"contactId\": \"YOUR_LOCAL_CONTACTID\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&temporaryContactId=",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "temporaryContactId",
+									"value": "",
+									"description": "*required string* An encrypted key as a string to temporarily identify a contact.  This key can be obtained through the GET CONTACTS call."
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Patch a Contact Id",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"membership\": {\r\n        \"contactId\": \"NC12345U\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&temporaryContactId=eyJJc1JlZ2lzdGVyZWQiOnRydWUsIlVzZXJJZCI6MjIzMDE4OSwiT2xkVHlwZUNvZGUiOiJVIiwiQ29udGFjdElkIjpudWxsfQ==",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "temporaryContactId",
+											"value": "eyJJc1JlZ2lzdGVyZWQiOnRydWUsIlVzZXJJZCI6MjIzMDE4OSwiT2xkVHlwZUNvZGUiOiJVIiwiQ29udGFjdElkIjpudWxsfQ==",
+											"description": "*required string* An encrypted key as a string to temporarily identify a contact.  This key can be obtained through the GET CONTACTS call."
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:24:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=5XwAcCetd6gbcvh289FDexCVuvCLETpGOW+Iynil17YMu0e4tKULmdsVRXA/IjqmnnWU34gcRDJO3CZNZVhvGj5ZWmxvCb9jCtz73APvtDwy6ZjtTfbLoN56yGig; Expires=Wed, 04 Jan 2023 20:24:38 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=5XwAcCetd6gbcvh289FDexCVuvCLETpGOW+Iynil17YMu0e4tKULmdsVRXA/IjqmnnWU34gcRDJO3CZNZVhvGj5ZWmxvCb9jCtz73APvtDwy6ZjtTfbLoN56yGig; Expires=Wed, 04 Jan 2023 20:24:38 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780d0548fa812ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete a Contact",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": ""
+							}
+						},
+						"url": {
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "contactId",
+									"value": "YOUR_LOCAL_CONTACTID",
+									"description": "*required string*"
+								},
+								{
+									"key": "groupList",
+									"value": "Default List",
+									"description": "(optional string) Specifies a specific contact group list to search for and deleted the contact.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete a Contact",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": ""
+									}
+								},
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "contactId",
+											"value": "YOUR_LOCAL_CONTACTID",
+											"description": "*required string*"
+										},
+										{
+											"key": "groupList",
+											"value": "Default List",
+											"description": "(optional string) Specifies a specific contact group list to search for and deleted the contact.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:12:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=mewEu4QUGSIXC8bA0KgEXLx0+RFOdUBPnWCq+vYzmysDbMy5GpML5c/Ej/xiqW55ykZ5y5nGBfB9dBPnebtoYwzSR1zDADiMqZLd/SqReBD23bwaTvMncjRGARGE; Expires=Wed, 04 Jan 2023 20:12:42 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=mewEu4QUGSIXC8bA0KgEXLx0+RFOdUBPnWCq+vYzmysDbMy5GpML5c/Ej/xiqW55ykZ5y5nGBfB9dBPnebtoYwzSR1zDADiMqZLd/SqReBD23bwaTvMncjRGARGE; Expires=Wed, 04 Jan 2023 20:12:42 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf3cf0c802ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
 		}
 	],
 	"auth": {
@@ -378,14 +1402,14 @@
 	],
 	"variable": [
 		{
-			"key": "IDNAME",
+			"key": "ASSOCIATION_IDNAME",
 			"value": "",
 			"type": "default"
 		},
 		{
 			"key": "API_KEY",
 			"value": "",
-			"type": "default"
+			"type": "string"
 		}
 	]
 }
