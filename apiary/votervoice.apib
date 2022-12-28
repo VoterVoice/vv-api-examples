@@ -1,0 +1,3497 @@
+FORMAT: 1A
+HOST: https://www.votervoice.net/api/
+
+# VoterVoice
+
+**Welcome to the VoterVoice REST API!**
+
+In order to use the API, you need to have purchased an advocacy package from VoterVoice and have access to the authentication key for the API. If you do not have your authentication key, please get in touch with your Account Manager. *Do not share this authentication key* as it identifies API usage by your organization.
+
+Any data/resource/method not documented on this site is *not guaranteed to work.*
+
+If you have any questions or concerns regarding this API, please <a href="mailto:vvsupport@fiscalnote.com">contact us</a>.
+
+## API Url
+```
+https://www.votervoice.net/api/
+```
+
+# Authentication
+
+## Headers
+
+All requests must include the following headers:
+
+```
+    Content-Type  : application/json; charset=utf-8
+    Authorization : YOUR_API_KEY
+```
+
+All calls to the API are required to have a Request Header with the name "Authorization" filled in with the authentication key that was provided to you.
+
+`Authorization : YOUR_API_KEY`
+
+**Always** send your authorization key over HTTPS. If you send any requests over HTTP, *they will be rejected*.
+
+The authorization key will be denoted by `YOUR_API_KEY` in the examples. Please replace it with your association's API key.
+
+## Association Name
+
+Many calls will require you to provide your association/organization identification name in the query string.
+This is an alphabetic identifier for your association. This should be provided by your account manager at VoterVoice.
+
+The association name will be denoted by `YOUR_ASSOCIATION_IDNAME` in the examples. Please replace it with your association's id name.
+
+Example: `?association=YOUR_ASSOCIATION_IDNAME`
+
+## Authentication Redirects
+
+In the event that an endpoint responds back with a 401 Unauthorized, but your authorization key is correct, 
+the request may have been redirected, and the Authentication header stripped by your client. You can use the
+Response URI received from the request to redirect to the proper endpoint. Below is an example in .NET on how 
+this might be handled.
+
+### An Example in C#
+
+```
+var apiKey = "YOUR_API_KEY";
+var idName = "YOUR_ASSOCIATION_IDNAME";
+var contactId = "contactId";
+var baseUrl = "https://www.votervoice.net";
+var contentType = "application/json";
+
+var credentials = new NetworkCredential(apiKey, "");
+var credentialCache = new CredentialCache();
+credentialCache.Add(new Uri(url), "Basic", credentials);
+
+var httpClientHandler = new HttpClientHandler();
+httpClientHandler.Credentials = credentialCache;
+
+var client = new HttpClient(httpClientHandler);
+client.BaseAddress = new Uri(baseUrl);
+client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(contentType));
+
+var resourceUrl = $"api/contacts?association={idName}&contactId={contactId}";
+
+// contact being the representation of your Contact
+var content = new StringContent(contact, System.Text.Encoding.UTF8, contentType);
+var response = client.PutAsJsonAsync<object>(resourceUrl, content).Result;
+```
+
+### An Example in VB
+
+```
+Dim apiKey = "YOUR_API_KEY"
+Dim idName = "YOUR_ASSOCIATION_IDNAME"
+Dim contactId = "contactId"
+Dim baseUrl = "https://www.votervoice.net"
+Dim contentType = "application/json"
+
+Dim credentials As New NetworkCredential(apiKey, "")
+Dim credentialCache As New CredentialCache()
+credentialCache.Add(New Uri(baseUrl), "Basic", credentials)
+
+Dim httpClientHandler As New HttpClientHandler()
+httpClientHandler.Credentials = credentialCache
+
+Dim client As New HttpClient(httpClientHandler)
+client.BaseAddress = New Uri(baseUrl)
+client.DefaultRequestHeaders.Accept.Add(New Headers.MediaTypeWithQualityHeaderValue("application/json"))
+
+Dim resourceUrl = $"api/contacts?association={idName}&contactId={contactId}"
+
+' contact being the representation of your Contact
+Dim content As New StringContent(contact, Text.Encoding.UTF8, contentType)
+Dim response = client.PutAsync($"api/contacts?association={idName}&contactId={contactId}", content).Result
+```
+# Error States
+The common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used.
+
+# Acknowledgement Requirements
+- You must acknowledge VoterVoice on any web page or application page in which page content makes use of VoterVoice API calls. Acknowledgement takes the form of the following "Powered by VoterVoice" logo: <img height="65" src="https://d3dkdvqff0zqx.cloudfront.net/groups/system/images/poweredby_votervoice.png">
+- You must insert the VoterVoice Google Analytics markup on every page that requires the use of the "Powered By VoterVoice" logo. Please use the following markup right before the </body> tag to call Google Analytics from your pages.
+
+```javascript
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(
+              ['_setAccount', 'UA-9858999-1'],
+              ['_trackPageview']
+     );
+ 
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+```
+
+# Key Terminology
+
+## General
+
+- Administrator: The person using the VoterVoice administrator portal to create actions, manage contacts, view reports, etc.
+- Association: The organization or group using the VoterVoice system. (e.g. XYZ Association of America)
+
+## Actions
+
+- Advocacy Campaign: Consists of an alert explaining an issue, targets for users to send messages to, and a sample message to send.
+- Target: The recipient of advocacy messages within an advocacy campaign. Targets may consist of officials, regulatory agencies, and more.
+- Message: The advocacy message a user submits to targets within an advocacy campaign.
+- Survey: Consists of an alert explaining an issue and survey questions for users to submit.
+- Petition: Consists of an alert explaning an issue and petition text for users to add their signature to.
+- Event: Consists of an alert explaning an issue, accommodations, travel details, and resources, allowing a user to register for the event.
+- Scorecard: Consists of bill actions defined by administrators, the elected officials voting on those actions, and their score relative to how the association preferred the officials to vote.
+- Blog: Consists of an informational blog post.
+- Meeting: Consists of an office, attendees, details, and a meeting report.
+- Public vs Private: Campaigns, Surveys, Petitions, Events, and Blog Posts can be publicly visible on the client's action center, or private so they can only be accessed via direct link.
+
+
+## Legislative
+
+- Address: A physical address, normally used in matching an individual to their elected officials. (e.g. 1600 Pennsylvania Ave NW, Washington, DC 20500)
+- District: The legislative districts an individual matches to based on their address.
+- Government: A collection of officials representing specific constituencies.
+
+## People
+
+- User: An individual registering by submitting their information on an action.
+- Contact: Any individual in the association's contact database.
+- Official: A publicly elected official, holding office within a government entity.
+- UserToken: The API identifies a user by a user token. It is represented by the term USER_TOKEN in the documentation.
+
+## Uploaded vs Registered Contacts
+
+An administrator can bulk upload or individually create contacts in their VoterVoice system. We colloquially refer to these contacts as "uploaded" contacts. Those contacts have not yet taken action or validated their own information.
+
+Once an uploaded contact interacts with the VoterVoice system themselves (by taking action on an advocacy campaign, registering for an event, etc.) we refer to them as "registered." Also known as "users."
+
+## Date Range Parameters
+
+For resources that accommodate a date querystring parameter for filtering, the supported semantics are as follows:
+
+Greater than or equal to: `date=>yyyy-MM-ddTHH:mm:ssZ`
+```
+https://www.votervoice.net/api/resources?date=>2017-01-01T13:10:00Z
+```
+
+Less than or equal to: `date=<yyyy-MM-ddTHH:mm:ssZ`  
+```
+https://www.votervoice.net/api/resources?date=<2017-01-01T13:10:00Z
+```
+
+Equal to: `date=yyyy-MM-ddTHH:mm:ssZ`  
+```
+https://www.votervoice.net/api/resources?date=2017-01-01T13:10:00Z
+```
+
+The greater than and less than filters may be combined within the same request.
+```
+https://www.votervoice.net/api/resources?date=>2017-01-01T00:00:00Z&date=<2017-01-01T23:59:59Z
+```
+
+# group Addresses 
+
+## Addresses [/addresses{?address1,address2,city,state,zipcode,country,simpleLookup}]
+
+### Validate an Address [GET]
+The method validates, corrects, and returns an array of addresses. This method will be used in a wide array of contexts: adding contacts, sending messages to officials, looking up districts for a user, etc.
+
+If the call was not successful, the API returns a message string describing 
+the problem with the input, or an alternate zipcode if the one provided 
+didn't get a match but a different one did.
+
+The result returned from validation is commonly used in the VoterVoice system as a query parameter.
+
+e.g. A search for 1600 Pennsylvania, Washington DC 20500 results in:
+```
+    {
+         "checksum": "-1980238656",
+         "city": "Washington",
+         "country": "US",
+         "county": "District of Columbia",
+         "state": "DC",
+         "streetAddress": "1600 Pennsylvania Ave NW",
+         "zipCode": "20500",
+         "zipCodeExtension": "0003"
+    }
+```
+and which should be encoded as
+
+```
+%7B%20%22checksum%22%3A%20%22-1980238656%22%2C%20%22city%22%3A%20%22Washington%22%2C%20%22country%22%3A%20%22US%22%2C%20%22county%22%3A%20%22District%20of%20Columbia%22%2C%20%22state%22%3A%20%22DC%22%2C%20%22streetAddress%22%3A%20%221600%20Pennsylvania%20Ave%20NW%22%2C%20%22zipCode%22%3A%20%2220500%22%2C%20%22zipCodeExtension%22%3A%20%220003%22%20%7D
+```
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+            
++ Parameters
+    + address1: `1600 Pennsylvania Ave` (string) - street address line
+    + address2: `Apt #199` (string, optional) - street address line 2
+    + city: `Washington` (string) - city
+    + state: `DC` - two letter state or province abbreviation
+    + zipcode: `20500` - 5 digit US zip code, or 6-7 character Canadian postal code.
+    + country: `US` (string, optional) - The two character country code (per <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166 Alpha 2</a>). This is a case sensitive field and needs to be submitted in upper case.
+        + Default: `US`
+    + simpleLookup: `false` (boolean, optional) - Passing true allows a lesser address validation standard. ONLY for use in adding contacts through /contacts.
+        + Default: `false`
+
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + addresses (array[AddressContract]) - array of address contracts.
+        + message (string) - address validation message.
+        + suggestedZipCode (string) - suggested zip code.
+        
+    + Body
+        ```
+            {
+                "addresses": [
+                    {
+                        "checksum": "-1980238656",
+                        "city": "Washington",
+                        "coordinates": {
+                            "latitude": 38.89876,
+                            "longitude": -77.03645
+                        },
+                        "country": "US",
+                        "county": "District of Columbia",
+                        "state": "DC",
+                        "streetAddress": "1600 Pennsylvania Ave NW",
+                        "zipCode": "20500",
+                        "zipCodeExtension": "0003"
+                    }
+                ],
+                "message": null,
+                "suggestedZipCode": null
+            }
+        ```
+
+# group Advocacy
+
+## Campaign Summaries Collection [/advocacy/campaignsummaries{?association,sitenumber,isPrivate}]
+
+### Get All Campaigns Summaries [GET]
+Returns an array of advocacy campaign summaries. 
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    + isPrivate: `false` (string, optional) - optional parameter for filtering only private or public campaigns
+
++ Response 200 (application/json)
+
+        [
+            {
+                "alert": "This is the campaign alert ot be shown to users to encourage them to take action for the cause.",
+                "headline": "This is the headline for the alert.",
+                "id": 12345,
+                "imageUrl": "This is the url where the header image is located.",
+                "isActive": true,
+                "isPrivate": false,
+                "name": "Contact your State Senators...",
+                "priority": 10,
+                "targetsFederal": false,
+                "targetsState": true,
+                "timeFrame": {
+                    "end": "2019-12-31T23:59:59.0000000Z",
+                    "start": "2019-01-01T00:00:00.0000000Z"
+                }
+            }
+        ]
+        
+## Campaign Summary [/advocacy/campaignsummaries/{id}{?association}]
+
+### Get a Single Campaign [GET]
+Returns summary information on the advocacy campaign you specify via the id.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + id: 12345 (number, required) - the id of the campaign.
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+
++ Response 200 (application/json)
+
+        {
+            "alert": "This is the campaign alert ot be shown to users to encourage them to take action for the cause.",
+            "headline": "This is the headline for the alert.",
+            "id": 12345,
+            "imageUrl": "This is the url where the header image is located.",
+            "isActive": true,
+            "isPrivate": false,
+            "name": "Contact your State Senators...",
+            "priority": 10,
+            "targetsFederal": false,
+            "targetsState": true,
+            "timeFrame": {
+                "end": "2019-12-31T23:59:59.0000000Z",
+                "start": "2019-01-01T00:00:00.0000000Z"
+            }
+        }
+
+## Matched Targets : Non-Campaign Based [/advocacy/matchedtargets{?association,sitenumber,user,home,business}]
+
+### Get Matched Targets [GET]
+This resource can take in information regarding the association, the site, the token for the user or home/business address data, and return all the advocacy targets that are matched based on the association's advocacy package.
+
+CAUTION: If you are planning on using your own matching algorithm to match the users to their Elected Officials, please be aware that the results from your algorithm might not always agree with our results. We might be using different technologies or base data than your matching methodology.
+
+You *must* submit at least one of the user,home or business parameters. Custom Targets will *not* be returned in a non-campaign based call. These submissions will have different meanings as described below.
+
+only user: matching takes place based on the addresses on that user's record in our system.
+only home: matching takes place based on that address and nothing else.
+only business: matching takes place based on that address and nothing else.
+both home & business: matching takes place based on both the addresses. Results will distinguish between the address types if applicable.
+
+An array of matched target groupings are returned. The target group contains a group identifier and an array of matched targets.
+
+The address fields (home, business) should be the JSON representation of the result returned from validating an address through the [address resource](#reference/addresses).
+
+#### Possible Returned Target Types
+- E - Elected Official
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + sitenumber: `0` (string, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    + user: `USER_TOKEN` (string, optional) - the user token representing the user.
+    + home: `{ "checksum": "-1980238656", "city": "Washington", "country": "US", "county": "District of Columbia", "state": "DC", "streetAddress": "1600 Pennsylvania Ave NW", "zipCode": "20500", "zipCodeExtension": "0003" }` (string, required) - url encoded home address (in JSON format) returned by our addresses resource (MUST have the checksum).
+    + business: `{ "checksum": "-1980238656", "city": "Washington", "country": "US", "county": "District of Columbia", "state": "DC", "streetAddress": "1600 Pennsylvania Ave NW", "zipCode": "20500", "zipCodeExtension": "0003" }` (string, required) - url encoded business address (in JSON format) returned by our addresses resource (MUST have the checksum).
+
++ Response 200 (application/json)
+
+        [
+            {
+                "groupId": "President",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "B",
+                            "H"
+                        ],
+                        "id": 1,
+                        "name": "President Fname LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "groupId": "Vice President",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "B",
+                            "H"
+                        ],
+                        "id": 2,
+                        "name": "Vice President Fname LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "groupId": "US Senators",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "B"
+                        ],
+                        "id": 3,
+                        "name": "Senator Fname M. LName",
+                        "type": "E"
+                    },
+                    {
+                        "addressIdentities": [
+                            "B"
+                        ],
+                        "id": 4,
+                        "name": "Senator Fname LName",
+                        "type": "E"
+                    },
+                    {
+                        "addressIdentities": [
+                            "H"
+                        ],
+                        "id": 5,
+                        "name": "Senator Fname LName",
+                        "type": "E"
+                    },
+                    {
+                        "addressIdentities": [
+                            "H"
+                        ],
+                        "id": 6,
+                        "name": "Senator Fname M. LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "groupId": "US Representative",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "B"
+                        ],
+                        "id": 7,
+                        "name": "Representative Fname LName",
+                        "type": "E"
+                    },
+                    {
+                        "addressIdentities": [
+                            "H"
+                        ],
+                        "id": 8,
+                        "name": "Representative Fname M. LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "groupId": "Governor",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "H"
+                        ],
+                        "id": 9,
+                        "name": "Governor Fname LName",
+                        "type": "E"
+                    },
+                    {
+                        "addressIdentities": [
+                            "B"
+                        ],
+                        "id": 10,
+                        "name": "Governor Fname M. LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "groupId": "Lt. Governor",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "H"
+                        ],
+                        "id": 11,
+                        "name": "Lt. Governor Fname M. LName",
+                        "type": "E"
+                    },
+                    {
+                        "addressIdentities": [
+                            "B"
+                        ],
+                        "id": 12,
+                        "name": "Lt. Governor Fname LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "groupId": "State Senator",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "H"
+                        ],
+                        "id": 13,
+                        "name": "Senator Fname M. LName",
+                        "type": "E"
+                    },
+                    {
+                        "addressIdentities": [
+                            "B"
+                        ],
+                        "id": 14,
+                        "name": "Senator Fname LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "groupId": "State Representative",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "B"
+                        ],
+                        "id": 15,
+                        "name": "Assemblyman Fname LName",
+                        "type": "E"
+                    },
+                    {
+                        "addressIdentities": [
+                            "H"
+                        ],
+                        "id": 16,
+                        "name": "Representative Fname M. LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "groupId": "Letter to the Editor (daily newspapers near you)",
+                "matches": [
+                    {
+                        "addressIdentities": [],
+                        "id": 1,
+                        "name": "Paper Name - 1 (City Name, ST)",
+                        "type": "M"
+                    },
+                    {
+                        "addressIdentities": [],
+                        "id": 2,
+                        "name": "Paper Name - 2 (City Name, ST)",
+                        "type": "M"
+                    },
+                    {
+                        "addressIdentities": [],
+                        "id": 3,
+                        "name": "Paper Name - 3 (City Name, ST)",
+                        "type": "M"
+                    }
+                ]
+            }
+        ]
+
+## Matched Targets : Campaign Based [/advocacy/matchedtargets{?association,sitenumber,user,home,business,campaignId}]
+
+### Get Matched Targets [GET]
+This resource can take in information regarding the association, the site, and a campaignId, and return all the advocacy targets that are matched based on the campaign's targets. Custom targets can be returned via campaign based calls.
+
+CAUTION: If you are planning on using your own matching algorithm to match the users to their Elected Officials, please be aware that the results from your algorithm might not always agree with our results. We might be using different technologies or base data than your matching methodology.
+
+You must submit at least one of the user,home or business parameters and/or a campaignId. These submissions will have different meanings as described below.
+
+only user: matching takes place based on the addresses on that user''s record in our system.
+only home: matching takes place based on that address and nothing else.
+only business: matching takes place based on that address and nothing else.
+both home & business: matching takes place based on both the addresses. Results will distinguish between the address types if applicable.
+campaignId: matching takes place based on the campaign targets
+
+An array of matched target groupings are returned. The target group contains a group identifier and an array of matched targets. A messageId is passed back as well.
+
+The address fields (home, business) should be the JSON representation of the result returned from validating an address through the [address resource](#reference/addresses).
+
+#### Possible Returned Target Types
+- E - Elected Official
+- C - Custom Contacts
+- F - Regulatory Documents
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + sitenumber: `0` (string, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    + user: `USER_TOKEN` (string, optional) - the user token representing the user.
+    + home: `{ "checksum": "-1980238656", "city": "Washington", "country": "US", "county": "District of Columbia", "state": "DC", "streetAddress": "1600 Pennsylvania Ave NW", "zipCode": "20500", "zipCodeExtension": "0003" }` (string, required) - url encoded home address (in JSON format) returned by our addresses resource (MUST have the checksum).
+    + business: `{ "checksum": "-1980238656", "city": "Washington", "country": "US", "county": "District of Columbia", "state": "DC", "streetAddress": "1600 Pennsylvania Ave NW", "zipCode": "20500", "zipCodeExtension": "0003" }` (string, required) - url encoded business address (in JSON format) returned by our addresses resource (MUST have the checksum).
+    + campaignId: `12345` (number, optional) - VoterVoice advocacy campaign Identifier.
+
+
++ Response 200 (application/json)
+
+        [
+            {
+                "messageId": 1234,
+                "groupId": "President",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "B",
+                            "H"
+                        ],
+                        "id": 1,
+                        "name": "President Fname LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "messageId": 1234,
+                "groupId": "Vice President",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "B",
+                            "H"
+                        ],
+                        "id": 2,
+                        "name": "Vice President Fname LName",
+                        "type": "E"
+                    }
+                ]
+            },
+            {
+                "messageId": 5678,
+                "groupId": "Governor",
+                "matches": [
+                    {
+                        "addressIdentities": [
+                            "H"
+                        ],
+                        "id": 9,
+                        "name": "Governor Fname LName",
+                        "type": "E"
+                    },
+                    {
+                        "addressIdentities": [
+                            "B"
+                        ],
+                        "id": 10,
+                        "name": "Governor Fname M. LName",
+                        "type": "E"
+                    }
+                ]
+            }
+        ]
+        
+## Message Delivery Options [/advocacy/messagedeliveryoptions{?association,sitenumber,targetType,targetId,targetedMessage}]
+
+### Get Delivery Options for a Target [GET]
+This resource returns delivery options for a target. The delivery options will have the restrictions that a target has set when delivering messages to them via a selected medium. The restrictions could possibly be more stringent based on settings for an advocacy campaign (if applicable) depending on the way the campaign messaging was set up. 
+
+You will sometimes see multiple delivery methods returned. For most client use cases for delivery, you will want to use the first option returned. 
+
+See the [matched targets call](#reference/advocacy/advocacymatchedtargets) to retrieve matched targets.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    + targetType: `E` (string, required) - the 'type' of one of the results from a previous matching call
+    + targetId: `1` (number, required) - the 'id' of one of the results from a [matched targets call](#reference/advocacy/advocacymatchedtargets).
+    + targetedMessage: `11111` (number, optional) - the 'id' of one of the campaign's targeted message. This is applicable only if the delivery options are for messaging based on a campaign.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "constituentOnly": false,
+                "deliveryMethod": "webform",
+                "maximumMessageLength": 2500,
+                "maximumSubjectLength": 200,
+                "requiredQuestions": [
+                    {
+                        "question": "Select a topic.",
+                        "validAnswers": [
+                            "Student Inquiry",
+                            "Administration",
+                            "Corrections",
+                            "Other"
+                        ]
+                    }
+                ],
+                "requiredUserFields": [
+                    "email",
+                    "address"
+                ],
+                "sharedQuestionIds": [
+                    "CommonHonorific"
+                ]
+            },
+                {
+                "constituentOnly": false,
+                "deliveryMethod": "fax",
+                "requiredUserFields": [
+                    "address"
+                ]
+            },
+            {
+                "constituentOnly": false,
+                "deliveryMethod": "letter",
+                "requiredUserFields": [
+                    "address"
+                ]
+            }   
+        ]
+
+## Responses [/advocacy/responses{?user,association,date}]
+
+### Get Advocacy Responses [GET]
+Returns an array of advocacy responses.  This resource may return partial content if the response is too large and must be partitioned into subsets.  Refer to Range Requests for specification.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + date: `2017-01-01T00:00:00Z&date=<2017-01-01T23:59:59Z` (string, required) - optional date range filter in ISO-8601 standard.  Refer to [Date Range Parameters](#introduction/key-terminology/date-range-parameters) for usage
+    
++ Response 200 (application/json)
+
+    ```
+    [
+        {
+            "id": 123,
+            "association": "YOUR_ASSOCIATION_IDNAME",
+            "user": {
+                "id": 1234,
+                "contactId": "Contact123"
+            },
+            "campaignId": 1,
+            "messages": [
+                {
+                "id": 12345,
+                "subject": "Message Subject",
+                "body": "Message body",
+                "complimentaryClose": "Sincerely,",
+                "deliveries": [
+                    {
+                        "id": 123456,
+                        "recipient": {
+                        "id": 1234567,
+                        "type": "E",
+                        "displayName": "Senator ABC",
+                        "office": {
+                            "electedBody": "US Senate",
+                            "constituencyDescription": "CA",
+                            "electoralDistrict": null,
+                            "state": "CA"
+                        }
+                    },
+                    "deliveryMethod": "webform"
+                    },
+                    {
+                    "id": 123457,
+                    "recipient": {
+                        "id": 1234568,
+                        "type": "E",
+                        "displayName": "Representative XYZ",
+                        "office": {
+                            "electedBody": "State House",
+                            "constituencyDescription": "CA-001",
+                            "electoralDistrict": "001",
+                            "state": "CA"
+                        }
+                    },
+                    "deliveryMethod": "email"
+                }
+            ]
+            }
+            ],
+            "trackingId": null,
+            "dateCreated": "2017-01-01T17:00:00Z"
+        }
+    ]
+    ```
+
+### Create Advocacy Responses to Targets [POST]
+This resource creates the advocacy responses to targets for a user. If the messages that were posted for the user were saved successfully, the API returns an array of the delivered messages.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + user: `USER_TOKEN` (string, required) - the user token representing the user.
+
++ Attributes
+    + advocacyResponse (AdvocacyResponse) - The advocacy response is to be attached as a json object to the request.
+
++ Response 200 (application/json)
+
+        {
+            "deliveredMessages": [
+                {
+                    "targetedId": 1111
+                    "deliveredId": 123456
+                },
+                        {
+                    "targetedId": 1112
+                    "deliveredId": 123457
+                }
+            ]
+        }
+    
+## Shared Questions [/advocacy/sharedquestions/{id}]
+
+### Get Questions Shared Between Multiple Targets [GET]
+This resource returns a question that is shared between multiple matched targets. If the delivery options of multiple matched targets ask for the same shared question, then make note that you need to ask for the shared question only once.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + id: `CommonHonorific` (string, required) - the id of the shared question.
+
++ Response 200 (application/json)
+
+        {
+            "question": "Prefix",
+            "validAnswers": [
+                "Mr.",
+                "Mrs.",
+                "Ms."
+            ]
+        }
+        
+## Targeted Messages [/advocacy/targetedmessages{?association,sitenumber,campaignId}]
+
+### Return Targeted Messages [GET]
+This resource can take in the association site information (and optionally the VoterVoice campaign identifier) and returns the appropriate targeted messages.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    + campaignId: `12345` (string, optional) - VoterVoice advocacy campaign Identifier.
+
++ Response 200 (application/json)
+
+    ```
+        [
+            {
+                "availableDeliveryMethods": ["communicatingwithcongressapi", "email", "webform"],
+                "id": 12345,
+                "messageDisplay": "random",
+                "messages": [
+                    {
+                        "guidelines": "",
+                        "message": "Test",
+                        "phoneGuidelines": "",
+                        "readOnly": false,
+                        "sampleMessageId": 54321,
+                        "shortenedGuidelines": "",
+                        "showOpeningAndClosing": true,
+                        "subject": "Test"
+                    }
+                ],
+                "phoneCallMethod": null,
+                "preSelectedAnswers": [
+                    {
+                        "answer": "Agriculture",
+                        "question": "Topic",
+                        "questionId": "US"
+                    }
+                ],
+                "targets": [
+                    {
+                        "displayCategory": "federal",
+                        "displayName": "US Representative",
+                        "groupId": "US Representative"
+                    }
+                ]
+            }
+        ]
+    ```
+# group Associations
+
+## Key Contact Relationship Types [/associations/{association}/keycontactrelationshiptypes{?sitenumber}]
+
+### Get Key Contact Relationship Types for an Association [GET]
+This resource takes in the association site information and return the key contact relationship types defined for that association.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "name": "Relative"
+            },
+            {
+                "id": 2,
+                "name": "Family Friend"
+            },
+            {
+                "id": 0,
+                "name": "Other"
+            }
+        ]
+
+# group Blog Posts
+
+## Blog Posts Collection [/blogposts{?association,sitenumber}]
+
+### Get Active Blog Posts [GET]
+This resource takes in the association site information and provide all the blog posts that are active at the moment.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "alert": "This is the body for the blog post.",
+                "author": "Blogpost Author",
+                "headline": "This is the headline for the blog post",
+                "id": 12345,
+                "imageUrl": null,
+                "publicationDate": "1/1/2019",
+                "shortenedAlert": "This is the body..."
+            }
+        ]
+
+## Blog Post [/blogposts{id}{?association}]
+
+### Get Single Blog Post [GET]
+This resource takes in the association and blog post id as parameters and returns the blog summary.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + id: 12345 (number, required) - the id of the blog post.
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+
++ Response 200 (application/json)
+
+        {
+            "alert": "This is the body for the blog post.",
+            "author": "Blogpost Author",
+            "headline": "This is the headline for the blog post",
+            "id": 12345,
+            "imageUrl": null,
+            "publicationDate": "1/1/2019",
+            "shortenedAlert": "This is the body..."
+        }
+
+# group Contacts
+
+## Contacts [/contacts{?association,contactId,email,dateUpdated,simpleLookup,temporaryContactId}]
+The contacts resource can be used to create, update, and search the collection of uploaded and registered contacts.  It is worth noting that to ensure reliability and idempotency, requests may return an initial 307 Temporary Redirect response which should not be cached.  Standard HTTP clients, however, will handle this redirect seamlessly and return the expected status and payload.
+
+### ContactId and TemporaryContactId
+
+We do not expose the internal VoterVoice contactId for any permanent external use because we want to help those integrating with our API by ensuring that they only have to worry about their own permanent contactIds.  There are several ways to get your local Ids into the VoterVoice system.
+
++ Create (POST)
++ PATCH 
+
+To set the contactId using the Create Contact (POST) API request, you set your local identifier to the membership.contactId property along with the rest of the contact information to create.
+
+If there are existing contacts in the VoterVoice system that are either not in your local system or have not yet been updated to reference your local id then you can call the Contacts (GET) api request to retrieve a list of contacts or set the email parameter for a retrieving single record.  Contacts that do not have any specified contactId (contactId: null) will have a temporaryContactId property and a value.  This temporary identifier is named to signify that the identifier is not meant to be used as a permanent means of contact identification in our system.  The way VoterVoice handles contacts internally may cause the temporaryContactId to change over time.  The temporaryContactId can be set as a parameter the Contacts PATCH api request to then patch the VoterVoice contact record's membership.contactId to your local contactId.
+
+### Search Contacts [GET]
+This resource takes in the association site information and returns contacts for the association. 
+
+Use of a query parameter is currently required. The query parameters should be used independently of one another. Use of the query parameters in combination with one another will result in a 400.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + contactId: `12345` (string, optional) - the unique identifier provided for each contact when updated.
+    + email: `jane.doe@votervoice.net` (string, optional) - the email address for the contact.
+    + dateUpdated: `2011-12-20T06:00:00.0000000Z` (string, optional) - a combined date and time value in ISO 8601 format.  It may also be preceded by either a < or > symbol to search contacts updated before or after a certain point in time (see Refer to [Date Range Parameters](#introduction/key-terminology/date-range-parameters)  for details).
+
++ Response 200 (application/json)
+
+        [
+            {
+                "membership": {
+                    "groupList": null,
+                    "contactId": "12345"
+                },
+                "honorific": "Mr.",
+                "givenNames": "John A.",
+                "surname": "Smith",
+                "suffix": "III",
+                "emailAddress": "johnsmith@votervoice.net",
+                "phoneNumber": "2220000000",
+                "faxNumber": "2220000001",
+                "businessCompanyName": "Some Company, LLC",
+                "businessPositionName": "My title",
+                "homeAddress": {
+                    "checksum": 74232945,
+                    "city": "Home City",
+                    "county": "Home County",
+                    "state": "CA",
+                    "streetAddress": "123 Neighborhood Ave, Apt 300",
+                    "zipCode": "95125",
+                    "zipCodeExtension": "0120"
+                },
+                "businessAddress": {
+                    "checksum": "1492380629",
+                    "city": "Business City",
+                    "county": "Business County",
+                    "state": "CA",
+                    "streetAddress": "123 Some St, STE 3034",
+                    "zipCode": "98563",
+                    "zipCodeExtension": "2568"
+                },
+                "customFieldValues": [
+                    {"id": "1234", "value": "test"}, 
+                    {"id": "1238", "value": ["option 1", "option 5"]}
+                ]
+            }
+        ]
+
+### Create Contact [POST]
+Create a new contact record. 
+
+Note: This resource may redirect. Please see the [authentication redirects section](#introduction/authentication/authentication-redirects) if a
+401 Unauthorized is being returned.
+
+Note: Checksum is a MANDATORY field on any included address contracts. Without it, the addresses 
+are considered invalid. Use the [addresses resource](#reference/addresses/addresses) to retrieve an address with checksum.
+
+If a contact has incomplete address information, the parameter &simpleLookup=true may be included on the address query to return a best-effort match.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + simpleLookup: `false` (boolean, optional) - may be included on the address query to return a best-effort match.
+    
++ Response 200 (application/json)
+
+        {
+            "membership": {
+                "contactId": "12345"
+            },
+            "businessPositionName": "My title",
+            "businessCompanyName": "Some Company, LLC",
+            "emailAddress": "johnsmith@votervoice.net",
+            "faxNumber": "2220000001",
+            "givenNames": "Jane",
+            "homeAddress": {
+                "checksum": "74232945",
+                "country" : "US",
+                "city": "Home City",
+                "county": "Home County",
+                "state": "CA",
+                "streetAddress": "123 Neighborhood Ave, Apt 300",
+                "zipCode": "95125",
+                "zipCodeExtension": "0120"
+            },
+            "honorific": "Ms.",
+            "phoneNumber": "2220000000",
+            "surname": "Doe"
+        }
+
+### Update Contact [PUT]
+Update an existing contact record.
+
+Note: This resource may redirect. Please see the [authentication redirects section](#introduction/authentication/authentication-redirects) if a
+401 Unauthorized is being returned.
+
+Note: Checksum is a MANDATORY field on any included address contracts. Without it, the addresses 
+are considered invalid. Use the [addresses resource](#reference/addresses/addresses) to retrieve an address with checksum.
+
+If a contact has incomplete address information, the parameter &simpleLookup=true may be included on the address query to return a best-effort match.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + contactId: `12345` (string, optional) - the unique identifier provided for each contact when updated.
+
++ Response 200 (application/json)
+
+        {
+            "membership": {
+                "contactId": "12345"
+            },
+            "businessPositionName": "My title",
+            "businessCompanyName": "Some Company, LLC",
+            "emailAddress": "johnsmith@votervoice.net",
+            "faxNumber": "2220000001",
+            "givenNames": "Jane",
+            "homeAddress": {
+                "checksum": 74232945,
+                "city": "Home City",
+                "county": "Home County",
+                "state": "CA",
+                "streetAddress": "123 Neighborhood Ave, Apt 300",
+                "zipCode": "95125",
+                "zipCodeExtension": "0120"
+            },
+            "honorific": "Ms.",
+            "phoneNumber": "2220000000",
+            "surname": "Doe",
+            "customFieldValues": [
+                {"id": "1234", "value": "Some Text"},
+                {"id": "1236", "value": "23.75"},
+                {"id": "1237", "value": false},
+                {"id": "1238", "value": ["option 3"]}
+            ]
+        }
+
+### Delete Contact [DELETE]
+Delete an existing contact record.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + contactId: `12345` (string, required) - the unique identifier provided for each contact when updated.
+
++ Response 204 (application/json)
+
+### Patch Contact [PATCH]
+Patch an existing contact record contactId using the temporaryContactId.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
+    + Body
+    ```
+        {
+            "membership": {
+                "contactId": "UNIQUE-CONTACT-ID"
+            }
+        }
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + temporaryContactId: `eyJJc1JlZ2l...zdGVyZWQiDmfQ==` (string, required) - the temporary unique identifier for the desired contact.
+
++ Response 204 (application/json)
+
+# group Districts
+
+## Districts by Address [/districts{?association,context,address}]
+This resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association.
+
+The address query should be the JSON representation of the result returned from validating an address through the [address resource](#reference/addresses).
+
+### Get Districts for an Address [GET]
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + context: `candidates` (string, optional) - a special context in which to view the districts (e.g. candidates)
+    + address: `{ "checksum": "-1980238656", "city": "Washington", "country": "US", "county": "District of Columbia", "state": "DC", "streetAddress": "1600 Pennsylvania Ave NW", "zipCode": "20500", "zipCodeExtension": "0003" }` (string, required) - url encoded home address (in JSON format) returned by our addresses resource (MUST have the checksum).
+
++ Response 200 (application/json)
+
+        [
+            {
+                "districtId": "Rockingham 32",
+                "electedBody": "State House",
+                "government": { "name": "New Hampshire", "uri": "./USA/NH" }
+            },
+            {
+                "districtId": "017",
+                "electedBody": "State Senate",
+                "government": { "name": "New Hampshire", "uri": "./USA/NH" }
+            },
+            {
+                "delegateGovernment": { "name": "New Hampshire", "uri": "./USA/NH" },
+                "districtId": "001",
+                "electedBody": "US House",
+                "government": { "name": "Federal", "uri": "./USA" }
+            },
+            {
+                "districtId": "Rockingham 2",
+                "electedBody": "State House",
+                "government": { "name": "New Hampshire", "uri": "./USA/NH" }
+            }
+        ]
+
+## Districts by Zip Code [/districts{?association,context,zip}]
+This resource can provide all of the districts matched for a given 5 digit zipcode and that are included in the advocacy package for the association.
+This will typically return the federal districts, as state districts will require more granular information see the [districts by address call](#reference/districts/districts-by-address).
+
+### Get Districts for a 5 Digit Zipcode [GET]
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + context: `candidates` (string, optional) - a special context in which to view the districts (e.g. candidates)
+    + zip: `70808` (string, required) - 5 digit zipcode.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "districtId": "002",
+                "electedBody": "US House",
+                "government": {
+                "name": "Federal",
+                "uri": "./USA"
+            }
+            },
+            {
+                "districtId": "006",
+                "electedBody": "US House",
+                "government": {
+                "name": "Federal",
+                "uri": "./USA"
+            }
+        ]
+        
+# group Email Ownership Verification
+This is the email ownership verification resource. It allows one to obtain proof that a user has access to an email address. This proof may be used to search api/users/identities.
+
+## Start Email Ownership Verification [/emailownershipverifications?{association}]
+
+### Start Verification [POST]
+Send verification email to the user. This POST will send an email from the VoterVoice mail servers to the user, containing a CODE that, together with the verificationId returned by this call, can be used to prove their ownership of the email address. 
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
+    + Body
+    ```
+        {
+            "emailAddress":"user@domain.com"
+        }
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+
++ Response 201 (application/json)
+
+        {
+            "verificationId":"abc12ef-123g4-6123-8108-abab600a65fb"
+        }
+
+## Complete Email Ownership Verification [/emailownershipverifications/{verificationId}/proof]
+
+### Complete Verification [POST]
+This POST will consume the verificationId returned by the [previous call](#reference/email-ownership-verification/start-email-ownership-verification) and the CODE emailed to the user from the VoterVoice mail server. 
+It will return a PROOF that can be used to search user identities in api/users/identities
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
+    + Body
+    ```
+        {
+            "code":"1234"
+        }
+    ```
+    
++ Parameters
+    + verificationId: `7878` (string, required) - a verification ID
+
++ Response 201 (application/json)
+
+        {
+            "proof":"abCdE-fgEhIjKlmNOpqRSTuvWxyZ1234567890"
+        }
+
+# group Events
+
+## Events Collection [/events{?association}]
+This resource takes in the association as a parameter and returns the list of active events.
+
+### Get Active Events [GET]
+Returns an array of active events for the association.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "eventId": 1,
+                "accomodations": "Accomodation Details",
+                "travelDetails": "Travel Details",
+                "program": "Program Details",
+                "resources": "Additional Resources",
+            },
+            {
+                "eventId": 2,
+                "accomodations": "Accomodation Details 2",
+                "travelDetails": "Travel Details 2",
+                "program": "Program Details 2",
+                "resources": "Additional Resources 2",
+            }
+        ]
+
+## Event [/events/{eventId}{?association}]
+This resource takes in the event id and association as parameters and returns the basic event information.
+
+### Get Event [GET]
+The event with the specified id is returned, if valid for the association.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + eventId: `1` (number, required) - the event id.
+
++ Response 200 (application/json)
+
+        {
+            "accomodations": "Accomodation Details",
+            "travelDetails": "Travel Details",
+            "program": "Program Details",
+            "resources": "Additional Resources",
+        }
+
+## Event Registrations [/events/{eventId}/registrations{?association}]
+This resource takes in the event id and association as parameters and returns a basic list of registrations for the event.
+
+### Get Basic User Registration Information for an Event [GET]
+Returns an array of event registrations for an event.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + eventId: `1` (number, required) - the event id.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "eventId": 12345,
+                "firstTimeAttendee": true,
+                "registrationDate": "2000-01-01T00:00:00Z",
+                "canceled": false,
+                "userToken": "ABC",
+                "contactId": 1
+            },
+            {
+                "eventId": 12345,
+                "firstTimeAttendee": false,
+                "registrationDate": "2000-01-01T00:00:00Z",
+                "canceled": false,
+                "userToken": "XYZ",
+                "contactId": 2
+            }
+        ]
+
+# group Governments
+
+## Governments [/governments{?association}]
+This resource takes in the association information and provides all the Governments that are included in the advocacy package for the association.
+
+### Get All Governments [GET]
+An array of governments is returned for the association.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "name": "Federal",
+                "uri": "./USA"
+            },
+            {
+                "name": "Pennsylvania",
+                "uri": "./USA/PA"
+            },
+            {
+                "name": "Bucks,PA",
+                "uri": "./USA/PA/Bucks(County)"
+            }
+        ]
+
+## Officials [/governments/{governmentId}/officials{?association}]
+This resource can take in association information and the identifier for the government and provide all the officials in the entities under the specified government that are included in the package for the association. The identifier is the URL can be obtained from the [governments resource](#reference/governments/government).
+
+### Get Officials for a Government [GET]
+An array of officials is returned for the specified government.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + governmentId: `USA` (string, required) - id is the URI of the government returned from the governments resource
+
++ Response 200 (application/json)
+
+        [
+            {
+                "displayName": "Governor Bob Smith (R-XY)",
+                "givenNames": "Bob",
+                "id": 123,
+                "office": {
+                    "constituency": "XY",
+                    "electedBody": "Governor"
+                },
+                "politicianId": 10001,
+                "suffix": null,
+                "surname": "Smith",
+                "title": "Governor"
+            },
+            {
+                "displayName": "Sen. Sherri Smith (R-XY-038)",
+                "givenNames": "Sherri",
+                "id": 128,
+                "office": {
+                    "constituency": "XY-038",
+                    "electedBody": "State Senate"
+                },
+                "politicianId": 10006,
+                "suffix": null,
+                "surname": "Smith",
+                "title": "Senator"
+            },
+            {
+                "displayName": "Rep. Terri Smith (R-XY-078)",
+                "givenNames": "Terri",
+                "id": 250,
+                "office": {
+                    "constituency": "XY-078",
+                    "electedBody": "State House"
+                },
+                "politicianId": 10256,
+                "suffix": null,
+                "surname": "Smith",
+                "title": "Representative"
+            }
+        ]
+
+# group Meetings
+
+## Meetings Collection [/meetings{?association,sitenumber,user,politicianId,startDate,endDate}]
+This resource provides a list of meetings for an association.
+
+### Get All Meetings [GET]
+An array of meetings is returned.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    + user: `USERTOKEN` (string, optional) - user token filter that filters meetings that the user is associated with.
+    + politicianId: `12345` (number, optional) - politician id filter that filters meetings that the politician is associated with.
+    + startDate: `2017-01-01T00:00:00Z` (datetime, optional) - start date filter that filters meetings occurring from the specified start date, inclusive.
+    + endDate: `2017-01-01T00:00:00Z` (string, optional) - end date filter that filters meetings occurring until the specified end date, inclusive.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "agenda": "Meeting agenda",
+                "attendees": [{
+                    "displayName": "California Person",
+                    "firstName": "California",
+                    "id": "1235",
+                    "lastName": "Person",
+                    "type": 5,
+                    "typeDisplay": "Elected Official"
+                }, {
+                    "displayName": "Staff One",
+                    "firstName": "Staff",
+                    "id": "1",
+                    "lastName": "One",
+                    "type": 9,
+                    "typeDisplay": "Elected Official Staff"
+                }, {
+                    "displayName": "Staff Two",
+                    "firstName": "Staff",
+                    "id": "2",
+                    "lastName": "Two",
+                    "type": 10,
+                    "typeDisplay": "Committee Staff"
+                }],
+                "displayName": "05/05/2015 10:00 AM EDT - Meeting",
+                "editable": false,
+                "endDateTime": "2015-05-05T10:30-05:00",
+                "endDateTimeUtc": "2015-05-05T14:30Z",
+                "id": 12345,
+                "location": "Meeting location",
+                "longDateTimeDisplay": "Tuesday, May 5, 2015",
+                "meetingOrganizer": null,
+                "notes": "Meeting notes",
+                "officials": [{
+                    "displayName": "Sen. California Person (D-CA)",
+                    "givenNames": "California",
+                    "id": 12345,
+                    "office": {
+                        "constituency": "CA",
+                        "electedBody": "US Senate",
+                        "electoralDistrict": "",
+                        "state": "CA"
+                    },
+                    "party": "D",
+                    "photoUrl": "https://d3dkdvqff0zqx.cloudfront.net/photos/12345.jpg",
+                    "politicianId": 123,
+                    "suffix": null,
+                    "surname": "Person",
+                    "title": "Senator"
+                }],
+                "startDateTime": "2015-05-05T10:00-05:00",
+                "startDateTimeUtc": "2015-05-05T14:00Z",
+                "subject": "Meeting subject",
+                "surveyId": 12,
+                "talkingPoints": "Meeting talking points",
+                "timeZone": "America/New_York",
+                "timeZoneAbbreviation": "EDT"
+            }
+        ]
+
+## Meeting [/meetings/{meetingId}{?association}]
+This resource takes in the association and meeting id as parameters and returns the meeting information.
+
+### Get Single Meeting [GET]
+A single meeting is returned.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + meetingId: `12345` (number, required) - the meeting id.
+
++ Response 200 (application/json)
+
+        {
+            "agenda": "Meeting agenda",
+            "attendees": [{
+                "displayName": "California Person",
+                "firstName": "California",
+                "id": "1235",
+                "lastName": "Person",
+                "type": 5,
+                "typeDisplay": "Elected Official"
+            }, {
+                "displayName": "Staff One",
+                "firstName": "Staff",
+                "id": "1",
+                "lastName": "One",
+                "type": 9,
+                "typeDisplay": "Elected Official Staff"
+            }, {
+                "displayName": "Staff Two",
+                "firstName": "Staff",
+                "id": "2",
+                "lastName": "Two",
+                "type": 10,
+                "typeDisplay": "Committee Staff"
+            }],
+            "displayName": "05/05/2015 10:00 AM EDT - Meeting",
+            "editable": false,
+            "endDateTime": "2015-05-05T10:30-05:00",
+            "endDateTimeUtc": "2015-05-05T14:30Z",
+            "id": 12345,
+            "location": "Meeting location",
+            "longDateTimeDisplay": "Tuesday, May 5, 2015",
+            "meetingOrganizer": null,
+            "notes": "Meeting notes",
+            "officials": [{
+                "displayName": "Sen. California Person (D-CA)",
+                "givenNames": "California",
+                "id": 12345,
+                "office": {
+                    "constituency": "CA",
+                    "electedBody": "US Senate",
+                    "electoralDistrict": "",
+                    "state": "CA"
+                },
+                "party": "D",
+                "photoUrl": "https://d3dkdvqff0zqx.cloudfront.net/photos/12345.jpg",
+                "politicianId": 123,
+                "suffix": null,
+                "surname": "Person",
+                "title": "Senator"
+            }],
+            "startDateTime": "2015-05-05T10:00-05:00",
+            "startDateTimeUtc": "2015-05-05T14:00Z",
+            "subject": "Meeting subject",
+            "surveyId": 12,
+            "talkingPoints": "Meeting talking points",
+            "timeZone": "America/New_York",
+            "timeZoneAbbreviation": "EDT"
+        }
+
+## Meeting Attendees [/meetings/{meetingId}/attendees{?association}]
+This resource takes in the association and meeting id as parameters and returns an array of the meeting attendees.
+
+### Get Meeting Attendees [GET]
+An array of meeting attendees is returned.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + meetingId: `12345` (number, required) - the meeting id.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "displayName": "California Person",
+                "firstName": "California",
+                "id": "1235",
+                "lastName": "Person",
+                "type": 5,
+                "typeDisplay": "Elected Official"
+            }, {
+                "displayName": "Staff One",
+                "firstName": "Staff",
+                "id": "1",
+                "lastName": "One",
+                "type": 9,
+                "typeDisplay": "Elected Official Staff"
+            }, {
+                "displayName": "Staff Two",
+                "firstName": "Staff",
+                "id": "2",
+                "lastName": "Two",
+                "type": 10,
+                "typeDisplay": "Committee Staff"
+            }
+        ]
+
+# group Officials
+This resource can provide all of the officials matched for a given surname, address, or government and state and that are included in the advocacy package for the association.
+
+## Officials by Address [/officials{?association,constituentAddress}]
+
+### Get Officials Matched to an Address [GET]
+An array of officials matched to an address are returned.
+
+The address query should be the JSON representation of the result returned from validating an address through the [address resource](#reference/addresses).
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + constituentAddress: `{ "checksum": "-1980238656", "city": "Washington", "country": "US", "county": "District of Columbia", "state": "DC", "streetAddress": "1600 Pennsylvania Ave NW", "zipCode": "20500", "zipCodeExtension": "0003" }` (string, required) - url encoded home address (in JSON format) returned by our addresses resource (MUST have the checksum).
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "occupancy":
+                {
+                    "capitolOffice":
+                    {
+                        "address": { "checksum": null, "city": "Washington", "country": "US", "county": null, "state": "DC", "streetAddress": "1429 Longworth House Office Building", "zipCode": "20515", "zipCodeExtension": null },  
+                        "faxNumber": null,
+                        "phoneNumber": "2022255916"
+                    },
+                    "contactInformation":
+                    {
+                        "email": null,
+                        "facebook": "https://www.facebook.com/derek.kilmer",
+                        "twitter": "RepDerekKilmer",
+                        "website": null,
+                        "youTube": null
+                    },
+                    "districtOffice":
+                    {
+                        "address": { "checksum": null, "city": "Tacoma", "country": "US", "county": null, "state": "WA", "streetAddress": "950 Pacific Ave Ste 1230", "zipCode": "98402", "zipCodeExtension": "4423" },
+                        "faxNumber": null,
+                        "phoneNumber": "2532723515"
+                    },
+                    "id": 40014,
+                    "politician":
+                    {
+                        "id": 35547,
+                        "party": "D",
+                        "personName": { "familiarName": "Derek", "givenNames": "Derek", "suffix": null, "surname": "Kilmer", "title": "Representative" },
+                        "photoUrl": "https://d3dkdvqff0zqx.cloudfront.net/photos/35547.jpg"
+                    }
+                },
+                "office":
+                {
+                    "delegateGovernment": { "name": "Washington", "uri": "./USA/WA" },
+                    "electedBody": "US House",
+                    "electoralDistrict": "006",
+                    "government": { "name": "Federal", "uri": "./USA" }
+                }
+            }
+        ]
+
+## Officials by Surname [/officials{?association,surname}]
+
+### Get Officials by Surname [GET]
+An array of officials filtered by surname are returned.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + surname: `Smith` (string, optional) - part or all of an official's surname.
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "occupancy":
+                {
+                    "capitolOffice":
+                    {
+                        "address": { "checksum": null, "city": "Washington", "country": "US", "county": null, "state": "DC", "streetAddress": "1429 Longworth House Office Building", "zipCode": "20515", "zipCodeExtension": null },  
+                        "faxNumber": null,
+                        "phoneNumber": "2022255916"
+                    },
+                    "contactInformation":
+                    {
+                        "email": null,
+                        "facebook": "https://www.facebook.com/derek.kilmer",
+                        "twitter": "RepDerekKilmer",
+                        "website": null,
+                        "youTube": null
+                    },
+                    "districtOffice":
+                    {
+                        "address": { "checksum": null, "city": "Tacoma", "country": "US", "county": null, "state": "WA", "streetAddress": "950 Pacific Ave Ste 1230", "zipCode": "98402", "zipCodeExtension": "4423" },
+                        "faxNumber": null,
+                        "phoneNumber": "2532723515"
+                    },
+                    "id": 40014,
+                    "politician":
+                    {
+                        "id": 35547,
+                        "party": "D",
+                        "personName": { "familiarName": "Derek", "givenNames": "Derek", "suffix": null, "surname": "Kilmer", "title": "Representative" },
+                        "photoUrl": "https://d3dkdvqff0zqx.cloudfront.net/photos/35547.jpg"
+                    }
+                },
+                "office":
+                {
+                    "delegateGovernment": { "name": "Washington", "uri": "./USA/WA" },
+                    "electedBody": "US House",
+                    "electoralDistrict": "006",
+                    "government": { "name": "Federal", "uri": "./USA" }
+                }
+            }
+        ]
+
+## Officials by Government [/officials{?association,government,state}]
+
+### Get Officials by Government [GET]
+An array of officials filtered by government and/or state are returned. See the [governments resource](#reference/governments/government) to query for available governments.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + government: `./USA/LA` (string, optional) - URI to filter officials in a specific entity.
+    + state: `LA` (string, optional) - when querying a federal government, optionally filters further by represented state.
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "occupancy":
+                {
+                    "capitolOffice":
+                    {
+                        "address": { "checksum": null, "city": "Washington", "country": "US", "county": null, "state": "DC", "streetAddress": "1429 Longworth House Office Building", "zipCode": "20515", "zipCodeExtension": null },  
+                        "faxNumber": null,
+                        "phoneNumber": "2022255916"
+                    },
+                    "contactInformation":
+                    {
+                        "email": null,
+                        "facebook": "https://www.facebook.com/derek.kilmer",
+                        "twitter": "RepDerekKilmer",
+                        "website": null,
+                        "youTube": null
+                    },
+                    "districtOffice":
+                    {
+                        "address": { "checksum": null, "city": "Tacoma", "country": "US", "county": null, "state": "WA", "streetAddress": "950 Pacific Ave Ste 1230", "zipCode": "98402", "zipCodeExtension": "4423" },
+                        "faxNumber": null,
+                        "phoneNumber": "2532723515"
+                    },
+                    "id": 40014,
+                    "politician":
+                    {
+                        "id": 35547,
+                        "party": "D",
+                        "personName": { "familiarName": "Derek", "givenNames": "Derek", "suffix": null, "surname": "Kilmer", "title": "Representative" },
+                        "photoUrl": "https://d3dkdvqff0zqx.cloudfront.net/photos/35547.jpg"
+                    }
+                },
+                "office":
+                {
+                    "delegateGovernment": { "name": "Washington", "uri": "./USA/WA" },
+                    "electedBody": "US House",
+                    "electoralDistrict": "006",
+                    "government": { "name": "Federal", "uri": "./USA" }
+                }
+            }
+        ]
+        
+# group Petitions
+
+## Petition [/petitions/{petitionId}{?association}]
+This resource takes in the petition id and association as parameters and returns the basic petition information.
+
+### Get Single Petition [GET]
+The petition with the specified id is returned, if valid for the association.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + petitionId: `12345` (number, required) - id of the petition.
+       
++ Response 200 (application/json)
+
+        {
+            "id": 12345,
+            "title": "Petition Action Alert Headline",
+            "body": "Petition Action Alert Body",
+            "text": "Petition Text",
+        }
+
+## Petition Signatures [/petitions/{petitionId}/signatures{?association}]
+This resource takes in the petition id and association as parameters and returns the list of signatures associated with the petition.
+
+### Get Petition Signatures [GET]
+A array of signatures for the petition with the specified id is returned, if valid for the association. These signature objects will contain the user token, date signed, and address type.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + petitionId: `12345` (number, required) - id of the petition.
+       
++ Response 200 (application/json)
+
+        [
+            {
+                "petitionId": 12345,
+                "addressType": "Home",
+                "dateSigned": "2000-01-01T00:00:00Z",
+                "userToken": "ABC"
+            },
+            {
+                "petitionId": 12345,
+                "addressType": "Business",
+                "dateSigned": "2000-01-01T00:00:00Z",
+                "userToken": "XYZ"
+            }
+        ]
+        
+# group Profiles
+        
+## Profile [/profiles/{profileId}{?association,type}]
+This resource takes in the target type and association and returns the profile for the advocacy target and type.
+
+### Get Profile Information [GET]
+The profile with the specified id is returned if valid for the type.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + profileId: `1` (number, required) - id of the profile.
+    + type: `E` (string, required) - the type of the advocacy target (example: E for elected official).
+    
++ Response 200 (application/json)
+
+        {
+            "displayName": "President FName LName (P)",
+            "personName": {
+                "givenNames": "FName M.",
+                "familiarName": "Nick",
+                "suffix": null,
+                "surname": "LName",
+                "title": "President"
+            },
+            "photoUrl": "https://votervoice.net/photos/XYZ.jpg",
+            "sections": [{
+                "name": "Contact Information",
+                "properties": [{
+                    "description": null,
+                    "name": "Capitol Address",
+                    "value": "1600 Pennsylvania Avenue\r\nWashington, DC 20500"
+                }, {
+                    "description": null,
+                    "name": "Capitol Phone",
+                    "value": "(555) 555-5555"
+                }, {
+                    "description": null,
+                    "name": "Capitol Fax",
+                    "value": "(555) 555-5555"
+                }, {
+                    "description": null,
+                    "name": "Web Site",
+                    "value": "http://www.whitehouse.gov"
+                }]
+            }, {
+                "name": "Personal Information",
+                "properties": [{
+                    "description": null,
+                    "name": "Date of Birth",
+                    "value": "1/1/1960"
+                }]
+            }, {
+                "name": "Background Information",
+                "properties": [{
+                    "description": null,
+                    "name": "Education",
+                    "value": "Some University"
+                }, {
+                    "description": null,
+                    "name": "Occupation",
+                    "value": "Some Occupation"
+                }]
+            }, {
+                "name": "Political Information",
+                "properties": [{
+                    "description": null,
+                    "name": "Committees",
+                    "value": "Committee of Some Affairs (Joint)\r\nEnergy Development"
+            }]
+        }
+
+# group Scorecards
+
+## Scorecards [/scorecards{?association,government,active}]
+This resource returns the scorecards (either active or inactive) for the specified government.
+
+### Scorecard Collections [GET]
+An array of scorecards is returned for the specified [government](#reference/governments). 
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + government: `./USA/LA` (string, required) - URI to filter scorecards related to a specific entity. See `governments`
+    + active: `true` (boolean, required) - true or false value to search active/inactive scorecards.
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "name": "Scorecard 1",
+                "criteria": [
+                    {
+                        "id": 1,
+                        "name": "Criteria 1"
+                    }
+                ]
+            }
+        ]
+        
+## Scorecard Scorings [/scorecards/{scorecardId}/scorings{?association}]
+This resource returns the scoring details for officials as they pertain to a specific scorecard.
+
+### Get Scoring Details for a Scorecard [GET]
+An array of scoring details is returned. See the [scorecard collections resource](#reference/scorecards/scorecard-collections).
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + scorecardId: `1` (number, required) - the id of the scorecard
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "factors": [
+                    {"criterionId": "276-1990", "effect": 1},
+                    {"criterionId": "276-2571", "effect": 1}
+                ],
+                "official": {
+                    "displayName": "Sen. David Heitmeier (D-LA-007)",
+                    "givenNames": "David",
+                    "id": 3258,
+                    "office": {"constituency": "LA-007", "electedBody": "State Senate", "electoralDistrict": "007", "state": "LA"},
+                    "photoUrl": "https:\/\/d3dkdvqff0zqx.cloudfront.net\/photos\/22258.jpg",
+                    "politicianId": 22258,
+                    "suffix": null,
+                    "surname": "Heitmeier",
+                    "title": "Senator"
+                },
+                "score": 100
+            },
+            {
+                "factors": [
+                    {"criterionId": "276-1990", "effect": 1},
+                    {"criterionId": "276-2571", "effect": -1}
+                ],
+                "official": {
+                    "displayName": "Sen. Robert Adley (R-LA-036)",
+                    "givenNames": "Robert",
+                    "id":12780,
+                    "office": {"constituency": "LA-036", "electedBody": "State Senate", "electoralDistrict": "036", "state": "LA"},
+                    "photoUrl": "https:\/\/d3dkdvqff0zqx.cloudfront.net\/photos\/32462.jpg",
+                    "politicianId": 32462,
+                    "suffix": null,
+                    "surname": "Adley",
+                    "title": "Senator"
+                },
+                "score": 50
+            }
+        ]
+        
+## Scorecard Criteria [/scorecards/criteria/{criterionId}{?association}]
+This resource returns details about a specific criterion used for scoring.
+
+### Get Scorecard Criterion Detail [GET]
+The scorecard criterion with the specified id is returned. See the [scorecard collections resource](#reference/scorecards/scorecard-collections) or
+the [scorecard scoring resource](#reference/scorecards/scorecard-scorings) for details on retrieving the criteriaId.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + criterionId: `1` (number, required) - the id of the scorecard criterion
+    
++ Response 200 (application/json)
+
+        {
+            "explanationHtml": "An explanation of the criteria in text <strong>or</strong> HTML.",
+            "legislativeMotion": {
+                "legislativeProposal": {
+                    "isNomination": false,
+                    "externalUrls": [
+                        "https:\/\/www.congress.gov\/bill\/information-about-bill"
+                    ]
+                },
+                "associationStance": {
+                    "associationName": "Display Name of the Specified Association",
+                    "supportsMotion": true
+                },
+                "passed": true
+            },
+            "positions": [
+                {
+                    "description": "For",
+                    "officials": [
+                        {"occupancyId": 9537, "displayName": "Senator Lamar Alexander Jr."},
+                    ]
+                },
+                {
+                    "description": "Against",
+                    "officials": [
+                        {"occupancyId": 39969, "displayName": "Senator Tammy Baldwin"},
+                    ]
+                }
+            }
+        }
+
+## Scorecard Politician [/scorecards/politicians/{politicianId}{?association}]
+This resource returns the collective scoring details for a specific politician, and their voting records as recorded and organized into scorecards by your organization.
+
+### Get Scorecard Politician Detail [GET]
+The scorecard information for the politician with the specified id is returned.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + politicianId: `1` (number, required) - politician id property of the official.
+    
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "profile": {
+                "displayName": "Senator FName LName (P)",
+                "personName": {
+                    "givenNames": "FName M.",
+                    "familiarName": "Nick",
+                    "suffix": null,
+                    "surname": "LName",
+                    "title": "Senator"
+                },
+                "photoUrl": "https://votervoice.net/photos/XYZ.jpg",
+                "sections": [{
+                    "name": "Contact Information",
+                    "properties": [{
+                        "description": null,
+                        "name": "Capitol Address",
+                        "value": "1600 Pennsylvania Avenue\r\nWashington, DC 20500"
+                    }, {
+                        "description": null,
+                        "name": "Capitol Phone",
+                            "value": "(555) 555-5555"
+                    }, {
+                        "description": null,
+                        "name": "Capitol Fax",
+                        "value": "(555) 555-5555"
+                    }, {
+                        "description": null,
+                        "name": "Web Site",
+                        "value": "http://www.whitehouse.gov"
+                    }]
+                }, {
+                    "name": "Personal Information",
+                    "properties": [{
+                        "description": null,
+                        "name": "Date of Birth",
+                        "value": "1/1/1960"
+                    }]
+                }, {
+                    "name": "Background Information",
+                    "properties": [{
+                        "description": null,
+                        "name": "Education",
+                        "value": "Some University"
+                    }, {
+                        "description": null,
+                        "name": "Occupation",
+                        "value": "Some Occupation"
+                    }]
+               }, {
+                    "name": "Political Information",
+                    "properties": [{
+                        "description": null,
+                        "name": "Committees",
+                        "value": "Committee of Some Affairs (Joint)\r\nEnergy Development"
+                }]
+            },
+            "score": 100,
+            "scorecards": [
+                {
+                    "cardName": "2016 Legislative Session",
+                    "scores": [
+                        {
+                            "criterionId": "M-276-3544",
+                            "displayName": "HB 25 FINAL PASSAGE (#155) (4/28/2016)",
+                            "notes": null,
+                            "score" : 1,
+                            "symbol" : "Y",
+                            "voteOutcome" : "Passed"
+                        }
+                    ]
+                }
+            ],
+            "sendMessageUrl": "./Directory?singleOfficial=12345",
+            "userCanMessage": null
+        }
+
+# group Surveys
+
+## Surveys Collection [/surveys{?association,sitenumber}]
+
+### Get Active Surveys [GET]
+This resource takes in the association site information and provides all the public surveys that are active at the moment.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "description": "This is a survey about your household",
+                "id": 12345,
+                "isAnonymous": false,
+                "isPrivate": false,
+                "oneSectionHeadingPerPage": false,
+                "priority": 10,
+                "sections": [
+                    {
+                        "description": null,
+                        "questions": [
+                            {
+                                "id": 111,
+                                "instructions": "Enter number of adults",
+                                "required": true,
+                                "settings": {
+                                    "type": "number"
+                                }
+                            },
+                            {
+                                "id": 112,
+                                "instructions": "Enter number of children",
+                                "required": false,
+                                "settings": {
+                                    "type": "number"
+                                }
+                            }
+                        ],
+                        "title": null
+                    }
+                ],
+                "title": "Test Survey"
+            },
+            {
+                "description": "This is an <u>anonymous</u> survey regarding your car purchase.",
+                "id": 556,
+                "isAnonymous": true,
+                "isPrivate": false,
+                "oneSectionHeadingPerPage": false,
+                "priority": 2,
+                "sections": [
+                    {
+                        "description": null,
+                        "questions": [
+                            {
+                                "id": 222,
+                                "instructions": "How much did you pay for your car?",
+                                "required": false,
+                                "settings": {
+                                    "type": "currency"
+                                }
+                            },
+                            {
+                                "id": 223,
+                                "instructions": "Which dealership did you purchase your car?",
+                                "required": false,
+                                "settings": {
+                                    "maximumLength": 1000,
+                                    "type": "text"
+                                }
+                            }
+                        ],
+                        "title": null
+                    }
+                ],
+                "title": "Test Survey"
+            }
+        ]
+
+## Survey [/surveys/{surveyId}{?association}]
+
+### Get Single Survey [GET]
+This resource takes in the association and survey id and returns all the details that will be required to display the survey (the sections, questions, options etc).
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + surveyId: `1` (number, required) - the survey id.
+    
++ Response 200 (application/json)
+
+        {
+            "description": "This is a test survey will questions of all common types.",
+            "id": 1,
+            "isAnonymous": false,
+            "isPrivate": true,
+            "oneSectionHeadingPerPage": false,
+            "priority": 1,
+            "sections": [
+                {
+                    "description": null,
+                    "questions": [
+                        {
+                            "id": 1,
+                            "instructions": "Select one ballot",
+                            "required": false,
+                            "settings": {
+                                "multiSelection": false,
+                                "options": [
+                                    {
+                                        "description": "Ballot Item 1 Description",
+                                        "id": 1,
+                                        "title": "Ballot Item 1"
+                                    },
+                                    {
+                                        "description": "Ballot Item 2 Description",
+                                        "id": 2,
+                                        "title": "Ballot Item 2"
+                                    }
+                                ],
+                                "type": "ballot"
+                            }
+                        },
+                        {
+                            "id": 2,
+                            "instructions": "Select one or more ballots - English",
+                            "required": false,
+                            "settings": {
+                                "maximumSelectionCount": 2,
+                                "multiSelection": true,
+                                "options": [
+                                    {
+                                        "description": "First Ballot Item Description",
+                                        "id": 3,
+                                        "title": "First Ballot Item"
+                                    },
+                                    {
+                                        "description": "Second Ballot Item Description",
+                                        "id": 4,
+                                        "title": "Second Ballot Item"
+                                    },
+                                    {
+                                        "description": "Third Ballot Item Description",
+                                        "id": 5,
+                                        "title": "Third Ballot Item"
+                                    }
+                                ],
+                                "type": "ballot"
+                            }
+                        },
+                        {
+                            "id": 3,
+                            "instructions": "Select one option",
+                            "required": false,
+                            "settings": {
+                                "multiSelection": false,
+                                "options": [
+                                    {
+                                        "id": 6,
+                                        "title": "First option"
+                                    },
+                                    {
+                                        "id": 7,
+                                        "title": "Second option"
+                                    },
+                                    {
+                                        "id": 8,
+                                        "title": "Third option"
+                                    }
+                                ],
+                                "type": "select"
+                            }
+                        },
+                        {
+                            "id": 4,
+                            "instructions": "Select one or more options",
+                            "required": false,
+                            "settings": {
+                                "multiSelection": true,
+                                "options": [
+                                    {
+                                        "id": 9,
+                                        "title": "Option 1"
+                                    },
+                                    {
+                                        "id": 10,
+                                        "title": "Option 2"
+                                    },
+                                    {
+                                        "id": 11,
+                                        "title": "Option 3"
+                                    }
+                                ],
+                                "type": "select"
+                            }
+                        },
+                        {
+                            "id": 5,
+                            "instructions": "Select one rating per item",
+                            "required": false,
+                            "settings": {
+                                "items": [
+                                    {
+                                        "id": 1,
+                                        "title": "Exhibit 1"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "title": "Exhibit 2"
+                                    },
+                                    {
+                                        "id": 3,
+                                        "title": "Exhibit 3"
+                                    },
+                                    {
+                                        "id": 4,
+                                        "title": "Exhibit 4"
+                                    }
+                                ],
+                                "multiSelection": false,
+                                "options": [
+                                    {
+                                        "id": 12,
+                                        "title": "Good"
+                                    },
+                                    {
+                                        "id": 13,
+                                        "title": "Bad"
+                                    },
+                                    {
+                                        "id": 14,
+                                        "title": "Ugly"
+                                    }
+                                ],
+                                "type": "grading"
+                            }
+                        },
+                        {
+                            "id": 6,
+                            "instructions": "Select one or more ratings per item",
+                            "required": false,
+                            "settings": {
+                                "items": [
+                                    {
+                                        "id": 5,
+                                        "title": "Student 1"
+                                    },
+                                    {
+                                        "id": 6,
+                                        "title": "Student 2"
+                                    },
+                                    {
+                                        "id": 7,
+                                        "title": "Student 3"
+                                    }
+                                ],
+                                "multiSelection": true,
+                                "options": [
+                                    {
+                                        "id": 15,
+                                        "title": "Punctual"
+                                    },
+                                    {
+                                        "id": 16,
+                                        "title": "Attentive"
+                                    },
+                                    {
+                                        "id": 17,
+                                        "title": "Inquisitive"
+                                    },
+                                    {
+                                        "id": 18,
+                                        "title": "Cordial"
+                                    }
+                                ],
+                                "type": "grading"
+                            }
+                        },
+                        {
+                            "id": 7,
+                            "instructions": "Rank these items",
+                            "required": false,
+                            "settings": {
+                                "options": [
+                                    {
+                                        "id": 19,
+                                        "title": "Employee 1"
+                                    },
+                                    {
+                                        "id": 20,
+                                        "title": "Employee 2"
+                                    },
+                                    {
+                                        "id": 21,
+                                        "title": "Employee 3"
+                                    },
+                                    {
+                                        "id": 22,
+                                        "title": "Employee 4"
+                                    },
+                                    {
+                                        "id": 23,
+                                        "title": "Employee 5"
+                                    },
+                                    {
+                                        "id": 24,
+                                        "title": "Employee 6"
+                                    }
+                                ],
+                                "selectionCount": 3,
+                                "type": "ranking"
+                            }
+                        }
+                    ],
+                    "title": null
+                },
+                {
+                    "description": "This is the description for section 1",
+                    "questions": [
+                        {
+                            "id": 8,
+                            "instructions": "Enter short text",
+                            "required": false,
+                            "settings": {
+                                "maximumLength": 1000,
+                                "type": "text"
+                            }
+                        },
+                        {
+                            "id": 9,
+                            "instructions": "Enter long text",
+                            "required": true,
+                            "settings": {
+                                "maximumLength": 2000,
+                                "type": "text"
+                            }
+                        },
+                        {
+                            "id": 10,
+                            "instructions": "Enter date (MM/DD/YYYY)",
+                            "required": false,
+                            "settings": {
+                                "type": "date"
+                            }
+                        }
+                    ],
+                    "title": "Section 1"
+                },
+                {
+                    "description": "This is the description for section 2",
+                    "questions": [
+                        {
+                            "id": 11,
+                            "instructions": "Enter number",
+                            "required": false,
+                            "settings": {
+                                "type": "number"
+                            }
+                        },
+                        {
+                            "id": 12,
+                            "instructions": "Enter currency",
+                            "required": false,
+                            "settings": {
+                                "type": "currency"
+                            }
+                        },
+                        {
+                            "id": 13,
+                            "instructions": "Select yes or no",
+                            "required": false,
+                            "settings": {
+                                "type": "boolean"
+                            }
+                        }
+                    ],
+                    "title": "Section 2"
+                }
+            ],
+            "title": "Test Survey"
+        }
+
+## Survey Responses [/surveys/{surveyId}/responses{?association,user,surveyResponseId}]
+This resource allows you to create, update or retrieve responses to surveys for a respondent (user).
+
+### Get Survey Responses. [GET]
+This resource takes in the association and survey id as required parameters, and optionally the user token or survey response id, and returns the survey response(s).
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + surveyId: `1` (number, required) - the survey id.
+    + user: `USER_TOKEN` (string, optional) - the user token representing the user.
+    + surveyResponseId: `12345` (number, optional) - the survey response id returned when the non-anonymous survey was POSTed. Returns a single survey response.
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "answers": [
+                    {
+                        "items": [
+                            {
+                                "values": [
+                                    "This is a sample response."
+                                ]
+                            }
+                        ],
+                        "questionId": 908
+                    },
+                    {
+                        "items": [
+                            {
+                                "values": [
+                                    "false"
+                                ]
+                            }
+                        ],
+                        "questionId": 909
+                    }
+                ],
+                "surveyId": 1,
+                "surveyResponseId": 12345
+            }
+        ]
+        
+### Post Survey Response. [POST]
+Post a survey response for a user. Returns the survey response id on successful post. You will not get a surveyResponseId after posting a response to an anonymous survey. This is to keep the user and their responses anonymous.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
+    + Body
+    ```
+    {
+        "answers": [
+            {
+                "items": [
+                    {
+                        "values": [
+                            "989"
+                        ]
+                    }
+                ],
+                "questionId": 67
+            },
+            {
+                "items": [
+                    {
+                        "values": [
+                            "767",
+                            "656"
+                        ]
+                    }
+                ],
+                "questionId": 68
+            },
+            {
+                "items": [
+                    {
+                        "id": "39941",
+                        "values": [
+                            "545"
+                        ]
+                    },
+                    {
+                        "id": "39942",
+                        "values": [
+                            "545"
+                        ]
+                    },
+                    {
+                        "id": "39943",
+                        "values": [
+                            "546"
+                        ]
+                    },
+                    {
+                        "id": "39954",
+                        "values": [
+                            "549"
+                        ]
+                    }
+                ],
+                "questionId": 69
+            },
+            {
+                "items": [
+                    {
+                        "id": "444",
+                        "values": [
+                            "899",
+                            "900"
+                        ]
+                    },
+                    {
+                        "id": "445",
+                        "values": [
+                            "898",
+                            "899",
+                            "900"
+                        ]
+                    },
+                    {
+                        "id": "446",
+                        "values": [
+                            "900"
+                        ]
+                    }
+                ],
+                "questionId": 70
+            },
+            {
+                "items": [
+                    {
+                        "id": "451",
+                        "values": [
+                            "1"
+                        ]
+                    },
+                    {
+                        "id": "365",
+                        "values": [
+                            "2"
+                        ]
+                    },
+                    {
+                        "id": "523",
+                        "values": [
+                            "3"
+                        ]
+                    }
+                ],
+                "questionId": 71
+            },
+            {
+                "items": [
+                    {
+                        "values": [
+                            "This is some text"
+                        ]
+                    }
+                ],
+                "questionId": 72
+            },
+            {
+                "items": [
+                    {
+                        "values": [
+                            "2/20/2020"
+                        ]
+                    }
+                ],
+                "questionId": 73
+            },
+            {
+                "items": [
+                    {
+                        "values": [
+                            "123"
+                        ]
+                    }
+                ],
+                "questionId": 74
+            }
+        ],
+        "surveyId": 12345
+    }
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + surveyId: `1` (number, required) - the survey id.
+    + user: `USER_TOKEN` (string, optional) - the user token representing the user.
+
++ Response 200 (application/json)
+
+        {
+            "surveyResponseId": 123456789
+        }
+
+# group Users
+
+## User [/users/{userToken}{?association,sitenumber}]
+This is the user resource. You can use it to create, update or get a user record. This also makes the user a member of the association.
+
+### Get Single User [GET]
+This resource takes in the association and user token as parameters and returns the user.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    + userToken: `USER_TOKEN` (string, required) - the user token representing the user.
+    
++ Response 200 (application/json)
+
+        {
+            "businessAddress": {
+                "checksum": "1492780629",
+                "city": "Some City",
+                "county": "Some County",
+                "state": "XY",
+                "streetAddress": "123 Some Ave, Suite 101",
+                "zipCode": "11111",
+                "zipCodeExtension": "1111"
+            },
+            "businessCompanyName": null,
+            "businessPositionName": "my title",
+            "emailAddress": "myemail@votervoice.net",
+            "faxNumber": "2222222222",
+            "givenNames": "Fname M.",
+            "homeAddress": {
+                "checksum": "7493785429",
+                "city": "Home City",
+                "county": "Home County",
+                "state": "XY",
+                "streetAddress": "123 Home St, Apt 302",
+                "zipCode": "11111",
+                "zipCodeExtension": "2222"
+            },
+            "honorific": "Mr.",
+            "isNonDeliverableEmail": false,
+            "phoneNumber": "2222222221",
+            "suffix": "Jr.",
+            "surname": "Lname",
+            "userId": 1
+        }
+
+### Update User [PUT]
+Updates the user. The PUT will take in the user data object along with the parameters and returns an object containing the user id and the user token with the format: {userId, userToken}.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    + userToken: `USER_TOKEN` (string, required) - the user token representing the user.
+    
++ Request (application/json)
+
+        {
+            "businessPositionName": "My title",
+            "businessCompanyName": "Some Company, LLC",
+            "emailAddress": "johnsmith@votervoice.net",
+            "faxNumber": "2220000001",
+            "givenNames": "Jane",
+            "homeAddress": {
+                "checksum": 74232945,
+                "city": "Home City",
+                "county": "Home County",
+                "state": "CA",
+                "streetAddress": "123 Neighborhood Ave, Apt 300",
+                "zipCode": "95125",
+                "zipCodeExtension": "0120"
+            },
+            "honorific": "Ms.",
+            "phoneNumber": "2220000000",
+            "surname": "Doe",
+            "userId": 1,
+            "customFieldValues": [
+                {"id": "1234", "values": ["Some Text"]},
+                {"id": "1235", "values": ["01/31/2014"]},
+                {"id": "1236", "values": ["23.75"]},
+                {"id": "1237", "values": [false]}
+            ]
+        }
+
++ Response 200 (application/json)
+
+        {
+            "userId": 1,
+            "userToken": "USER_TOKEN"
+        }
+
+## Creating a User [/users/{?association,sitenumber}]
+
+### Create User [POST]
+Creates an user. The POST will take in the user data object along with the parameters and returns an object containing the new user id and the new user token with the format: {userId, userToken}
+
+If a user already exists with the given emailAddress, the server update that user only if the user data provided is not significantly different. If the user data provided is significantly different, a status code of 409 will be returned.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + sitenumber: `0` (number, optional) - the site number for the association for this operation. If for default site, you can omit this parameter.
+    
++ Request (application/json)
+
+        {
+            "businessPositionName": "My title",
+            "businessCompanyName": "Some Company, LLC",
+            "emailAddress": "johnsmith@votervoice.net",
+            "faxNumber": "2220000001",
+            "givenNames": "Jane",
+            "homeAddress": {
+                "checksum": 74232945,
+                "city": "Home City",
+                "county": "Home County",
+                "state": "CA",
+                "streetAddress": "123 Neighborhood Ave, Apt 300",
+                "zipCode": "95125",
+                "zipCodeExtension": "0120"
+            },
+            "honorific": "Ms.",
+            "phoneNumber": "2220000000",
+            "surname": "Doe"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "userId": 1,
+            "userToken": "USER_TOKEN"
+        }
+        
+## User Identities [/users/identities{?association,email,ownershipProof,contactId,groupList}]
+Searches for users that are matched to the combination of information that has been provided.
+
+### Get User Identities [GET]
+Gets an array of users that match the criteria given. Use the following combinations in order to retrieve the user identities:
+- email and ownershipProof
+- email and zipCode
+- contactId
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + email: `johnsmith@votervoice.net` (string, optional) - email address of the person.
+    + ownershipProof: `abcde` (string, optional) - a code proving ownership of the email address.
+    + contactId: 'abcde' (string, optional) - your internal identifier for the person.
+    + groupList: '1' (number, optional) - the numeric identifier of a contact list to search when searching a non-default list.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "givenNames": "John",
+                "surname": "Smith",
+                "token": "ABCDE"
+            }
+        ]
+
+## User Activities [/users/{userToken}/activities{?association}]
+This resources provides historical data of a user's activities with an association.
+
+### Get User Activities [GET]
+Gets an array of user activity for an association.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + userToken: `USER_TOKEN` (string, required) - the user token representing the user.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "dateTimeUtc": "2016-12-21T21:30Z",
+                "recipient": {
+                    "id": 1,
+                    "deliveryMethod": "WebForm",
+                    "displayName": "Representative FirstName LastName",
+                    "profileId": 1,
+                    "profileType": "E"
+                },
+                "responseId": 12345,
+                "status": "Pending Delivery",
+                "subject": {
+                    "id": 1,
+                    "title": "Campaign Title",
+                    "alert": "Campaign web alert",
+                    "type": "Advocacy"
+                },
+                "type": "Response"
+            },
+            {
+                "dateTimeUtc": "2016-12-21T21:30Z",
+                "responseId": 12345,
+                "subject": {
+                    "id": 1,
+                    "title": "Survey Title",
+                    "alert": "Survey web alert",
+                    "type": "Survey"
+                },
+                "type": "Response"
+            } ,
+            {
+                "dateTimeUtc": "2016-12-21T21:30Z",
+                "responseId": 12345,
+                "subject": {
+                    "id": 1,
+                    "title": "Event Title",
+                    "alert": "Eventweb alert",
+                    "type": "Event"
+                },
+                "type": "Delete"
+            },
+            {
+                "dateTimeUtc": "2016-12-21T21:30Z",
+                "subject": {
+                "type": "Subscription"
+                },
+                "type": "Delete"
+            }
+        ]
+
+## User Memberships [/users/{userToken}/memberships{?association,sitenumber}]
+This resource can be used to create or modify the membership of a user to an association site as well as whole sale subscription to messages from that association site.
+
+### Get User Membership [GET]
+Gets a membership record for the user with the association.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + userToken: `USER_TOKEN` (string, required) - the user token representing the user.
+
++ Request (application/json)
+
+        {
+            "isSubscriber": false,
+            "isTextSubscriber": true,
+            "contactId": "contactId"
+        }
+
++ Response 200 (application/json)
+
+## User Relationships [/users/{userToken}/relationships{?association,politicianId}]
+This resource can be used to get, save or remove the relationship of a user to an elected official in the context of an association.
+
+### Get User Relationships [GET]
+Gets an array of the user relationships.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + userToken: `USER_TOKEN` (string, required) - the user token representing the user.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "details": "I play golf with him on weekends",
+                "politicianName": "Governor John Doe",
+                "politicianId": 10001,
+                "type": {
+                    "id": 101,
+                    "name": "Family Friend"
+                }
+            },
+            {
+                "details": "I insure his assets",
+                "politicianName": "Councilmember John Smith",
+                "politicianId": 10002,
+                "type": {
+                    "id": null,
+                    "name": "Other"
+                }
+            }
+        ]
+
+### Create User Relationships [POST]
+Creates user relationships for a user.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
+    + Body
+    ```
+    [
+        {
+            "details": "I play golf with him on weekends",
+            "politicianName": "Governor John Doe",
+            "politicianId": 10001,
+            "type": {
+                "id": 101,
+                "name": "Family Friend"
+            }
+        },
+        {
+            "details": "I insure his assets",
+            "politicianName": "Councilmember John Smith",
+            "politicianId": 10002,
+            "type": {
+                "id": null,
+                "name": "Other"
+            }
+        }
+    ]
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + userToken: `USER_TOKEN` (string, required) - the user token representing the user.
+
++ Response 200 (application/json)
+
+### Delete User Relationships [DELETE]
+Deletes a user relationships with a politician.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association. 
+    + userToken: `USER_TOKEN` (string, required) - the user token representing the user.
+    + politicianId: `1` (number, required) = the politician id.
+
++ Response 200 (application/json)
+
+## User Subscriptions [/users/{userToken}/subscriptions{?association}]
+This resource can be used to get or update the subscription status of a user to an association.
+
+### Get User Subscriptions [GET]
+Gets an array of the user relationships.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.  
+    + userToken: `USER_TOKEN` (string, required) - the user token representing the user.
+
++ Response 200 (application/json)
+        
+        {
+            "email": "john.doe@votervoice.net",
+            "subscribed": false,
+            "subscriptions": [
+                {
+                    "newsletterTemplateId": null,
+                    "subscribed": false,
+                    "title": "General Information Alerts",
+                    "type": "Informational"
+                }
+            ],
+            "unregisteredUser": false
+        }
+
+### Update User Subscriptions [PUT]
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+
+    + Body
+    ```
+        {
+            "email": "john.doe@votervoice.net",
+            "subscribed": true,
+            "subscriptions": [
+                {
+                    "newsletterTemplateId": null,
+                    "subscribed": true,
+                    "title": "General Information Alerts",
+                    "type": "Informational"
+                }
+            ]
+        }
+    ```
+
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.  
+    + userToken: `USER_TOKEN` (string, required) - the user token representing the user.
+
++ Response 200 (application/json)
+
+# group Voter Registration
+
+## Voter Registration Instructions [/voterregistration/instructions{?association,state}]
+This resource returns the voter registration instructions for the state provided.
+
+### Get Voter Registration Instructions [GET]
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + state: `CA` (string, required) - two letter state abbreviation.
+
++ Response 200 (application/json)
+
+        {
+            "deadline": "15 days before the election.",
+            "eligibilityRequirements": "To register in California you must:<ul><li>be a citizen of the United States<\/li><li>be a resident of California<\/li><li>be at least 18 years of age at the time of the next election<\/li><li>not be imprisoned or on parole for the conviction of a felony<\/li><li>not currently be judged mentally incompetent by a court of law.<\/li><li>Signature is required. If you meet the requirements listed above, please sign and date the registration card in the space provided.<\/li><\/ul>",
+            "ethnicityInstructions": {
+                "hidden": false,
+                "required": false,
+                "text": "Leave blank."
+            },
+            "identificationInstructions": {
+                "hidden": false,
+                "required": true,
+                "text": "When you register to vote, you must provide your California driver's license or California identification card number, if you have one. If you do not have a driver's license or ID card, you must provide the last four digits of your Social Security Number (SSN). If you do not include this information, you will be required to provide identification when you vote."
+            },
+            "partyInstructions": {
+                "hidden": false,
+                "required": true,
+                "text": "Please enter the name of the political party with which you wish to register. If you do not wish to register with any party, enter \"\"Decline to State\"\" in the space provided. California law allows voters who \"\"decline to state\"\" an affiliation with a qualified political party or who affiliate with a nonqualified political party to vote in the primary election of any qualified political party that files a notice with the Secretary of State allowing them to do so. You can call 1-800-345-VOTE or visit <a href=\"\"http:\/\/www.sos.ca.gov\"\">www.sos.ca.gov<\/a> to learn which political parties are allowing nonaffiliated voters to participate in their primary election."
+            },
+            "state": "CA"
+        }
+
+# Data Structures
+
+## AddressContract (object)
+
++ checksum: `-1234567890` (number) - small-sized datum used for the purpose of detecting errors that may have been introduced address transmission.
++ city : `Washington` (string)
++ country : `US` (string)
++ county : `District of Columbia` (string)
++ state : `DC` (string)
++ streetAddress : `1600 Pennsylvania Ave NW` (string)
++ zipCode : `20500` (string)
++ zipCodeExtension : `0003` (string)
+
+## AdvocacyResponse (object)
+
++ association: `YOUR_ASSOCIATION_IDNAME` (string) - The VoterVoice acronym for the association
++ userId: `1` (number) - user's VoterVoice identifier
++ campaignId: `12345` (number) - The VoterVoice campaign id. This is to be provided only if the response if for an advocacy campaign
++ defaultAddressType: `H` (string) - The default address type: H (for Home) or B (for Business).
++ messages (array[UserAdvocacyMessage]) - An array of the User Advocacy Messages that need to be sent
+
+## TargetDeliveryContract (object)
+
++ type: `E` (string) - VoterVoice target type
++ id: `1` (number) - VoterVoice identifier for target
++ deliveryMethod: webform (string) - channel used to deliver message. Possible Values: "webform","email","fax","letter","phone"
++ questionnaire (array)
+    + (object)
+        + question: Topic
+        + answer: Energy
+
+## UserAdvocacyMessage (object)
+
++ messageId: 1111 (number) - This is the targeted message identifier. If the message is in the context of an advocacy campaign, this must be provided. The available targeted messages for a campaign can be retrieved form this resource.
++ targets (array[TargetDeliveryContract]) - an array of target delivery contracts
++ subject: this is the subject (string) - message subject
++ body: this is the message body (string) - message body
++ complimentaryClose: Sincerely, (string) - valediction for the message
++ modified: true (boolean) - a value indicating whether the user helped to create this message. This should usually be true, but if the user was provided a message to submit and did not edit it, then this must be false.
++ recipientName - This parameter will contain the name of the target of the message. It is used only for Phone Campaigns.
