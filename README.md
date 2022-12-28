@@ -4,10 +4,9 @@
 
 In order to use the API, you need to have purchased an advocacy package from VoterVoice and have access to the authentication key for the API. If you do not have your authentication key, please get in touch with your Account Manager. *Do not share this authentication key* as it identifies API usage by your organization.
 
-If you have any questions or concerns regarding this API, please <a href="mailto:vvsupport@fiscalnote.com">contact us</a>.
+More documentation and a request sandbox is available in our <a href="https://votervoice.docs.apiary.io/">VoterVoice API Docs</a>.
 
-
-## API Url
+## API URL
 ```
 https://www.votervoice.net/api/
 ```
