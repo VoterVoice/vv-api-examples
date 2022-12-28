@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "9d1a0198-a229-4b2f-a3fa-f044c1b957b0",
+		"_postman_id": "1f53cc23-9daf-4b25-89a4-d7f994d08b3a",
 		"name": "VoterVoice API",
 		"description": "Welcome to the VoterVoice REST API! In order to use the API, you need to have purchased an advocacy package from VoterVoice and have access to the authentication key for the API. \n\nIf you do not have your authentication key, please get in touch with your Account Manager. Do not share this authentication key as it identifies API usage by your organization.\n\nThe documentation provided as part of this Postman collection is for convenience and does not include complete, up-to-date information about the VoterVoice API. \n\nFor the complete documentation, see https://votervoice.docs.apiary.io.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13111790"
 	},
 	"item": [
 		{
@@ -32,7 +33,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://www.votervoice.net/Api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
+							"raw": "https://www.votervoice.net/api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -51,7 +52,7 @@
 								},
 								{
 									"key": "address2",
-									"value": null,
+									"value": "",
 									"description": "(optional)",
 									"disabled": true
 								},
@@ -72,13 +73,13 @@
 								},
 								{
 									"key": "country",
-									"value": null,
+									"value": "",
 									"description": "(optional) The two character country code (per ISO 3166 Alpha 2). This is a case sensitive field and needs to be submitted in upper case. Default: ",
 									"disabled": true
 								},
 								{
 									"key": "simpleLookup",
-									"value": null,
+									"value": "",
 									"description": "(optional) Passing true allows a lesser address validation standard. ONLY for use in adding contacts through /contacts.",
 									"disabled": true
 								}
@@ -99,7 +100,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://www.votervoice.net/Api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
+									"raw": "https://www.votervoice.net/api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -171,7 +172,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://www.votervoice.net/Api/addresses?zipcode=20500&country=US&simpleLookup=true",
+							"raw": "https://www.votervoice.net/api/addresses?zipcode=20500&country=US&simpleLookup=true",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -191,7 +192,7 @@
 								},
 								{
 									"key": "address2",
-									"value": null,
+									"value": "",
 									"description": "(optional)",
 									"disabled": true
 								},
@@ -239,6 +240,31 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"url": {
+							"raw": "https://www.votervoice.net/api/districts?association={{ASSOCIATION_IDNAME}}&address",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"api",
+								"districts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "address",
+									"value": null,
+									"description": "*required* Url encoded home address (in JSON format) returned by our addresses resource (MUST have the checksum)"
+								}
+							]
+						},
 						"description": "This resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association.\n\nThe address query should be the JSON representation of the result returned from validating an address through the address resource."
 					},
 					"response": [
@@ -248,7 +274,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://www.votervoice.net/api/districts?association={{IDNAME}}&address=%7B%0A%20%20%22checksum%22%3A%20%22169599838%22%2C%0A%20%20%22city%22%3A%20%22Washington%22%2C%0A%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%22county%22%3A%20%22District%20of%20Columbia%22%2C%0A%20%20%22state%22%3A%20%22DC%22%2C%0A%20%20%22streetAddress%22%3A%20null%2C%0A%20%20%22zipCode%22%3A%20%2220500%22%2C%0A%20%20%22zipCodeExtension%22%3A%20null%0A%7D",
+									"raw": "https://www.votervoice.net/api/districts?association={{ASSOCIATION_IDNAME}}&address=%7B%0A%20%20%22checksum%22%3A%20%22169599838%22%2C%0A%20%20%22city%22%3A%20%22Washington%22%2C%0A%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%22county%22%3A%20%22District%20of%20Columbia%22%2C%0A%20%20%22state%22%3A%20%22DC%22%2C%0A%20%20%22streetAddress%22%3A%20null%2C%0A%20%20%22zipCode%22%3A%20%2220500%22%2C%0A%20%20%22zipCodeExtension%22%3A%20null%0A%7D",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -262,7 +288,7 @@
 									"query": [
 										{
 											"key": "association",
-											"value": "{{IDNAME}}"
+											"value": "{{ASSOCIATION_IDNAME}}"
 										},
 										{
 											"key": "address",
@@ -291,6 +317,30 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"url": {
+							"raw": "https://www.votervoice.net/api/districts?association={{ASSOCIATION_IDNAME}}&zip=10001",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"api",
+								"districts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "zip",
+									"value": "10001"
+								}
+							]
+						},
 						"description": "This resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association.\n\nThe address query should be the JSON representation of the result returned from validating an address through the address resource."
 					},
 					"response": [
@@ -300,7 +350,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://www.votervoice.net/api/districts?association={{IDNAME}}&zip=10001",
+									"raw": "https://www.votervoice.net/api/districts?association={{ASSOCIATION_IDNAME}}&zip=10001",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -314,7 +364,7 @@
 									"query": [
 										{
 											"key": "association",
-											"value": "{{IDNAME}}"
+											"value": "{{ASSOCIATION_IDNAME}}"
 										},
 										{
 											"key": "zip",
@@ -339,6 +389,1392 @@
 				}
 			],
 			"description": "# Districts\n\nThis resource can provide all of the districts matched for a given address and that are included in the advocacy package for the association."
+		},
+		{
+			"name": "Contacts",
+			"item": [
+				{
+					"name": "Contacts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&dateUpdated=>2022-12-04T19:32:47.0000000Z",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "dateUpdated",
+									"value": ">2022-12-04T19:32:47.0000000Z",
+									"description": "(optional ISO 8601 formatted date range) The dateUpdated, email, and contactId are all optional but at least one must be specified."
+								},
+								{
+									"key": "email",
+									"value": "CONTACT@SOMEDOMAIN.com",
+									"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified.",
+									"disabled": true
+								},
+								{
+									"key": "contactId",
+									"value": "YOUR_LOCAL_CONTACTID",
+									"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified.",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "dateUpdated",
+									"description": "(optional string) The field name to sort by.",
+									"disabled": true
+								},
+								{
+									"key": "orderDesc",
+									"value": "true",
+									"description": "(optional bool) This will change the sorting of results to descending order if true.",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "(optional integer) The maximum number of records to retrieve",
+									"disabled": true
+								},
+								{
+									"key": "pageNumber",
+									"value": "1",
+									"description": "(optional integer) For use with the limit parameter.  Multiply the pageNumber times the limit to determine the starting index for record retrieval.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Contact by ContactId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "contactId",
+											"value": "YOUR_LOCAL_CONTACTID",
+											"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:10:39 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=Kny4XesG8ljNoLTKhzourz42WRigCogYwm3Y5NVNSAuf1vCZp0360vxpZUb2NDNfd5Era3/pVJXLoBRAZF1WaOoeaPJmpfUq7QAa9v1Iptmv+msafbUPHnOizEwI; Expires=Wed, 04 Jan 2023 20:10:39 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=Kny4XesG8ljNoLTKhzourz42WRigCogYwm3Y5NVNSAuf1vCZp0360vxpZUb2NDNfd5Era3/pVJXLoBRAZF1WaOoeaPJmpfUq7QAa9v1Iptmv+msafbUPHnOizEwI; Expires=Wed, 04 Jan 2023 20:10:39 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf0ccb87d2ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"membership\": {\n            \"groupList\": null,\n            \"contactId\": \"YOUR_LOCAL_CONTACTID\",\n            \"dateRegistered\": null\n        },\n        \"honorific\": \"Mr.\",\n        \"givenNames\": \"CONTACT_FIRSTNAME\",\n        \"surname\": \"CONTACT_LASTNAME\",\n        \"suffix\": null,\n        \"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n        \"phoneNumber\": \"2222222222\",\n        \"faxNumber\": null,\n        \"businessCompanyName\": \"CONTACT COMPANY\",\n        \"businessPositionName\": \"CEO\",\n        \"homeAddress\": {\n            \"streetAddress\": \"6100 Corporate Blvd\",\n            \"city\": \"Baton Rouge\",\n            \"state\": \"LA\",\n            \"county\": \"East Baton Rouge\",\n            \"zipCode\": \"70808\",\n            \"zipCodeExtension\": \"2717\",\n            \"country\": \"US\"\n        },\n        \"businessAddress\": null,\n        \"isNonDeliverableEmail\": false,\n        \"dateUpdated\": \"2022-12-27T21:35:44.0000000Z\"\n    }\n]"
+						},
+						{
+							"name": "Get Contacts after specified datetime",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&dateUpdated=>2022-12-28T19:32:47.0000000Z",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "dateUpdated",
+											"value": ">2022-12-28T19:32:47.0000000Z",
+											"description": "(optional ISO 8601 formatted date range) The dateUpdated, email, and contactId are all optional but at least one must be specified."
+										},
+										{
+											"key": "email",
+											"value": "CONTACT@SOMEDOMAIN.com",
+											"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified.",
+											"disabled": true
+										},
+										{
+											"key": "contactId",
+											"value": "YOUR_LOCAL_CONTACTID",
+											"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified.",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "dateUpdated",
+											"description": "(optional string) The field name to sort by.",
+											"disabled": true
+										},
+										{
+											"key": "orderDesc",
+											"value": "true",
+											"description": "(optional bool) This will change the sorting of results to descending order if true.",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "100",
+											"description": "(optional integer) The maximum number of records to retrieve",
+											"disabled": true
+										},
+										{
+											"key": "pageNumber",
+											"value": "1",
+											"description": "(optional integer) For use with the limit parameter.  Multiply the pageNumber times the limit to determine the starting index for record retrieval.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:20:16 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=8tEZODw7qZ2EjLhuBU5E6QnQtzNHNp6eMp8xjQQjum5fLfFg4ghjqjryoMeHtWMQxMUBtNMURdEY9YO939is6LbfSoh3ANfcgCbeYMUrw7oWBzLUZzu+IQryADsP; Expires=Wed, 04 Jan 2023 20:20:16 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=8tEZODw7qZ2EjLhuBU5E6QnQtzNHNp6eMp8xjQQjum5fLfFg4ghjqjryoMeHtWMQxMUBtNMURdEY9YO939is6LbfSoh3ANfcgCbeYMUrw7oWBzLUZzu+IQryADsP; Expires=Wed, 04 Jan 2023 20:20:16 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cfee15c042ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"membership\": {\n            \"groupList\": null,\n            \"contactId\": \"TEST-CONTACT-12345\",\n            \"dateRegistered\": null\n        },\n        \"honorific\": \"Mr.\",\n        \"givenNames\": \"CONTACT_FIRSTNAME\",\n        \"surname\": \"CONTACT_LASTNAME\",\n        \"suffix\": null,\n        \"emailAddress\": \"CONTACT@SOMEDOMAINs.com\",\n        \"phoneNumber\": \"2222222222\",\n        \"faxNumber\": null,\n        \"businessCompanyName\": \"CONTACT COMPANY\",\n        \"businessPositionName\": \"CEO\",\n        \"homeAddress\": {\n            \"streetAddress\": \"6100 Corporate Blvd\",\n            \"city\": \"Baton Rouge\",\n            \"state\": \"LA\",\n            \"county\": \"East Baton Rouge\",\n            \"zipCode\": \"70808\",\n            \"zipCodeExtension\": \"2717\",\n            \"country\": \"US\"\n        },\n        \"businessAddress\": null,\n        \"isNonDeliverableEmail\": false,\n        \"dateUpdated\": \"2022-12-28T20:19:16.0000000Z\"\n    },\n    {\n        \"membership\": {\n            \"groupList\": null,\n            \"contactId\": \"YOUR_LOCAL_CONTACTID\",\n            \"dateRegistered\": null\n        },\n        \"honorific\": \"Mr.\",\n        \"givenNames\": \"CONTACT_FIRSTNAME\",\n        \"surname\": \"CONTACT_LASTNAME\",\n        \"suffix\": null,\n        \"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n        \"phoneNumber\": \"2222222222\",\n        \"faxNumber\": null,\n        \"businessCompanyName\": \"CONTACT COMPANY\",\n        \"businessPositionName\": \"CEO\",\n        \"homeAddress\": {\n            \"streetAddress\": \"6100 Corporate Blvd\",\n            \"city\": \"Baton Rouge\",\n            \"state\": \"LA\",\n            \"county\": \"East Baton Rouge\",\n            \"zipCode\": \"70808\",\n            \"zipCodeExtension\": \"2717\",\n            \"country\": \"US\"\n        },\n        \"businessAddress\": null,\n        \"isNonDeliverableEmail\": false,\n        \"dateUpdated\": \"2022-12-28T20:19:37.0000000Z\"\n    }\n]"
+						},
+						{
+							"name": "Get Contact By Email",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&email=CONTACT@SOMEDOMAIN.com",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "email",
+											"value": "CONTACT@SOMEDOMAIN.com",
+											"description": "(optional string) The dateUpdated, email, and contactId are all optional but at least one must be specified."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:10:58 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=FBKsBjwf5jNSG2RMSRFHuD2DBwmxPZAUWJYcxnhMCgMlMrGJH6g24crKtJ0HcPvDjkWMYVSMbEhe8fNRA8/A5mLq8+OrXC7bu/4SiNHeDkKXEozgDy5dD+baXYrI; Expires=Wed, 04 Jan 2023 20:10:58 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=FBKsBjwf5jNSG2RMSRFHuD2DBwmxPZAUWJYcxnhMCgMlMrGJH6g24crKtJ0HcPvDjkWMYVSMbEhe8fNRA8/A5mLq8+OrXC7bu/4SiNHeDkKXEozgDy5dD+baXYrI; Expires=Wed, 04 Jan 2023 20:10:58 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf1418d612ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"membership\": {\n            \"groupList\": null,\n            \"contactId\": \"YOUR_LOCAL_CONTACTID\",\n            \"dateRegistered\": null\n        },\n        \"honorific\": \"Mr.\",\n        \"givenNames\": \"CONTACT_FIRSTNAME\",\n        \"surname\": \"CONTACT_LASTNAME\",\n        \"suffix\": null,\n        \"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n        \"phoneNumber\": \"2222222222\",\n        \"faxNumber\": null,\n        \"businessCompanyName\": \"CONTACT COMPANY\",\n        \"businessPositionName\": \"CEO\",\n        \"homeAddress\": {\n            \"streetAddress\": \"6100 Corporate Blvd\",\n            \"city\": \"Baton Rouge\",\n            \"state\": \"LA\",\n            \"county\": \"East Baton Rouge\",\n            \"zipCode\": \"70808\",\n            \"zipCodeExtension\": \"2717\",\n            \"country\": \"US\"\n        },\n        \"businessAddress\": null,\n        \"isNonDeliverableEmail\": false,\n        \"dateUpdated\": \"2022-12-27T21:35:44.0000000Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create a Contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create a Contact",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
+								},
+								"url": {
+									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:12:56 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=xiZkuDXMK4m/08Qgij9dKfBf+ri5PRfaTSb1Q1FIrG3Sgj46s/gH9WQOYOUuLNdpvtCzDWx4lZSQORthXFs0T94NfAlSp4elCDKk1nOU0CEQjuL+orGb0mLAaIjZ; Expires=Wed, 04 Jan 2023 20:12:56 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=xiZkuDXMK4m/08Qgij9dKfBf+ri5PRfaTSb1Q1FIrG3Sgj46s/gH9WQOYOUuLNdpvtCzDWx4lZSQORthXFs0T94NfAlSp4elCDKk1nOU0CEQjuL+orGb0mLAaIjZ; Expires=Wed, 04 Jan 2023 20:12:56 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf4262ac12ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update a Contact",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "contactId",
+									"value": "YOUR_LOCAL_CONTACTID",
+									"description": "*required string*"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update a Contact",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
+								},
+								"url": {
+									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "contactId",
+											"value": "YOUR_LOCAL_CONTACTID",
+											"description": "*required string*"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:13:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=hxZqUPwwqjPFjoj/TDESTAkZnCHk/VqmjYUQyLJ0r4kCLDhS4U+UrzfSiCS27NwWWEsEcOGlCI/EqykYuEdFsBdoL3VYbH3wqyj8KhFrQwvOGeAHCfrPC71O+akd; Expires=Wed, 04 Jan 2023 20:13:16 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=hxZqUPwwqjPFjoj/TDESTAkZnCHk/VqmjYUQyLJ0r4kCLDhS4U+UrzfSiCS27NwWWEsEcOGlCI/EqykYuEdFsBdoL3VYbH3wqyj8KhFrQwvOGeAHCfrPC71O+akd; Expires=Wed, 04 Jan 2023 20:13:16 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf4a44da42ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Patch a Contact Id",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"membership\": {\r\n        \"contactId\": \"YOUR_LOCAL_CONTACTID\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&temporaryContactId=",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "temporaryContactId",
+									"value": "",
+									"description": "*required string* An encrypted key as a string to temporarily identify a contact.  This key can be obtained through the GET CONTACTS call."
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Patch a Contact Id",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"membership\": {\r\n        \"contactId\": \"NC12345U\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&temporaryContactId=eyJJc1JlZ2lzdGVyZWQiOnRydWUsIlVzZXJJZCI6MjIzMDE4OSwiT2xkVHlwZUNvZGUiOiJVIiwiQ29udGFjdElkIjpudWxsfQ==",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "temporaryContactId",
+											"value": "eyJJc1JlZ2lzdGVyZWQiOnRydWUsIlVzZXJJZCI6MjIzMDE4OSwiT2xkVHlwZUNvZGUiOiJVIiwiQ29udGFjdElkIjpudWxsfQ==",
+											"description": "*required string* An encrypted key as a string to temporarily identify a contact.  This key can be obtained through the GET CONTACTS call."
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:24:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=5XwAcCetd6gbcvh289FDexCVuvCLETpGOW+Iynil17YMu0e4tKULmdsVRXA/IjqmnnWU34gcRDJO3CZNZVhvGj5ZWmxvCb9jCtz73APvtDwy6ZjtTfbLoN56yGig; Expires=Wed, 04 Jan 2023 20:24:38 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=5XwAcCetd6gbcvh289FDexCVuvCLETpGOW+Iynil17YMu0e4tKULmdsVRXA/IjqmnnWU34gcRDJO3CZNZVhvGj5ZWmxvCb9jCtz73APvtDwy6ZjtTfbLoN56yGig; Expires=Wed, 04 Jan 2023 20:24:38 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780d0548fa812ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete a Contact",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": ""
+							}
+						},
+						"url": {
+							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "contactId",
+									"value": "YOUR_LOCAL_CONTACTID",
+									"description": "*required string*"
+								},
+								{
+									"key": "groupList",
+									"value": "Default List",
+									"description": "(optional string) Specifies a specific contact group list to search for and deleted the contact.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete a Contact",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": ""
+									}
+								},
+								"url": {
+									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "contactId",
+											"value": "YOUR_LOCAL_CONTACTID",
+											"description": "*required string*"
+										},
+										{
+											"key": "groupList",
+											"value": "Default List",
+											"description": "(optional string) Specifies a specific contact group list to search for and deleted the contact.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:12:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=mewEu4QUGSIXC8bA0KgEXLx0+RFOdUBPnWCq+vYzmysDbMy5GpML5c/Ej/xiqW55ykZ5y5nGBfB9dBPnebtoYwzSR1zDADiMqZLd/SqReBD23bwaTvMncjRGARGE; Expires=Wed, 04 Jan 2023 20:12:42 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=mewEu4QUGSIXC8bA0KgEXLx0+RFOdUBPnWCq+vYzmysDbMy5GpML5c/Ej/xiqW55ykZ5y5nGBfB9dBPnebtoYwzSR1zDADiMqZLd/SqReBD23bwaTvMncjRGARGE; Expires=Wed, 04 Jan 2023 20:12:42 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780cf3cf0c802ca2-DFW"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Governments",
+			"item": [
+				{
+					"name": "Governments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://www.votervoice.net/api/governments?association={{ASSOCIATION_IDNAME}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"governments"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Governments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=utf-8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/api/governments?association={{ASSOCIATION_IDNAME}}",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"governments"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 20:56:40 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=8swQAVba4sHnX1EviUsIzOVDFQSM/Nld4gvxPSFqM5qnY9YaoD06+2Kx2bOrt/b6W1psVxZf51ip96Ye0nwxZzCE0gZGE1kTMJD5l544iOjTGUmpr1lMhCstcSSK; Expires=Wed, 04 Jan 2023 20:56:40 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=8swQAVba4sHnX1EviUsIzOVDFQSM/Nld4gvxPSFqM5qnY9YaoD06+2Kx2bOrt/b6W1psVxZf51ip96Ye0nwxZzCE0gZGE1kTMJD5l544iOjTGUmpr1lMhCstcSSK; Expires=Wed, 04 Jan 2023 20:56:40 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "private"
+								},
+								{
+									"key": "access-control-allow-origin",
+									"value": "*"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "p3p",
+									"value": "CP=\"HONK\""
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780d34363cc566bf-DFW"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"name\": \"Federal\",\n        \"uri\": \"./USA\"\n    },\n    {\n        \"name\": \"Alaska\",\n        \"uri\": \"./USA/AK\"\n    },\n    {\n        \"name\": \"Alabama\",\n        \"uri\": \"./USA/AL\"\n    },\n    {\n        \"name\": \"Arkansas\",\n        \"uri\": \"./USA/AR\"\n    },\n    {\n        \"name\": \"American Samoa\",\n        \"uri\": \"./USA/AS\"\n    },\n    {\n        \"name\": \"Arizona\",\n        \"uri\": \"./USA/AZ\"\n    },\n    {\n        \"name\": \"California\",\n        \"uri\": \"./USA/CA\"\n    },\n    {\n        \"name\": \"Colorado\",\n        \"uri\": \"./USA/CO\"\n    },\n    {\n        \"name\": \"Connecticut\",\n        \"uri\": \"./USA/CT\"\n    },\n    {\n        \"name\": \"District of Columbia\",\n        \"uri\": \"./USA/DC\"\n    },\n    {\n        \"name\": \"Delaware\",\n        \"uri\": \"./USA/DE\"\n    },\n    {\n        \"name\": \"Florida\",\n        \"uri\": \"./USA/FL\"\n    },\n    {\n        \"name\": \"Georgia\",\n        \"uri\": \"./USA/GA\"\n    },\n    {\n        \"name\": \"Guam\",\n        \"uri\": \"./USA/GU\"\n    },\n    {\n        \"name\": \"Hawaii\",\n        \"uri\": \"./USA/HI\"\n    },\n    {\n        \"name\": \"Iowa\",\n        \"uri\": \"./USA/IA\"\n    },\n    {\n        \"name\": \"Idaho\",\n        \"uri\": \"./USA/ID\"\n    },\n    {\n        \"name\": \"Illinois\",\n        \"uri\": \"./USA/IL\"\n    },\n    {\n        \"name\": \"Indiana\",\n        \"uri\": \"./USA/IN\"\n    },\n    {\n        \"name\": \"Kansas\",\n        \"uri\": \"./USA/KS\"\n    },\n    {\n        \"name\": \"Kentucky\",\n        \"uri\": \"./USA/KY\"\n    },\n    {\n        \"name\": \"Louisiana\",\n        \"uri\": \"./USA/LA\"\n    },\n    {\n        \"name\": \"Massachusetts\",\n        \"uri\": \"./USA/MA\"\n    },\n    {\n        \"name\": \"Maryland\",\n        \"uri\": \"./USA/MD\"\n    },\n    {\n        \"name\": \"Maine\",\n        \"uri\": \"./USA/ME\"\n    },\n    {\n        \"name\": \"Michigan\",\n        \"uri\": \"./USA/MI\"\n    },\n    {\n        \"name\": \"Minnesota\",\n        \"uri\": \"./USA/MN\"\n    },\n    {\n        \"name\": \"Missouri\",\n        \"uri\": \"./USA/MO\"\n    },\n    {\n        \"name\": \"Northern Mariana Islands\",\n        \"uri\": \"./USA/MP\"\n    },\n    {\n        \"name\": \"Mississippi\",\n        \"uri\": \"./USA/MS\"\n    },\n    {\n        \"name\": \"Montana\",\n        \"uri\": \"./USA/MT\"\n    },\n    {\n        \"name\": \"North Carolina\",\n        \"uri\": \"./USA/NC\"\n    },\n    {\n        \"name\": \"North Dakota\",\n        \"uri\": \"./USA/ND\"\n    },\n    {\n        \"name\": \"Nebraska\",\n        \"uri\": \"./USA/NE\"\n    },\n    {\n        \"name\": \"New Hampshire\",\n        \"uri\": \"./USA/NH\"\n    },\n    {\n        \"name\": \"New Jersey\",\n        \"uri\": \"./USA/NJ\"\n    },\n    {\n        \"name\": \"New Mexico\",\n        \"uri\": \"./USA/NM\"\n    },\n    {\n        \"name\": \"Nevada\",\n        \"uri\": \"./USA/NV\"\n    },\n    {\n        \"name\": \"New York\",\n        \"uri\": \"./USA/NY\"\n    },\n    {\n        \"name\": \"Ohio\",\n        \"uri\": \"./USA/OH\"\n    },\n    {\n        \"name\": \"Oklahoma\",\n        \"uri\": \"./USA/OK\"\n    },\n    {\n        \"name\": \"Oregon\",\n        \"uri\": \"./USA/OR\"\n    },\n    {\n        \"name\": \"Pennsylvania\",\n        \"uri\": \"./USA/PA\"\n    },\n    {\n        \"name\": \"Puerto Rico\",\n        \"uri\": \"./USA/PR\"\n    },\n    {\n        \"name\": \"Rhode Island\",\n        \"uri\": \"./USA/RI\"\n    },\n    {\n        \"name\": \"South Carolina\",\n        \"uri\": \"./USA/SC\"\n    },\n    {\n        \"name\": \"South Dakota\",\n        \"uri\": \"./USA/SD\"\n    },\n    {\n        \"name\": \"Tennessee\",\n        \"uri\": \"./USA/TN\"\n    },\n    {\n        \"name\": \"Texas\",\n        \"uri\": \"./USA/TX\"\n    },\n    {\n        \"name\": \"Utah\",\n        \"uri\": \"./USA/UT\"\n    },\n    {\n        \"name\": \"Virginia\",\n        \"uri\": \"./USA/VA\"\n    },\n    {\n        \"name\": \"Virgin Islands\",\n        \"uri\": \"./USA/VI\"\n    },\n    {\n        \"name\": \"Vermont\",\n        \"uri\": \"./USA/VT\"\n    },\n    {\n        \"name\": \"Washington\",\n        \"uri\": \"./USA/WA\"\n    },\n    {\n        \"name\": \"Wisconsin\",\n        \"uri\": \"./USA/WI\"\n    },\n    {\n        \"name\": \"West Virginia\",\n        \"uri\": \"./USA/WV\"\n    },\n    {\n        \"name\": \"Wyoming\",\n        \"uri\": \"./USA/WY\"\n    },\n    {\n        \"name\": \"Saint Paul,MN\",\n        \"uri\": \"./USA/MN/Saint Paul(City)\"\n    },\n    {\n        \"name\": \"Hillsborough,FL\",\n        \"uri\": \"./USA/FL/Hillsborough(County)\"\n    },\n    {\n        \"name\": \"Los Angeles,CA\",\n        \"uri\": \"./USA/CA/Los Angeles(City)\"\n    },\n    {\n        \"name\": \"East Baton Rouge,LA\",\n        \"uri\": \"./USA/LA/East Baton Rouge(County)\"\n    },\n    {\n        \"name\": \"Houston,TX\",\n        \"uri\": \"./USA/TX/Houston(City)\"\n    },\n    {\n        \"name\": \"New Orleans,LA\",\n        \"uri\": \"./USA/LA/New Orleans(City)\"\n    },\n    {\n        \"name\": \"Flagstaff,AZ\",\n        \"uri\": \"./USA/AZ/Flagstaff(City)\"\n    },\n    {\n        \"name\": \"Coconino,AZ\",\n        \"uri\": \"./USA/AZ/Coconino(County)\"\n    },\n    {\n        \"name\": \"Lafayette,LA\",\n        \"uri\": \"./USA/LA/Lafayette(County)\"\n    },\n    {\n        \"name\": \"Washington,DC\",\n        \"uri\": \"./USA/DC/Washington(City)\"\n    },\n    {\n        \"name\": \"Alexandria,LA\",\n        \"uri\": \"./USA/LA/Alexandria(City)\"\n    },\n    {\n        \"name\": \"Saint Louis,MO\",\n        \"uri\": \"./USA/MO/Saint Louis(City)\"\n    },\n    {\n        \"name\": \"Los Angeles,CA\",\n        \"uri\": \"./USA/CA/Los Angeles(County)\"\n    },\n    {\n        \"name\": \"Pittsburgh,PA\",\n        \"uri\": \"./USA/PA/Pittsburgh(City)\"\n    },\n    {\n        \"name\": \"Tallahassee,FL\",\n        \"uri\": \"./USA/FL/Tallahassee(City)\"\n    },\n    {\n        \"name\": \"Eugene,OR\",\n        \"uri\": \"./USA/OR/Eugene(City)\"\n    },\n    {\n        \"name\": \"Sedgwick,KS\",\n        \"uri\": \"./USA/KS/Sedgwick(County)\"\n    },\n    {\n        \"name\": \"Cleveland,OH\",\n        \"uri\": \"./USA/OH/Cleveland(City)\"\n    },\n    {\n        \"name\": \"Saint Charles,LA\",\n        \"uri\": \"./USA/LA/Saint Charles(County)\"\n    },\n    {\n        \"name\": \"Haughton,LA\",\n        \"uri\": \"./USA/LA/Haughton(City)\"\n    },\n    {\n        \"name\": \"Anchorage,AK\",\n        \"uri\": \"./USA/AK/Anchorage(County)\"\n    },\n    {\n        \"name\": \"Acceptance Test,AK\",\n        \"uri\": \"./USA/AK/Acceptance Test(City)\"\n    },\n    {\n        \"name\": \"Cambridge,MA\",\n        \"uri\": \"./USA/MA/Cambridge(City)\"\n    },\n    {\n        \"name\": \"Plainfield,NJ\",\n        \"uri\": \"./USA/NJ/Plainfield(City)\"\n    },\n    {\n        \"name\": \"Salinas,CA\",\n        \"uri\": \"./USA/CA/Salinas(City)\"\n    },\n    {\n        \"name\": \"Ontario,CA\",\n        \"uri\": \"./USA/CA/Ontario(City)\"\n    },\n    {\n        \"name\": \"Lafayette,LA\",\n        \"uri\": \"./USA/LA/Lafayette(City)\"\n    },\n    {\n        \"name\": \"Saratoga,NY\",\n        \"uri\": \"./USA/NY/Saratoga(County)\"\n    },\n    {\n        \"name\": \"Camden,GA\",\n        \"uri\": \"./USA/GA/Camden(County)\"\n    },\n    {\n        \"name\": \"Jefferson,TN\",\n        \"uri\": \"./USA/TN/Jefferson(County)\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Officials",
+			"item": [
+				{
+					"name": "Officials",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://www.votervoice.net/api/officials?association={{ASSOCIATION_IDNAME}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"officials"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}",
+									"description": "*required string*"
+								},
+								{
+									"key": "changedSince",
+									"value": "",
+									"description": "(optional ISO 8601 formatted date range)",
+									"disabled": true
+								},
+								{
+									"key": "surname",
+									"value": "",
+									"description": "(optional string)",
+									"disabled": true
+								},
+								{
+									"key": "constituentAddress",
+									"value": "",
+									"description": "(optional string) Url encoded home address (in JSON format) returned by our addresses resource (MUST have the checksum)",
+									"disabled": true
+								},
+								{
+									"key": "government",
+									"value": "",
+									"description": "(optional string) Used to filter results to officials only to matching government entities.  Formatted as ./USA/NY or ./USA.  This parameter may also be paired with the \"state\" parameter for further filtering on the state level.",
+									"disabled": true
+								},
+								{
+									"key": "state",
+									"value": "",
+									"description": "(optional string) Used to filter results to officials only to matching government entities.  This parameter is only used in conjunction with the \"government\" parameter for further filtering on the state level. Formatting is in 2 letter abbreviations and is case sensitive.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Officials by Surname",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=utf-8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/api/officials?association={{ASSOCIATION_IDNAME}}&surname=Kennedy",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"officials"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "surname",
+											"value": "Kennedy",
+											"description": "(optional string)"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 21:15:43 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=4KFBfkyt1r7U6N8zgjCP1VLISKM4nQcFPFTNK9AZfq/dstioC+y41q8sg2yhM0HM/M/gd3i00HfHwJZqKyfTfbI5TMBdVlHHZIRwJgzwxeVQKT676e0cyuUHq0tO; Expires=Wed, 04 Jan 2023 21:15:43 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=4KFBfkyt1r7U6N8zgjCP1VLISKM4nQcFPFTNK9AZfq/dstioC+y41q8sg2yhM0HM/M/gd3i00HfHwJZqKyfTfbI5TMBdVlHHZIRwJgzwxeVQKT676e0cyuUHq0tO; Expires=Wed, 04 Jan 2023 21:15:43 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780d501daace66bf-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Federal\",\n                \"uri\": \"./USA\"\n            },\n            \"electedBody\": \"US Senate\",\n            \"delegateGovernment\": {\n                \"name\": \"Louisiana\",\n                \"uri\": \"./USA/LA\"\n            },\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 50127,\n            \"politician\": {\n                \"id\": 45009,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"John N.\",\n                    \"familiarName\": \"John\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/45009.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"https://www.kennedy.senate.gov/\",\n                \"facebook\": \"https://www.facebook.com/JohnKennedyLouisiana\",\n                \"twitter\": \"SenJohnKennedy\",\n                \"youTube\": \"https://www.youtube.com/channel/UCDgjkA5Y_npoxeUiSW18JZQ\"\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"416 Russell Senate Office Building\",\n                    \"city\": \"Washington\",\n                    \"state\": \"DC\",\n                    \"county\": null,\n                    \"zipCode\": \"20510\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"2022244623\",\n                \"faxNumber\": \"2022280447\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"500 Poydras St Ste 364\",\n                    \"city\": \"New Orleans\",\n                    \"state\": \"LA\",\n                    \"county\": null,\n                    \"zipCode\": \"70130\",\n                    \"zipCodeExtension\": \"3381\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"5045816190\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Colorado\",\n                \"uri\": \"./USA/CO\"\n            },\n            \"electedBody\": \"State House\",\n            \"electoralDistrict\": \"023\"\n        },\n        \"occupancy\": {\n            \"id\": 50534,\n            \"politician\": {\n                \"id\": 63203,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Representative\",\n                    \"givenNames\": \"Christopher L.\",\n                    \"familiarName\": \"Chris\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/63203.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"chris.kennedy.house@state.co.us\",\n                \"website\": \"http://www.kennedy4co.com/\",\n                \"facebook\": \"https://www.facebook.com/kennedy4co\",\n                \"twitter\": \"kennedy4co\",\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"200 E Colfax\",\n                    \"city\": \"Denver\",\n                    \"state\": \"CO\",\n                    \"county\": null,\n                    \"zipCode\": \"80203\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"3038662951\",\n                \"faxNumber\": \"3038662218\"\n            },\n            \"districtOffice\": null\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Connecticut\",\n                \"uri\": \"./USA/CT\"\n            },\n            \"electedBody\": \"State House\",\n            \"electoralDistrict\": \"119\"\n        },\n        \"occupancy\": {\n            \"id\": 54168,\n            \"politician\": {\n                \"id\": 66286,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Representative\",\n                    \"givenNames\": \"Kathy\",\n                    \"familiarName\": \"Kathy\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": null\n            },\n            \"contactInformation\": {\n                \"email\": \"kathy.kennedy@cga.ct.gov\",\n                \"website\": \"https://www.cthousegop.com/kennedy/\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"Legislative Office Building, Room 4200\",\n                    \"city\": \"Hartford\",\n                    \"state\": \"CT\",\n                    \"county\": null,\n                    \"zipCode\": \"06106\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8602408700\",\n                \"faxNumber\": \"8602400207\"\n            },\n            \"districtOffice\": null\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Georgia\",\n                \"uri\": \"./USA/GA\"\n            },\n            \"electedBody\": \"State Senate\",\n            \"electoralDistrict\": \"018\"\n        },\n        \"occupancy\": {\n            \"id\": 46522,\n            \"politician\": {\n                \"id\": 60025,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"John F.\",\n                    \"familiarName\": \"John\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/60025.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"John.Kennedy@senate.ga.gov\",\n                \"website\": \"https://www.legis.ga.gov/members/senate/852?session=1029\",\n                \"facebook\": \"http://www.facebook.com/JohnKennedyforStateSenate\",\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"421-D State Capitol\",\n                    \"city\": \"Atlanta\",\n                    \"state\": \"GA\",\n                    \"county\": null,\n                    \"zipCode\": \"30334\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"4046560045\",\n                \"faxNumber\": \"4046516768\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"231 Riverside Dr\",\n                    \"city\": \"Macon\",\n                    \"state\": \"GA\",\n                    \"county\": null,\n                    \"zipCode\": \"31201\",\n                    \"zipCodeExtension\": \"3415\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"4787499981\",\n                \"faxNumber\": \"4787428720\"\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Massachusetts\",\n                \"uri\": \"./USA/MA\"\n            },\n            \"electedBody\": \"State Senate\",\n            \"electoralDistrict\": \"First Middlesex\"\n        },\n        \"occupancy\": {\n            \"id\": 53892,\n            \"politician\": {\n                \"id\": 66084,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"Edward\",\n                    \"familiarName\": \"Ed\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/66084.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"edward.kennedy@masenate.gov\",\n                \"website\": \"https://malegislature.gov/Legislators/Profile/EDJ0\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"State House, Room 413\",\n                    \"city\": \"Boston\",\n                    \"state\": \"MA\",\n                    \"county\": null,\n                    \"zipCode\": \"02133\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"6177221630\",\n                \"faxNumber\": null\n            },\n            \"districtOffice\": null\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"New Jersey\",\n                \"uri\": \"./USA/NJ\"\n            },\n            \"electedBody\": \"State Assembly\",\n            \"electoralDistrict\": \"022\"\n        },\n        \"occupancy\": {\n            \"id\": 48077,\n            \"politician\": {\n                \"id\": 61260,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Assemblyman\",\n                    \"givenNames\": \"James\",\n                    \"familiarName\": \"Jim\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/61260.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"Asmkennedy@njleg.org\",\n                \"website\": \"https://www.njleg.state.nj.us/legislative-roster/381/assemblyman-kennedy\",\n                \"facebook\": \"https://www.facebook.com/assemblymankennedy\",\n                \"twitter\": \"asmjimkennedy\",\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"P.O. Box 098\",\n                    \"city\": \"Trenton\",\n                    \"state\": \"NJ\",\n                    \"county\": null,\n                    \"zipCode\": \"08625-0098\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"6098473500\",\n                \"faxNumber\": \"6092922386\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"1445 Main St\",\n                    \"city\": \"Rahway\",\n                    \"state\": \"NJ\",\n                    \"county\": null,\n                    \"zipCode\": \"07065\",\n                    \"zipCodeExtension\": \"4013\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"7329432660\",\n                \"faxNumber\": \"7328275916\"\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Rhode Island\",\n                \"uri\": \"./USA/RI\"\n            },\n            \"electedBody\": \"State House\",\n            \"electoralDistrict\": \"038\"\n        },\n        \"occupancy\": {\n            \"id\": 10411,\n            \"politician\": {\n                \"id\": 25827,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Representative\",\n                    \"givenNames\": \"Brian Patrick\",\n                    \"familiarName\": \"Brian\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/25827.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"rep-kennedy@rilegislature.gov\",\n                \"website\": \"http://www.rilin.state.ri.us/representatives/Kennedy/Pages/Biography.aspx\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"Room 323, State House\",\n                    \"city\": \"Providence\",\n                    \"state\": \"RI\",\n                    \"county\": null,\n                    \"zipCode\": \"02903\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"4012222466\",\n                \"faxNumber\": \"4012221925\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"PO Box 1001\",\n                    \"city\": \"Ashaway\",\n                    \"state\": \"RI\",\n                    \"county\": null,\n                    \"zipCode\": \"02804\",\n                    \"zipCodeExtension\": \"0018\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"4013778818\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Utah\",\n                \"uri\": \"./USA/UT\"\n            },\n            \"electedBody\": \"State Senate\",\n            \"electoralDistrict\": \"014\"\n        },\n        \"occupancy\": {\n            \"id\": 58953,\n            \"politician\": {\n                \"id\": 55766,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"Michael S.\",\n                    \"familiarName\": \"Mike\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/55766.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"mkennedy@le.utah.gov\",\n                \"website\": \"https://senate.utah.gov/sen/KENNEMS/\",\n                \"facebook\": null,\n                \"twitter\": \"KennedyForUtah\",\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"P.O. Box 145115\",\n                    \"city\": \"Salt Lake City\",\n                    \"state\": \"UT\",\n                    \"county\": null,\n                    \"zipCode\": \"84114\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8015381035\",\n                \"faxNumber\": \"8013261474\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"659 E 200 N\",\n                    \"city\": \"Alpine\",\n                    \"state\": \"UT\",\n                    \"county\": null,\n                    \"zipCode\": \"84004\",\n                    \"zipCodeExtension\": \"1443\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"3852689458\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"New Hampshire\",\n                \"uri\": \"./USA/NH\"\n            },\n            \"electedBody\": \"State House\",\n            \"electoralDistrict\": \"Merrimack 7\"\n        },\n        \"occupancy\": {\n            \"id\": 57834,\n            \"politician\": {\n                \"id\": 69492,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Representative\",\n                    \"givenNames\": \"Margaret\",\n                    \"familiarName\": \"Annie\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": null\n            },\n            \"contactInformation\": {\n                \"email\": \"margaret.kennedy@leg.state.nh.us\",\n                \"website\": \"https://www.gencourt.state.nh.us/house/members/\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"107 North Main Street\",\n                    \"city\": \"Concord\",\n                    \"state\": \"NH\",\n                    \"county\": null,\n                    \"zipCode\": \"03301\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"6032712548\",\n                \"faxNumber\": \"6032716689\"\n            },\n            \"districtOffice\": {\n                \"address\": null,\n                \"phoneNumber\": \"6034562975\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"New York\",\n                \"uri\": \"./USA/NY\"\n            },\n            \"electedBody\": \"State Senate\",\n            \"electoralDistrict\": \"063\"\n        },\n        \"occupancy\": {\n            \"id\": 39658,\n            \"politician\": {\n                \"id\": 55572,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"Timothy M.\",\n                    \"familiarName\": \"Timothy\",\n                    \"surname\": \"Kennedy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/55572.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"kennedy@nysenate.gov\",\n                \"website\": \"http://www.nysenate.gov/senators/brad-hoylman\",\n                \"facebook\": null,\n                \"twitter\": \"senkennedy\",\n                \"youTube\": \"http://www.youtube.com/user/SenatorTimKennedy\"\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"Legislative Office Building, Room 708\",\n                    \"city\": \"Albany\",\n                    \"state\": \"NY\",\n                    \"county\": null,\n                    \"zipCode\": \"12247\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"5184552426\",\n                \"faxNumber\": \"5184266851\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"37 Franklin St Ste 550\",\n                    \"city\": \"Buffalo\",\n                    \"state\": \"NY\",\n                    \"county\": null,\n                    \"zipCode\": \"14202\",\n                    \"zipCodeExtension\": \"4119\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"7168262683\",\n                \"faxNumber\": \"7168262793\"\n            }\n        }\n    }\n]"
+						},
+						{
+							"name": "Get Officials by Government",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=utf-8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/api/officials?association={{ASSOCIATION_IDNAME}}&government=./USA&state=WY",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"officials"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "government",
+											"value": "./USA",
+											"description": "(optional string) Used to filter results to officials only to matching government entities.  Formatted as ./USA/NY or ./USA.  This parameter may also be paired with the \"state\" parameter for further filtering on the state level."
+										},
+										{
+											"key": "state",
+											"value": "WY",
+											"description": "(optional string) Used to filter results to officials only to matching government entities.  This parameter is only used in conjunction with the \"government\" parameter for further filtering on the state level. Formatting is in 2 letter abbreviations and is case sensitive."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 21:25:52 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=kzjcrJQ8AJ8zhaHRi8k/vBwHGIVy2apg1hzqjnHZeuyn+HuCmQJie+MFLqGuEt3aQgRdS9KRj3tn+bsybDcuau03GDxUm7sz7hzAqvXZkbpeHQAFcb92fzMpBlgM; Expires=Wed, 04 Jan 2023 21:25:52 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=kzjcrJQ8AJ8zhaHRi8k/vBwHGIVy2apg1hzqjnHZeuyn+HuCmQJie+MFLqGuEt3aQgRdS9KRj3tn+bsybDcuau03GDxUm7sz7hzAqvXZkbpeHQAFcb92fzMpBlgM; Expires=Wed, 04 Jan 2023 21:25:52 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780d5efcccf266bf-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Federal\",\n                \"uri\": \"./USA\"\n            },\n            \"electedBody\": \"US Senate\",\n            \"delegateGovernment\": {\n                \"name\": \"Wyoming\",\n                \"uri\": \"./USA/WY\"\n            },\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 26272,\n            \"politician\": {\n                \"id\": 32737,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"John A.\",\n                    \"familiarName\": \"John\",\n                    \"surname\": \"Barrasso\",\n                    \"suffix\": \"III\"\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/32737.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"senator_jbarrasso@barrasso.senate.gov\",\n                \"website\": \"https://www.barrasso.senate.gov/public/\",\n                \"facebook\": \"https://www.facebook.com/johnbarrasso\",\n                \"twitter\": \"SenJohnBarrasso\",\n                \"youTube\": \"http://www.youtube.com/user/barrassowyo\"\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"307 Dirksen Senate Office Building\",\n                    \"city\": \"Washington\",\n                    \"state\": \"DC\",\n                    \"county\": null,\n                    \"zipCode\": \"20510\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"2022246441\",\n                \"faxNumber\": \"2022241724\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"PO Box 22201\",\n                    \"city\": \"Casper\",\n                    \"state\": \"WY\",\n                    \"county\": null,\n                    \"zipCode\": \"82602\",\n                    \"zipCodeExtension\": \"5009\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"3072616413\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Federal\",\n                \"uri\": \"./USA\"\n            },\n            \"electedBody\": \"US Senate\",\n            \"delegateGovernment\": {\n                \"name\": \"Wyoming\",\n                \"uri\": \"./USA/WY\"\n            },\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 58461,\n            \"politician\": {\n                \"id\": 47623,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"Cynthia\",\n                    \"familiarName\": \"Cynthia\",\n                    \"surname\": \"Lummis\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/47623.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"https://www.lummis.senate.gov/\",\n                \"facebook\": null,\n                \"twitter\": \"SenLummis\",\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"124 Russell Senate Office Building\",\n                    \"city\": \"Washington\",\n                    \"state\": \"DC\",\n                    \"county\": null,\n                    \"zipCode\": \"20510\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"2022243424\",\n                \"faxNumber\": null\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"2120 Capitol Ave Ste 2007\",\n                    \"city\": \"Cheyenne\",\n                    \"state\": \"WY\",\n                    \"county\": null,\n                    \"zipCode\": \"82001\",\n                    \"zipCodeExtension\": \"3631\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"3077722477\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Federal\",\n                \"uri\": \"./USA\"\n            },\n            \"electedBody\": \"US House\",\n            \"delegateGovernment\": {\n                \"name\": \"Wyoming\",\n                \"uri\": \"./USA/WY\"\n            },\n            \"electoralDistrict\": \"001\"\n        },\n        \"occupancy\": {\n            \"id\": 49988,\n            \"politician\": {\n                \"id\": 62797,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Representative\",\n                    \"givenNames\": \"Elizabeth L.\",\n                    \"familiarName\": \"Liz\",\n                    \"surname\": \"Cheney\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/62797.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"https://cheney.house.gov/\",\n                \"facebook\": \"https://www.facebook.com/replizcheney\",\n                \"twitter\": \"RepLizCheney\",\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"416 Cannon House Office Building\",\n                    \"city\": \"Washington\",\n                    \"state\": \"DC\",\n                    \"county\": null,\n                    \"zipCode\": \"20515-5000\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"2022252311\",\n                \"faxNumber\": \"2022253057\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"2120 Capitol Ave Ste 8005\",\n                    \"city\": \"Cheyenne\",\n                    \"state\": \"WY\",\n                    \"county\": null,\n                    \"zipCode\": \"82001\",\n                    \"zipCodeExtension\": \"3649\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"3077722595\",\n                \"faxNumber\": \"3077722597\"\n            }\n        }\n    }\n]"
+						},
+						{
+							"name": "Get Officials by Constituent Address",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json; charset=utf-8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/api/officials?association={{ASSOCIATION_IDNAME}}&constituentAddress=%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22checksum%22%3A%20%22-2093465855%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22city%22%3A%20%22Montpelier%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22coordinates%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22latitude%22%3A%2044.261283%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22longitude%22%3A%20-72.580533%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22county%22%3A%20%22Washington%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22state%22%3A%20%22VT%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22streetAddress%22%3A%20%22115%20State%20St%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22zipCode%22%3A%20%2205633%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22zipCodeExtension%22%3A%20%220004%22%0A%20%20%20%20%20%20%20%20%7D",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"officials"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "constituentAddress",
+											"value": "%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22checksum%22%3A%20%22-2093465855%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22city%22%3A%20%22Montpelier%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22coordinates%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22latitude%22%3A%2044.261283%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22longitude%22%3A%20-72.580533%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22county%22%3A%20%22Washington%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22state%22%3A%20%22VT%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22streetAddress%22%3A%20%22115%20State%20St%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22zipCode%22%3A%20%2205633%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22zipCodeExtension%22%3A%20%220004%22%0A%20%20%20%20%20%20%20%20%7D",
+											"description": "(optional string) Url encoded home address (in JSON format) returned by our addresses resource (MUST have the checksum)"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 21:30:24 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=YwPk08tXiTnNrtGP6A9wWXBkhomfdjP3j1Jt9TFJgZ2O9WwrdwulFZdIljczmy15YSvT+v+ZNnPIIsya3GP6YyC8sQyjxKG5M84wdkwr5PgA0Zs1GomE5iUebQhg; Expires=Wed, 04 Jan 2023 21:30:24 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=YwPk08tXiTnNrtGP6A9wWXBkhomfdjP3j1Jt9TFJgZ2O9WwrdwulFZdIljczmy15YSvT+v+ZNnPIIsya3GP6YyC8sQyjxKG5M84wdkwr5PgA0Zs1GomE5iUebQhg; Expires=Wed, 04 Jan 2023 21:30:24 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "780d659d2fb466bf-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Federal\",\n                \"uri\": \"./USA\"\n            },\n            \"electedBody\": \"US Senate\",\n            \"delegateGovernment\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 490,\n            \"politician\": {\n                \"id\": 490,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"Patrick J.\",\n                    \"familiarName\": \"Patrick\",\n                    \"surname\": \"Leahy\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/490.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"https://www.leahy.senate.gov/\",\n                \"facebook\": \"https://www.facebook.com/SenatorPatrickLeahy\",\n                \"twitter\": \"SenatorLeahy\",\n                \"youTube\": \"http://www.youtube.com/SenatorPatrickLeahy\"\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"437 Russell Senate Office Building\",\n                    \"city\": \"Washington\",\n                    \"state\": \"DC\",\n                    \"county\": null,\n                    \"zipCode\": \"20510\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"2022244242\",\n                \"faxNumber\": null\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"199 Main St Fl 4\",\n                    \"city\": \"Burlington\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05401\",\n                    \"zipCodeExtension\": \"8309\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028632525\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Federal\",\n                \"uri\": \"./USA\"\n            },\n            \"electedBody\": \"US Senate\",\n            \"delegateGovernment\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 23975,\n            \"politician\": {\n                \"id\": 492,\n                \"party\": \"I\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"Bernard\",\n                    \"familiarName\": \"Bernie\",\n                    \"surname\": \"Sanders\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/492.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"http://www.sanders.senate.gov/\",\n                \"facebook\": \"https://www.facebook.com/senatorsanders\",\n                \"twitter\": \"SenSanders\",\n                \"youTube\": \"http://www.youtube.com/user/SenatorSanders\"\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"332 Dirksen Senate Office Building\",\n                    \"city\": \"Washington\",\n                    \"state\": \"DC\",\n                    \"county\": null,\n                    \"zipCode\": \"20510\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"2022245141\",\n                \"faxNumber\": \"2022280776\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"1 Church St Fl 3\",\n                    \"city\": \"Burlington\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05401\",\n                    \"zipCodeExtension\": \"4451\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028620697\",\n                \"faxNumber\": \"8028606370\"\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Federal\",\n                \"uri\": \"./USA\"\n            },\n            \"electedBody\": \"US House\",\n            \"delegateGovernment\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electoralDistrict\": \"001\"\n        },\n        \"occupancy\": {\n            \"id\": 23963,\n            \"politician\": {\n                \"id\": 32564,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Representative\",\n                    \"givenNames\": \"Peter F.\",\n                    \"familiarName\": \"Peter\",\n                    \"surname\": \"Welch\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/32564.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"http://welch.house.gov/\",\n                \"facebook\": \"https://www.facebook.com/PeterWelch\",\n                \"twitter\": \"PeterWelch\",\n                \"youTube\": \"http://www.youtube.com/user/RepPeterWelch\"\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"2187 Rayburn House Office Building\",\n                    \"city\": \"Washington\",\n                    \"state\": \"DC\",\n                    \"county\": null,\n                    \"zipCode\": \"20515\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"2022254115\",\n                \"faxNumber\": \"2022256790\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"128 Lakeside Ave, Suite 235\",\n                    \"city\": \"Burlington\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05401\",\n                    \"zipCodeExtension\": \"8427\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8026522450\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"State Senate\",\n            \"electoralDistrict\": \"Washington\"\n        },\n        \"occupancy\": {\n            \"id\": 35455,\n            \"politician\": {\n                \"id\": 52664,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"Anthony\",\n                    \"familiarName\": \"Anthony\",\n                    \"surname\": \"Pollina\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/52664.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"apollina@leg.state.vt.us\",\n                \"website\": \"http://legislature.vermont.gov/people/single/2016/15795\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"115 State Street\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05633-5301\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028282228\",\n                \"faxNumber\": \"8028282424\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"93 Story Rd\",\n                    \"city\": \"North Middlesex\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05682\",\n                    \"zipCodeExtension\": \"9607\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8022295809\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"State Senate\",\n            \"electoralDistrict\": \"Washington\"\n        },\n        \"occupancy\": {\n            \"id\": 54403,\n            \"politician\": {\n                \"id\": 66476,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"Andrew John\",\n                    \"familiarName\": \"Andrew\",\n                    \"surname\": \"Perchlik\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/66476.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"aperchlik@leg.state.vt.us\",\n                \"website\": \"https://legislature.vermont.gov/people/single/2020/30982\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"115 State Street\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05633-5301\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028282228\",\n                \"faxNumber\": \"8028282424\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"29 Franklin St\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05602\",\n                    \"zipCodeExtension\": \"2450\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8022790471\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"State Senate\",\n            \"electoralDistrict\": \"Washington\"\n        },\n        \"occupancy\": {\n            \"id\": 7628,\n            \"politician\": {\n                \"id\": 26627,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Senator\",\n                    \"givenNames\": \"Ann E.\",\n                    \"familiarName\": \"Ann\",\n                    \"surname\": \"Cummings\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/26627.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"acummings@leg.state.vt.us\",\n                \"website\": \"http://legislature.vermont.gov/people/single/2016/14604\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"115 State Street\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05633-5301\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028282228\",\n                \"faxNumber\": \"8028282424\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"24 Colonial Dr\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05602\",\n                    \"zipCodeExtension\": \"3306\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8022236043\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"State House\",\n            \"electoralDistrict\": \"Washington-4\"\n        },\n        \"occupancy\": {\n            \"id\": 41255,\n            \"politician\": {\n                \"id\": 48239,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Representative\",\n                    \"givenNames\": \"Mary S.\",\n                    \"familiarName\": \"Mary\",\n                    \"surname\": \"Hooper\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/48239.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"mhooper@leg.state.vt.us\",\n                \"website\": \"http://legislature.vermont.gov/people/single/2016/14688\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"115  State Street\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05633-5301\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028282228\",\n                \"faxNumber\": \"8028282424\"\n            },\n            \"districtOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"882 North St\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05602\",\n                    \"zipCodeExtension\": \"9126\",\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8027939512\",\n                \"faxNumber\": null\n            }\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"State House\",\n            \"electoralDistrict\": \"Washington-4\"\n        },\n        \"occupancy\": null\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"Governor\",\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 50440,\n            \"politician\": {\n                \"id\": 30444,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Governor\",\n                    \"givenNames\": \"Phillip B.\",\n                    \"familiarName\": \"Phil\",\n                    \"surname\": \"Scott\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/30444.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"http://governor.vermont.gov/\",\n                \"facebook\": \"https://www.facebook.com/GovPhilScott\",\n                \"twitter\": \"GovPhilScott\",\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"109 State Street, Pavilion\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05609\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028283333\",\n                \"faxNumber\": \"8028283339\"\n            },\n            \"districtOffice\": null\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"Lt. Governor\",\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 59163,\n            \"politician\": {\n                \"id\": 70548,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Lt. Governor\",\n                    \"givenNames\": \"Molly\",\n                    \"familiarName\": \"Molly\",\n                    \"surname\": \"Gray\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/70548.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"https://ltgov.vermont.gov/\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"115 State Street\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05633\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028282226\",\n                \"faxNumber\": null\n            },\n            \"districtOffice\": null\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"Attorney General\",\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 62091,\n            \"politician\": {\n                \"id\": 73142,\n                \"party\": \"R\",\n                \"personName\": {\n                    \"title\": \"Attorney General\",\n                    \"givenNames\": \"Susanne\",\n                    \"familiarName\": \"Susanne\",\n                    \"surname\": \"Young\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/73142.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"ago.info@vermont.gov\",\n                \"website\": \"https://ago.vermont.gov/\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"Vermont Attorney General’s Office 109 State Street\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05609\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028283171\",\n                \"faxNumber\": null\n            },\n            \"districtOffice\": null\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"Secretary of State\",\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 35651,\n            \"politician\": {\n                \"id\": 30440,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Secretary of State\",\n                    \"givenNames\": \"James C.\",\n                    \"familiarName\": \"Jim\",\n                    \"surname\": \"Condos\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/30440.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"jim.condos@sec.state.vt.us\",\n                \"website\": \"https://sos.vermont.gov/\",\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"128 State Street\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05633-1101\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028282148\",\n                \"faxNumber\": null\n            },\n            \"districtOffice\": null\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Federal\",\n                \"uri\": \"./USA\"\n            },\n            \"electedBody\": \"President\",\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 58955,\n            \"politician\": {\n                \"id\": 98,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"President\",\n                    \"givenNames\": \"Joseph R.\",\n                    \"familiarName\": \"Joe\",\n                    \"surname\": \"Biden\",\n                    \"suffix\": \"Jr.\"\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/98.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"http://www.whitehouse.gov/\",\n                \"facebook\": null,\n                \"twitter\": \"POTUS\",\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"1600 Pennsylvania Avenue NW\",\n                    \"city\": \"Washington\",\n                    \"state\": \"DC\",\n                    \"county\": null,\n                    \"zipCode\": \"20501\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"2024561111\",\n                \"faxNumber\": \"2024562461\"\n            },\n            \"districtOffice\": null\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Federal\",\n                \"uri\": \"./USA\"\n            },\n            \"electedBody\": \"Vice President\",\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 58954,\n            \"politician\": {\n                \"id\": 52736,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Vice President\",\n                    \"givenNames\": \"Kamala\",\n                    \"familiarName\": \"Kamala\",\n                    \"surname\": \"Harris\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/52736.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": null,\n                \"website\": \"https://www.whitehouse.gov/\",\n                \"facebook\": null,\n                \"twitter\": \"VP\",\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"1600 Pennsylvania Ave NW\",\n                    \"city\": \"Washington\",\n                    \"state\": \"DC\",\n                    \"county\": null,\n                    \"zipCode\": \"20505\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"2024561111\",\n                \"faxNumber\": null\n            },\n            \"districtOffice\": null\n        }\n    },\n    {\n        \"office\": {\n            \"government\": {\n                \"name\": \"Vermont\",\n                \"uri\": \"./USA/VT\"\n            },\n            \"electedBody\": \"State Treasurer\",\n            \"electoralDistrict\": null\n        },\n        \"occupancy\": {\n            \"id\": 43927,\n            \"politician\": {\n                \"id\": 58061,\n                \"party\": \"D\",\n                \"personName\": {\n                    \"title\": \"Treasurer\",\n                    \"givenNames\": \"Elizabeth\",\n                    \"familiarName\": \"Beth\",\n                    \"surname\": \"Pearce\",\n                    \"suffix\": null\n                },\n                \"photoUrl\": \"https://d3dkdvqff0zqx.cloudfront.net/photos/58061.jpg\"\n            },\n            \"contactInformation\": {\n                \"email\": \"Treasurers.Office@Vermont.Gov\",\n                \"website\": null,\n                \"facebook\": null,\n                \"twitter\": null,\n                \"youTube\": null\n            },\n            \"capitolOffice\": {\n                \"address\": {\n                    \"streetAddress\": \"109 State Street\",\n                    \"city\": \"Montpelier\",\n                    \"state\": \"VT\",\n                    \"county\": null,\n                    \"zipCode\": \"05609\",\n                    \"zipCodeExtension\": null,\n                    \"country\": \"US\",\n                    \"checksum\": null\n                },\n                \"phoneNumber\": \"8028281452\",\n                \"faxNumber\": \"8028282772\"\n            },\n            \"districtOffice\": null\n        }\n    }\n]"
+						}
+					]
+				}
+			]
 		}
 	],
 	"auth": {
@@ -378,14 +1814,14 @@
 	],
 	"variable": [
 		{
-			"key": "IDNAME",
+			"key": "ASSOCIATION_IDNAME",
 			"value": "",
 			"type": "default"
 		},
 		{
 			"key": "API_KEY",
 			"value": "",
-			"type": "default"
+			"type": "string"
 		}
 	]
 }
