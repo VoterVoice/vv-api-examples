@@ -1245,6 +1245,75 @@ Patch an existing contact record contactId using the temporaryContactId.
 
 + Response 204 (application/json)
 
+
+## Contacts Field Mappings [/contacts/mappings{?association,remoteSource,direction}]
+The contact field mappings resource can be used to search the collection of configured contact field mappings.
+
+### Get Contact Field Mappings [GET]
+This resource takes in the association site information and returns contacts field mappings for the association.
+
++ Request
+    + Headers
+    ```
+        Authorization: YOUR_API_KEY
+        Content-Type: application/json
+    ```
+    
++ Parameters
+    + association: `YOUR_ASSOCIATION_IDNAME` (string, required) - the VoterVoice acronym for your association.
+    + remoteSource: `Upload Tool` (string, optional) - Expected values are "Upload Tool", "Salesforce", or "FiscalNote".
+    + direction: `Inbound` (string, optional) - Expected values are "Inbound" or "Outbound".
+
++ Response 200 (application/json)
+
+        [
+            {
+                "source": "Upload Tool",
+                "groupList": "Default List",
+                "direction": "Inbound",
+                "standardFields": [
+                    {
+                        "voterVoiceFieldName": "FName",
+                        "remoteFieldName": "First Name"
+                    },
+                    {
+                        "voterVoiceFieldName": "LName",
+                        "remoteFieldName": "Last Name"
+                    },
+                    {
+                        "voterVoiceFieldName": "ContactID",
+                        "remoteFieldName": "VVID"
+                    },
+                    {
+                        "voterVoiceFieldName": "Address",
+                        "remoteFieldName": "Address Line 1"
+                    },
+                    {
+                        "voterVoiceFieldName": "Address2",
+                        "remoteFieldName": "Address Line 2"
+                    },
+                    {
+                        "voterVoiceFieldName": "City",
+                        "remoteFieldName": "City"
+                    },
+                    {
+                        "voterVoiceFieldName": "State",
+                        "remoteFieldName": "State/Territory"
+                    },
+                    {
+                        "voterVoiceFieldName": "Zip",
+                        "remoteFieldName": "Postal Code"
+                    },
+                    {
+                        "voterVoiceFieldName": "Comments",
+                        "remoteFieldName": "Record Number"
+                    }
+                ],
+                "customFields": []
+            }
+        ]
+
+
 # group Districts
 
 ## Districts by Address [/districts{?association,context,address}]
