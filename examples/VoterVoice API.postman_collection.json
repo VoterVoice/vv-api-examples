@@ -28,7 +28,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
+								"value": "application/json; charset=utf-8",
 								"type": "default"
 							}
 						],
@@ -95,7 +95,7 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json",
+										"value": "application/json; charset=utf-8",
 										"type": "default"
 									}
 								],
@@ -167,7 +167,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
+								"value": "application/json; charset=utf-8",
 								"type": "default"
 							}
 						],
@@ -400,7 +400,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json; charset=utf-8"
 							}
 						],
 						"url": {
@@ -473,7 +473,7 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"value": "application/json; charset=utf-8"
 									}
 								],
 								"url": {
@@ -565,7 +565,7 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"value": "application/json; charset=utf-8"
 									}
 								],
 								"url": {
@@ -693,7 +693,7 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"value": "application/json; charset=utf-8"
 									}
 								],
 								"url": {
@@ -1226,7 +1226,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json; charset=utf-8"
 							}
 						],
 						"body": {
@@ -1262,7 +1262,7 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"value": "application/json; charset=utf-8"
 									}
 								],
 								"body": {
@@ -1343,7 +1343,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json; charset=utf-8"
 							}
 						],
 						"body": {
@@ -1384,7 +1384,7 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"value": "application/json; charset=utf-8"
 									}
 								],
 								"body": {
@@ -1466,7 +1466,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
+								"value": "application/json; charset=utf-8",
 								"type": "text"
 							}
 						],
@@ -1508,7 +1508,7 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json",
+										"value": "application/json; charset=utf-8",
 										"type": "text"
 									}
 								],
