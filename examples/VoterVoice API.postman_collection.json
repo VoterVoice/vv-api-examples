@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1f53cc23-9daf-4b25-89a4-d7f994d08b3a",
+		"_postman_id": "9fc5d0b9-ec50-416c-afb5-c5baa3d07790",
 		"name": "VoterVoice API",
 		"description": "Welcome to the VoterVoice REST API! In order to use the API, you need to have purchased an advocacy package from VoterVoice and have access to the authentication key for the API. \n\nIf you do not have your authentication key, please get in touch with your Account Manager. Do not share this authentication key as it identifies API usage by your organization.\n\nThe documentation provided as part of this Postman collection is for convenience and does not include complete, up-to-date information about the VoterVoice API. \n\nFor the complete documentation, see https://votervoice.docs.apiary.io.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -33,7 +33,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://www.votervoice.net/api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
+							"raw": "https://www.votervoice.net/Api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -100,7 +100,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://www.votervoice.net/api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
+									"raw": "https://www.votervoice.net/Api/addresses?address1=1600 Pennsylvania Ave&city=Washington&state=DC&zipcode=20500",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -172,7 +172,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://www.votervoice.net/api/addresses?zipcode=20500&country=US&simpleLookup=true",
+							"raw": "https://www.votervoice.net/Api/addresses?zipcode=20500&country=US&simpleLookup=true",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -404,7 +404,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&dateUpdated=>2022-12-04T19:32:47.0000000Z",
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&dateUpdated=>2022-12-04T19:32:47.0000000Z",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -477,7 +477,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -569,7 +569,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&dateUpdated=>2022-12-28T19:32:47.0000000Z",
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&dateUpdated=>2022-12-28T19:32:47.0000000Z",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -697,7 +697,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&email=CONTACT@SOMEDOMAIN.com",
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&email=CONTACT@SOMEDOMAIN.com",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -781,6 +781,445 @@
 					]
 				},
 				{
+					"name": "Contact Field Mappings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://www.votervoice.net/Api/contacts/mappings?association={{ASSOCIATION_IDNAME}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"votervoice",
+								"net"
+							],
+							"path": [
+								"Api",
+								"contacts",
+								"mappings"
+							],
+							"query": [
+								{
+									"key": "association",
+									"value": "{{ASSOCIATION_IDNAME}}"
+								},
+								{
+									"key": "remoteSource",
+									"value": "Upload Tool",
+									"description": "(optional string) Expected values are \"Upload Tool\", \"Salesforce\", or \"FiscalNote\"",
+									"disabled": true
+								},
+								{
+									"key": "direction",
+									"value": "Inbound",
+									"description": "(optional string) Expected values are \"Inbound\" or \"Outbound\"",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Contact Field Mappings",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts/mappings?association={{ASSOCIATION_IDNAME}}",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts",
+										"mappings"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}",
+											"description": "*required string*"
+										},
+										{
+											"key": "remoteSource",
+											"value": "Salesforce",
+											"description": "(optional string) Expected values are \"Upload Tool\", \"Salesforce\", or \"FiscalNote\"",
+											"disabled": true
+										},
+										{
+											"key": "direction",
+											"value": "Outbound",
+											"description": "(optional string) Expected values are \"Inbound\" or \"Outbound\"",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 18 May 2023 16:00:05 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=3TKEVTdJ0EjkU2Ffp5ipsB88Rwl3saUE+og+MKkTLIFK3blZw84gHwXmxe0x50MdAnIPoInQlc+7KyAXw8TT7CKF229vmblAYUWraNdG6aGOeqlfUsOYjzyN3um8; Expires=Thu, 25 May 2023 16:00:05 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=3TKEVTdJ0EjkU2Ffp5ipsB88Rwl3saUE+og+MKkTLIFK3blZw84gHwXmxe0x50MdAnIPoInQlc+7KyAXw8TT7CKF229vmblAYUWraNdG6aGOeqlfUsOYjzyN3um8; Expires=Thu, 25 May 2023 16:00:05 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "7c954fa04e6f44e3-ATL"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Arts match\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State/Territory\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Postal Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"Record Number\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Kickbox Spam Testing\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Email\",\n                \"remoteFieldName\": \"Email\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Name\",\n                \"remoteFieldName\": \"Company\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"KamikaPlayList\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"ZIP Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"MBRNUM\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Name\",\n                \"remoteFieldName\": \"Facility\"\n            },\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"MName\",\n                \"remoteFieldName\": \"Middle Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address Line 2\"\n            }\n        ],\n        \"customFields\": [\n            {\n                \"customFieldId\": 20640,\n                \"remoteFieldName\": \"Member Status\"\n            }\n        ]\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"APC Matched List\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address 2\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"ST\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Zip\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"ID\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Matching\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"VVID\"\n            },\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address Line 2\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State/Territory\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Postal Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Comments\",\n                \"remoteFieldName\": \"Record Number\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Default List\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"VVID\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address Line 2\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State/Territory\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Postal Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Comments\",\n                \"remoteFieldName\": \"Record Number\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Salesforce\",\n        \"groupList\": \"Default List\",\n        \"direction\": \"Outbound\",\n        \"standardFields\": [],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Salesforce\",\n        \"groupList\": \"Default List\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"Id\"\n            },\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"FirstName\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"LastName\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Email\",\n                \"remoteFieldName\": \"Email\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"MailingStreet\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"MailingCity\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"MailingState\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"MailingPostalCode\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Title\",\n                \"remoteFieldName\": \"Title\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Name\",\n                \"remoteFieldName\": \"AssistantPhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Address\",\n                \"remoteFieldName\": \"OtherPhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_City\",\n                \"remoteFieldName\": \"HomePhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_State\",\n                \"remoteFieldName\": \"MobilePhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Comments\",\n                \"remoteFieldName\": \"Phone\"\n            }\n        ],\n        \"customFields\": []\n    }\n]"
+						},
+						{
+							"name": "Get Contact Field Mappings by Remote Source",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts/mappings?association={{ASSOCIATION_IDNAME}}&remoteSource=Salesforce",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts",
+										"mappings"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}"
+										},
+										{
+											"key": "remoteSource",
+											"value": "Salesforce",
+											"description": "(optional string) Expected values are \"Upload Tool\", \"Salesforce\", or \"FiscalNote\""
+										},
+										{
+											"key": "direction",
+											"value": "Outbound",
+											"description": "(optional string) Expected values are \"Inbound\" or \"Outbound\"",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 18 May 2023 16:03:44 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=jfIeult/iDKbM4TQedGDb/R4RqXbVoZP4d/vKOK2P/l6yczCpRGY/NW4ovdFJ2dxHzFO8FKynKGX9b5pHlZROcVrXlW/vE/mjgnBD09m6rmKhmUvMoTpRck5yDp/; Expires=Thu, 25 May 2023 16:03:44 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=jfIeult/iDKbM4TQedGDb/R4RqXbVoZP4d/vKOK2P/l6yczCpRGY/NW4ovdFJ2dxHzFO8FKynKGX9b5pHlZROcVrXlW/vE/mjgnBD09m6rmKhmUvMoTpRck5yDp/; Expires=Thu, 25 May 2023 16:03:44 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "7c9554f87e71b0d9-ATL"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"source\": \"Salesforce\",\n        \"groupList\": \"Default List\",\n        \"direction\": \"Outbound\",\n        \"standardFields\": [],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Salesforce\",\n        \"groupList\": \"Default List\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"Id\"\n            },\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"FirstName\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"LastName\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Email\",\n                \"remoteFieldName\": \"Email\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"MailingStreet\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"MailingCity\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"MailingState\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"MailingPostalCode\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Title\",\n                \"remoteFieldName\": \"Title\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Name\",\n                \"remoteFieldName\": \"AssistantPhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Address\",\n                \"remoteFieldName\": \"OtherPhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_City\",\n                \"remoteFieldName\": \"HomePhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_State\",\n                \"remoteFieldName\": \"MobilePhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Comments\",\n                \"remoteFieldName\": \"Phone\"\n            }\n        ],\n        \"customFields\": []\n    }\n]"
+						},
+						{
+							"name": "Get Contact Field Mappings by Direction",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts/mappings?association={{ASSOCIATION_IDNAME}}&direction=Inbound",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts",
+										"mappings"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}"
+										},
+										{
+											"key": "remoteSource",
+											"value": "Salesforce",
+											"description": "(optional string) Expected values are \"Upload Tool\", \"Salesforce\", or \"FiscalNote\"",
+											"disabled": true
+										},
+										{
+											"key": "direction",
+											"value": "Inbound",
+											"description": "(optional string) Expected values are \"Inbound\" or \"Outbound\""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 18 May 2023 16:04:43 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=MzbBp0/bXoQi4RXxLi/S+jy9H3donxPvP9nNUv8vUSaX2GvktwBKhPYCHD2d13NENNQsmsmbcaR7pPOU2pyPMb1fRydONzeSOiI/1Iv5dHAz7BcaYLq0g+7Jukzf; Expires=Thu, 25 May 2023 16:04:43 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=MzbBp0/bXoQi4RXxLi/S+jy9H3donxPvP9nNUv8vUSaX2GvktwBKhPYCHD2d13NENNQsmsmbcaR7pPOU2pyPMb1fRydONzeSOiI/1Iv5dHAz7BcaYLq0g+7Jukzf; Expires=Thu, 25 May 2023 16:04:43 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "7c95566be878b0d9-ATL"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Arts match\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State/Territory\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Postal Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"Record Number\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Kickbox Spam Testing\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Email\",\n                \"remoteFieldName\": \"Email\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Name\",\n                \"remoteFieldName\": \"Company\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"KamikaPlayList\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"ZIP Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"MBRNUM\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Name\",\n                \"remoteFieldName\": \"Facility\"\n            },\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"MName\",\n                \"remoteFieldName\": \"Middle Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address Line 2\"\n            }\n        ],\n        \"customFields\": [\n            {\n                \"customFieldId\": 20640,\n                \"remoteFieldName\": \"Member Status\"\n            }\n        ]\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"APC Matched List\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address 2\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"ST\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Zip\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"ID\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Matching\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"VVID\"\n            },\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address Line 2\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State/Territory\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Postal Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Comments\",\n                \"remoteFieldName\": \"Record Number\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Default List\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"VVID\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address Line 2\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State/Territory\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Postal Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Comments\",\n                \"remoteFieldName\": \"Record Number\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Salesforce\",\n        \"groupList\": \"Default List\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"Id\"\n            },\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"FirstName\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"LastName\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Email\",\n                \"remoteFieldName\": \"Email\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"MailingStreet\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"MailingCity\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"MailingState\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"MailingPostalCode\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Title\",\n                \"remoteFieldName\": \"Title\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Name\",\n                \"remoteFieldName\": \"AssistantPhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Address\",\n                \"remoteFieldName\": \"OtherPhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_City\",\n                \"remoteFieldName\": \"HomePhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_State\",\n                \"remoteFieldName\": \"MobilePhone\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Comments\",\n                \"remoteFieldName\": \"Phone\"\n            }\n        ],\n        \"customFields\": []\n    }\n]"
+						},
+						{
+							"name": "Get Contact Field Mappings by Remote Source and Direction",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://www.votervoice.net/Api/contacts/mappings?association={{ASSOCIATION_IDNAME}}&remoteSource=Upload Tool&direction=Inbound",
+									"protocol": "https",
+									"host": [
+										"www",
+										"votervoice",
+										"net"
+									],
+									"path": [
+										"Api",
+										"contacts",
+										"mappings"
+									],
+									"query": [
+										{
+											"key": "association",
+											"value": "{{ASSOCIATION_IDNAME}}"
+										},
+										{
+											"key": "remoteSource",
+											"value": "Upload Tool",
+											"description": "(optional string) Expected values are \"Upload Tool\", \"Salesforce\", or \"FiscalNote\""
+										},
+										{
+											"key": "direction",
+											"value": "Inbound",
+											"description": "(optional string) Expected values are \"Inbound\" or \"Outbound\""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 18 May 2023 16:05:31 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALB=mLJ/d3r7oB2aknRaY1sRPG+u9gMP/GDO2KBondera+Ti5n71GPQf4n/SoBC81tR9q/zIJOZEcLXAYPil5KiM8s//RLYmKdHvChDA/7sytxwDpt+un50A1J+LoidV; Expires=Thu, 25 May 2023 16:05:30 GMT; Path=/"
+								},
+								{
+									"key": "set-cookie",
+									"value": "AWSALBCORS=mLJ/d3r7oB2aknRaY1sRPG+u9gMP/GDO2KBondera+Ti5n71GPQf4n/SoBC81tR9q/zIJOZEcLXAYPil5KiM8s//RLYmKdHvChDA/7sytxwDpt+un50A1J+LoidV; Expires=Thu, 25 May 2023 16:05:30 GMT; Path=/; SameSite=None; Secure"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "ASP.NET"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "7c9557930c33b0d9-ATL"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Arts match\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State/Territory\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Postal Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"Record Number\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Kickbox Spam Testing\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Email\",\n                \"remoteFieldName\": \"Email\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Name\",\n                \"remoteFieldName\": \"Company\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"KamikaPlayList\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"ZIP Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"MBRNUM\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_Name\",\n                \"remoteFieldName\": \"Facility\"\n            },\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"MName\",\n                \"remoteFieldName\": \"Middle Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address Line 2\"\n            }\n        ],\n        \"customFields\": [\n            {\n                \"customFieldId\": 20640,\n                \"remoteFieldName\": \"Member Status\"\n            }\n        ]\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"APC Matched List\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address 2\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"ST\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Zip\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"ID\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Matching\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"VVID\"\n            },\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"B_City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address Line 2\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State/Territory\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Postal Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Comments\",\n                \"remoteFieldName\": \"Record Number\"\n            }\n        ],\n        \"customFields\": []\n    },\n    {\n        \"source\": \"Upload Tool\",\n        \"groupList\": \"Default List\",\n        \"direction\": \"Inbound\",\n        \"standardFields\": [\n            {\n                \"voterVoiceFieldName\": \"FName\",\n                \"remoteFieldName\": \"First Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"LName\",\n                \"remoteFieldName\": \"Last Name\"\n            },\n            {\n                \"voterVoiceFieldName\": \"ContactID\",\n                \"remoteFieldName\": \"VVID\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address\",\n                \"remoteFieldName\": \"Address Line 1\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Address2\",\n                \"remoteFieldName\": \"Address Line 2\"\n            },\n            {\n                \"voterVoiceFieldName\": \"City\",\n                \"remoteFieldName\": \"City\"\n            },\n            {\n                \"voterVoiceFieldName\": \"State\",\n                \"remoteFieldName\": \"State/Territory\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Zip\",\n                \"remoteFieldName\": \"Postal Code\"\n            },\n            {\n                \"voterVoiceFieldName\": \"Comments\",\n                \"remoteFieldName\": \"Record Number\"\n            }\n        ],\n        \"customFields\": []\n    }\n]"
+						}
+					]
+				},
+				{
 					"name": "Create a Contact",
 					"request": {
 						"method": "POST",
@@ -795,7 +1234,7 @@
 							"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
 						},
 						"url": {
-							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}",
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -831,7 +1270,7 @@
 									"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
 								},
 								"url": {
-									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}",
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -893,7 +1332,7 @@
 								}
 							],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -912,7 +1351,7 @@
 							"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
 						},
 						"url": {
-							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -953,7 +1392,7 @@
 									"raw": "{\n\t\"membership\": {\n\t\t\"groupList\": null,\n\t\t\"contactId\": \"YOUR_LOCAL_CONTACTID\"\n\t},\n\t\"honorific\": \"Mr.\",\n\t\"givenNames\": \"CONTACT_FIRSTNAME\",\n\t\"surname\": \"CONTACT_LASTNAME\",\n\t\"suffix\": \"\",\n\t\"emailAddress\": \"CONTACT@SOMEDOMAIN.com\",\n\t\"phoneNumber\": \"2222222222\",\n\t\"faxNumber\": \"\",\n\t\"businessCompanyName\": \"CONTACT COMPANY\",\n\t\"businessPositionName\": \"CEO\",\n\t\"homeAddress\": {\n\t\t\"checksum\": \"-534839494\",\n\t\t\"city\": \"Baton Rouge\",\n\t\t\"country\": \"US\",\n\t\t\"county\": \"East Baton Rouge\",\n\t\t\"state\": \"LA\",\n\t\t\"streetAddress\": \"6100 Corporate Blvd\",\n\t\t\"zipCode\": \"70808\",\n\t\t\"zipCodeExtension\": \"2717\"\n\t}\n}"
 								},
 								"url": {
-									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -1016,7 +1455,7 @@
 								}
 							],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1036,7 +1475,7 @@
 							"raw": "{\r\n    \"membership\": {\r\n        \"contactId\": \"YOUR_LOCAL_CONTACTID\"\r\n    }\r\n}"
 						},
 						"url": {
-							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&temporaryContactId=",
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&temporaryContactId=",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -1078,7 +1517,7 @@
 									"raw": "{\r\n    \"membership\": {\r\n        \"contactId\": \"NC12345U\"\r\n    }\r\n}"
 								},
 								"url": {
-									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&temporaryContactId=eyJJc1JlZ2lzdGVyZWQiOnRydWUsIlVzZXJJZCI6MjIzMDE4OSwiT2xkVHlwZUNvZGUiOiJVIiwiQ29udGFjdElkIjpudWxsfQ==",
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&temporaryContactId=eyJJc1JlZ2lzdGVyZWQiOnRydWUsIlVzZXJJZCI6MjIzMDE4OSwiT2xkVHlwZUNvZGUiOiJVIiwiQ29udGFjdElkIjpudWxsfQ==",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -1141,7 +1580,7 @@
 								}
 							],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1162,7 +1601,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+							"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -1211,7 +1650,7 @@
 									}
 								},
 								"url": {
-									"raw": "https://www.votervoice.net/api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
+									"raw": "https://www.votervoice.net/Api/contacts?association={{ASSOCIATION_IDNAME}}&contactId=YOUR_LOCAL_CONTACTID",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -1280,7 +1719,7 @@
 								}
 							],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1301,7 +1740,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://www.votervoice.net/api/governments?association={{ASSOCIATION_IDNAME}}",
+							"raw": "https://www.votervoice.net/Api/governments?association={{ASSOCIATION_IDNAME}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -1334,7 +1773,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://www.votervoice.net/api/governments?association={{ASSOCIATION_IDNAME}}",
+									"raw": "https://www.votervoice.net/Api/governments?association={{ASSOCIATION_IDNAME}}",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -1437,7 +1876,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://www.votervoice.net/api/officials?association={{ASSOCIATION_IDNAME}}",
+							"raw": "https://www.votervoice.net/Api/officials?association={{ASSOCIATION_IDNAME}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -1500,7 +1939,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://www.votervoice.net/api/officials?association={{ASSOCIATION_IDNAME}}&surname=Kennedy",
+									"raw": "https://www.votervoice.net/Api/officials?association={{ASSOCIATION_IDNAME}}&surname=Kennedy",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -1593,7 +2032,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://www.votervoice.net/api/officials?association={{ASSOCIATION_IDNAME}}&government=./USA&state=WY",
+									"raw": "https://www.votervoice.net/Api/officials?association={{ASSOCIATION_IDNAME}}&government=./USA&state=WY",
 									"protocol": "https",
 									"host": [
 										"www",
@@ -1691,7 +2130,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://www.votervoice.net/api/officials?association={{ASSOCIATION_IDNAME}}&constituentAddress=%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22checksum%22%3A%20%22-2093465855%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22city%22%3A%20%22Montpelier%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22coordinates%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22latitude%22%3A%2044.261283%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22longitude%22%3A%20-72.580533%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22county%22%3A%20%22Washington%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22state%22%3A%20%22VT%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22streetAddress%22%3A%20%22115%20State%20St%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22zipCode%22%3A%20%2205633%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22zipCodeExtension%22%3A%20%220004%22%0A%20%20%20%20%20%20%20%20%7D",
+									"raw": "https://www.votervoice.net/Api/officials?association={{ASSOCIATION_IDNAME}}&constituentAddress=%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22checksum%22%3A%20%22-2093465855%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22city%22%3A%20%22Montpelier%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22coordinates%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22latitude%22%3A%2044.261283%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22longitude%22%3A%20-72.580533%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22country%22%3A%20%22US%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22county%22%3A%20%22Washington%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22state%22%3A%20%22VT%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22streetAddress%22%3A%20%22115%20State%20St%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22zipCode%22%3A%20%2205633%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22zipCodeExtension%22%3A%20%220004%22%0A%20%20%20%20%20%20%20%20%7D",
 									"protocol": "https",
 									"host": [
 										"www",
